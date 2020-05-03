@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import "./index.css";
 class Contact extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
-    // console.log(this.props.productInfo, "shsdh");
     const renderContact = () => {
       return this.props.productInfo.contact.map((item, index) => {
         return (

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
-// import echarts from "echarts";
 import { debounce } from "@/utils/debounceUtil";
 import { connect } from "react-redux";
 class Chart extends Component {
@@ -9,14 +8,14 @@ class Chart extends Component {
     height: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
     style: PropTypes.object.isRequired,
-    chartData: PropTypes.object.isRequired
+    chartData: PropTypes.object.isRequired,
   };
   static defaultProps = {
     width: "100%",
     height: "100px",
     className: "shadow-radius",
     style: {},
-    chartData: {}
+    chartData: {},
   };
 
   state = { chart: null };
@@ -51,7 +50,7 @@ class Chart extends Component {
     if (!this.el) return;
     this.setState(
       {
-        chart: window.echarts.init(this.el, "macarons")
+        chart: window.echarts.init(this.el, "macarons"),
       },
       () => {
         // console.log(this.props.chartData);
@@ -70,15 +69,15 @@ class Chart extends Component {
     return (
       <div
         className={className}
-        ref={el => (this.el = el)}
+        ref={(el) => (this.el = el)}
         style={{ ...style, height, width }}
       />
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    isCollapsed: state.sidebar.isCollapsed
+    isCollapsed: state.sidebar.isCollapsed,
   };
 };
 const actionCreator = {

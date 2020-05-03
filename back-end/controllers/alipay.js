@@ -1,10 +1,14 @@
 const Alipay = require("../models/alipay");
 const Order = require("../models/order");
-const jsonwebtoken = require("jsonwebtoken");
-const { secret } = require("../config");
+const Product = require("../models/product");
 const alipayf2f = require("alipay-ftof");
+const axios = require("axios");
+const request = require("request");
 const { sendMail } = require("../utils/emailUtil");
-
+const { handleLimit } = require("../service/handleLimit");
+let orderVerified = false;
+let verifiedNum = 0;
+const verifiedOrder = async (callbackUrl, order) => {};
 class AlipayCtl {
   async updateAlipay(ctx) {
     ctx.verifyParams({
@@ -12,14 +16,14 @@ class AlipayCtl {
       appId: { type: "string", required: true },
       publicKey: { type: "string", required: true },
       secretKey: { type: "string", required: true },
-      notifyUrl: { type: "string", required: true }
+      notifyUrl: { type: "string", required: true },
     });
     const alipay = await Alipay.findByIdAndUpdate(ctx.params.id, {
       paymentName: ctx.request.body.paymentName.trim(),
       appId: ctx.request.body.appId.trim(),
       publicKey: ctx.request.body.publicKey.trim(),
       secretKey: ctx.request.body.secretKey.trim(),
-      notifyUrl: ctx.request.body.notifyUrl.trim()
+      notifyUrl: ctx.request.body.notifyUrl.trim(),
     });
     ctx.body = alipay;
   }
@@ -58,7 +62,7 @@ class AlipayCtl {
         "\n-----END PUBLIC KEY-----",
 
       /* 支付宝支付网关 如果为注释掉会使用沙盒网关 */
-      gatewayUrl: "https://openapi.alipay.com/gateway.do"
+      gatewayUrl: "https://openapi.alipay.com/gateway.do",
     };
     var alipay_f2f = new alipayf2f(alipayConfig);
     const result = await alipay_f2f.createQRPay({
@@ -66,27 +70,23 @@ class AlipayCtl {
       subject: `${ctx.request.body.productName}${ctx.request.body.levelName}`, // 必填 商品概要
       totalAmount: ctx.request.body.price, // 必填 多少钱
       body: `购买${ctx.request.body.productName}${ctx.request.body.levelName}共${ctx.request.body.price}元`, // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
-      timeExpress: 5 // 可选 支付超时, 默认为5分钟
+      timeExpress: 5, // 可选 支付超时, 默认为5分钟
     });
-    // console.log("createQRPay");
-    // console.log(result);
     if (!result) {
-      ctx.throw(401, "获取支付信息失败");
+      ctx.throw(404, "获取支付信息失败");
     }
     await Order.updateOne(
       { orderId: ctx.request.body.orderId },
       {
-        noInvoice: result.out_trade_no
+        noInvoice: result.out_trade_no,
       }
     );
     const order = await Order.findOne({
-      orderId: ctx.request.body.orderId
+      orderId: ctx.request.body.orderId,
     });
-    // console.log(order.email, "order.email");
-    let mail = order.email;
-    // console.log(order.code, "code");
     const { code, email, productName, levelName, price, orderId, date } = order;
     sendMail(code, email, productName, levelName, price, orderId, date);
+
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
   async handleAlipayCallback(ctx) {
@@ -118,7 +118,7 @@ class AlipayCtl {
         "\n-----END PUBLIC KEY-----",
 
       /* 支付宝支付网关 如果为注释掉会使用沙盒网关 */
-      gatewayUrl: "https://openapi.alipay.com/gateway.do"
+      gatewayUrl: "https://openapi.alipay.com/gateway.do",
     };
     var alipay_f2f = new alipayf2f(alipayConfig);
 
@@ -132,10 +132,64 @@ class AlipayCtl {
     /* 订单状态 */
     // console.log(ctx.request.body.trade_status);
     var invoiceStatus = ctx.request.body.trade_status;
-    await Order.updateOne(
-      { noInvoice: ctx.request.body.out_trade_no },
-      { paymentStatus: "已支付" }
-    );
+    const orderInfo = await Order.findOne({
+      noInvoice: ctx.request.body.out_trade_no,
+    });
+    const { productId } = orderInfo;
+    const { callbackUrl, productType } = await Product.findOne({ productId });
+    if (productType === 1) {
+      await Order.updateOne(
+        { noInvoice: ctx.request.body.out_trade_no },
+        { paymentStatus: "已支付" }
+      );
+    } else {
+      setTimeout(() => {
+        let verifiedTimer = setInterval(async () => {
+          verifiedNum++;
+          console.log(verifiedNum, orderVerified, callbackUrl, "callbackUrl");
+          request(
+            {
+              url: callbackUrl,
+              method: "POST",
+              json: true,
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(orderInfo),
+            },
+            async (error, response, body) => {
+              // console.log(error, response, body, "error, response, body");
+              if (!error && response.statusCode == 200 && body.verified) {
+                orderVerified = true;
+                await Order.updateOne(
+                  { noInvoice: ctx.request.body.out_trade_no },
+                  { paymentStatus: "已支付" }
+                );
+              }
+              if (orderVerified || verifiedNum > 5) {
+                console.log("cleared");
+                clearInterval(verifiedTimer);
+              }
+              if (verifiedNum > 5) {
+                const order = await Order.updateOne(
+                  { noInvoice: ctx.request.body.out_trade_no },
+                  { paymentStatus: "订单异常" }
+                );
+                // console.log(ctx.request.body.orderId, order, "updated");
+
+                verifiedNum = 0;
+              }
+            }
+          );
+        }, 2000);
+        if (orderVerified || verifiedNum > 5) {
+          clearInterval(verifiedTimer);
+        }
+      }, 2000);
+    }
+
+    handleLimit(ctx.request.body.out_trade_no);
+
     // 支付宝回调通知有多种状态您可以点击已下链接查看支付宝全部通知状态
     // https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.aZMdK2&treeId=193&articleId=103296&docType=1#s1
     if (invoiceStatus !== "TRADE_SUCCESS") {

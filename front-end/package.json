@@ -161,7 +161,25 @@
     "faker": "^4.1.0",
     "json-server": "^0.16.1",
     "mockjs": "^1.1.0",
+    "react-hot-loader": "^4.12.21",
     "webpack-dev-server": "^3.10.3"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "import",
+        {
+          "libraryName": "antd",
+          "style": "css"
+        }
+      ],
+      [
+        "react-hot-loader/babel"
+      ]
+    ]
   },
   "proxy": "http://localhost:3001"
 }

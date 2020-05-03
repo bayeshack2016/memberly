@@ -18,6 +18,7 @@
   "dependencies": {
     "alipay-ftof": "^0.1.5",
     "alipay-sdk": "^3.0.8",
+    "axios": "^0.19.2",
     "cron": "^1.8.2",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -40,6 +41,7 @@
     "nodemailer": "^6.4.5",
     "nodemon": "^2.0.2",
     "pm2": "^4.2.3",
+    "request": "^2.88.2",
     "utility": "^1.16.3"
   }
 }

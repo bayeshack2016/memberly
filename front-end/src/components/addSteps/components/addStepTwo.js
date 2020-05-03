@@ -8,9 +8,7 @@ class AddStepTwo extends Component {
   }
   render() {
     const { formData } = this.props;
-    // console.log(formData, "two");
-    const renderContact = contact => {
-      // console.log(descArr);
+    const renderContact = (contact) => {
       return contact.split("\n").map((item, index) => {
         return <div key={index}>{item}</div>;
       });
@@ -21,23 +19,18 @@ class AddStepTwo extends Component {
         levelPrice,
         levelDesc,
         levelLimit,
-        levelNote
-      } = parseFormData(data,null);
-
-      // console.log(levelNote, "levelNote");
+        levelNote,
+      } = parseFormData(data, null);
       let arr = [];
       for (let i = 1; i <= levels; i++) {
         arr.push(i);
       }
-      const renderLevelDesc = descArr => {
-        // console.log(descArr);
+      const renderLevelDesc = (descArr) => {
         return descArr.map((item, index) => {
           return <div key={index}>{item}</div>;
         });
       };
-
-      // console.log(arr, "arr");
-      return arr.map(item => {
+      return arr.map((item) => {
         return (
           <Descriptions.Item label={`等级${item}方案`} span={3} key={item}>
             等级{item}名称: {levelName[item - 1]}
@@ -70,10 +63,14 @@ class AddStepTwo extends Component {
             {formData.productInfo}
           </Descriptions.Item>
           {renderLevelTable(formData.memberLevel, formData)}
-          <Descriptions.Item label="发货方式">自动发货</Descriptions.Item>
+          {formData.productType === 1 ? null : (
+            <Descriptions.Item label="支付回调地址" span={4}>
+              {formData.callbackUrl}
+            </Descriptions.Item>
+          )}
+
           <Descriptions.Item label="是否在售">在售</Descriptions.Item>
-          <Descriptions.Item label="发送邮件">发送邮件</Descriptions.Item>
-          <Descriptions.Item label={`联系方式`} span={3}>
+          <Descriptions.Item label={`联系方式`}>
             {renderContact(formData.contact)}
           </Descriptions.Item>
         </Descriptions>

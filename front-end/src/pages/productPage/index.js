@@ -8,50 +8,58 @@ import {
   Modal,
   message,
   Form,
-  Input
+  Input,
 } from "antd";
 import "./index.css";
-// import { fakeList } from "@/mock/productPage";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
-import $axios from "@/$axios";
-import { handleFetchAllProduct } from "../../redux/product.redux";
+import $axios from "@/axios/$axios";
+import { handleFetchAllProduct } from "@/redux/actions/product";
+import { handleForm } from "../../redux/actions/form";
+import { parseFormData } from "../../utils/productUtil";
+
 const { confirm } = Modal;
 const { Paragraph } = Typography;
 const layout = {
   labelCol: { span: 6 },
-  wrapperCol: { span: 14 }
+  wrapperCol: { span: 14 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 10, span: 16 }
+  wrapperCol: { offset: 10, span: 16 },
 };
 class ProductPage extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: false, visible: false, deleteIndex: null };
   }
-  handleVerify = index => {
+  componentDidMount() {
+    this.props.handleForm(null);
+  }
+  handleVerify = (index) => {
     this.setState({ visible: true });
     this.setState({ deleteIndex: index });
   };
   handleCancel = () => {
     this.setState({ visible: false });
   };
-  onFinish = values => {
+  onFinish = (values) => {
     // console.log(values);
+    this.setState({ loading: true });
+
     $axios
       .post("/user/verify", values)
       .then(() => {
         this.showConfirm(this.state.deleteIndex);
         this.setState({ visible: false });
         message.success("验证成功");
+        this.setState({ loading: false });
       })
       .catch(() => {
         message.error("验证失败");
-        // this.setState({ visible: false });
+        this.setState({ loading: false });
       });
   };
-  showConfirm = index => {
+  showConfirm = (index) => {
     let { allProducts } = this.props;
     // console.log(this.props.allProducts, index, "products1");
     let { handleFetchAllProduct } = this.props;
@@ -65,13 +73,15 @@ class ProductPage extends Component {
       onOk() {
         return $axios
           .delete(`/product/${allProducts[index - 1]._id}`)
-          .then(results => {
+          .then((results) => {
             message.success("删除成功");
             handleFetchAllProduct();
           })
-          .catch(err => console.log(err));
+          .catch(() => {
+            message.error("删除失败");
+          });
       },
-      onCancel() {}
+      onCancel() {},
     });
   };
   handleAddProduct = () => {
@@ -89,7 +99,6 @@ class ProductPage extends Component {
   };
   render() {
     const { visible, loading } = this.state;
-    // console.log(this.props.allProducts[0]._id, "products");
     const content = (
       <div className={"pageHeaderContent"} style={{ padding: "20px" }}>
         <div
@@ -97,7 +106,7 @@ class ProductPage extends Component {
             fontSize: "20px",
             fontWeight: "500",
             marginTop: "10px",
-            color: "#595959"
+            color: "#595959",
           }}
         >
           产品列表
@@ -126,7 +135,7 @@ class ProductPage extends Component {
               onClick={this.handleCancel}
             >
               取消
-            </Button>
+            </Button>,
           ]}
         >
           <Form
@@ -142,8 +151,8 @@ class ProductPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入您就读小学的所在城市"
-                }
+                  message: "请输入您就读小学的所在城市",
+                },
               ]}
             >
               <Input placeholder="请输入您就读小学的所在城市" />
@@ -154,14 +163,18 @@ class ProductPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入您最高学历就读学校的所在城市"
-                }
+                  message: "请输入您最高学历就读学校的所在城市",
+                },
               ]}
             >
               <Input placeholder="请输入您最高学历就读学校的所在城市" />
             </Form.Item>
             <Form.Item {...tailLayout}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={this.state.loading}
+              >
                 验证回答
               </Button>
             </Form.Item>
@@ -175,7 +188,7 @@ class ProductPage extends Component {
               lg: 3,
               md: 2,
               sm: 1,
-              xs: 1
+              xs: 1,
             }}
             dataSource={[nullData, ...this.props.allProducts]}
             renderItem={(item, index) => {
@@ -205,7 +218,7 @@ class ProductPage extends Component {
                           target="_blank"
                         >
                           查看
-                        </Link>
+                        </Link>,
                       ]}
                     >
                       <Card.Meta
@@ -222,7 +235,7 @@ class ProductPage extends Component {
                           <Paragraph
                             className={"item"}
                             ellipsis={{
-                              rows: 3
+                              rows: 3,
                             }}
                           >
                             {item.productInfo}
@@ -253,16 +266,17 @@ class ProductPage extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     allProducts: state.product.allProducts,
     alipay: state.form.alipay,
     wechatPay: state.form.wechatPay,
     paypal: state.form.paypal,
-    email: state.form.email
+    email: state.form.email,
   };
 };
 const actionCreator = {
-  handleFetchAllProduct
+  handleFetchAllProduct,
+  handleForm,
 };
 export default connect(mapStateToProps, actionCreator)(withRouter(ProductPage));

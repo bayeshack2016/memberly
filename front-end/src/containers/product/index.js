@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import {
   handleFetchProductInfo,
-  handleFetchSetting
-} from "../../redux/product.redux";
+  handleFetchSetting,
+} from "@/redux/actions/product";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import PaymentDialog from "../../components/paymentDialog";
-
-import DefaultTheme from "../../components/defaultTheme";
-import TechTheme from "../../components/TechTheme";
+import ProductPage from "@/components/productPage";
+import MobilePage from "@/components/mobilePage";
 import "./index.css";
-
-// import faker from "faker";
+import PaymentDialog from "@/components/paymentDialog";
+import PageLoading from "@/components/pageLoading";
 
 class Product extends Component {
   constructor(props) {
@@ -20,16 +19,14 @@ class Product extends Component {
       chooseLevel: null,
       formData: null,
       qrUrl: null,
-      orderInfo: null
+      orderInfo: null,
     };
     this.checkPayment = null;
   }
   UNSAFE_componentWillMount() {
     let url = document.location.toString();
-
     let idArr = url.split("/");
-    let id = idArr[idArr.length - 1];
-    // console.log(id, "id");
+    let id = idArr.pop();
     this.props.handleFetchProductInfo(id);
     this.props.handleFetchSetting();
   }
@@ -42,10 +39,28 @@ class Product extends Component {
   render() {
     this.state.orderInfo && clearInterval(this.checkPayment);
     const { productInfo, setting } = this.props;
+    // console.log(productInfo, setting, "productInfo, setting");
     const { chooseLevel } = this.state;
-    // console.log(setting);
-
-    
+    if (!setting || !productInfo) {
+      return <PageLoading />;
+    }
+    if (productInfo === 404) {
+      return <Redirect to="/error/404" />;
+    }
+    const sUserAgent = navigator.userAgent.toLowerCase();
+    let userAgent;
+    if (
+      /ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
+        sUserAgent
+      )
+    ) {
+      //跳转移动端页面
+      userAgent = "mobile";
+    } else {
+      //跳转pc端页面
+      userAgent = "pc";
+    }
+    // console.log(sUserAgent, userAgent, "userAgent");
     return (
       <div className="product-theme-container">
         {this.state.showDialog ? (
@@ -56,32 +71,32 @@ class Product extends Component {
             showDialog={this.state.showDialog}
           />
         ) : null}
-        {setting &&
-          productInfo &&
-          (setting.themeOption === "default" ? (
-            <DefaultTheme
-              productInfo={productInfo}
-              handleDialog={this.handleDialog}
-            />
-          ) : (
-            <TechTheme
-              productInfo={productInfo}
-              handleDialog={this.handleDialog}
-            />
-          ))}
+        {userAgent === "mobile" ? (
+          <MobilePage
+            productInfo={productInfo}
+            handleDialog={this.handleDialog}
+            theme={setting.themeOption}
+          />
+        ) : (
+          <ProductPage
+            productInfo={productInfo}
+            handleDialog={this.handleDialog}
+            theme={setting.themeOption}
+          />
+        )}
       </div>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     productInfo: state.product.productInfo,
-    setting: state.product.setting
+    setting: state.product.setting,
   };
 };
 const actionCreator = {
   handleFetchProductInfo,
-  handleFetchSetting
+  handleFetchSetting,
 };
 
 export default connect(mapStateToProps, actionCreator)(Product);

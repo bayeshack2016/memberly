@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, withRouter, Route, Switch } from "react-router-dom";
 import { routes } from "@/router/routes";
-import $axios from "../../../$axios";
+import $axios from "@/axios/$axios";
 
 class MainContent extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class MainContent extends Component {
         style={{ height: "calc(100% - 61px)" }}
       >
         <Switch>
-          {routes.map(ele => (
+          {routes.map((ele) => (
             <Route
               render={() => <ele.component />}
               key={ele.path}
@@ -63,5 +63,5 @@ class MainContent extends Component {
   }
 }
 
-const mapStateToProps = state => ({ setting: state.product.setting });
+const mapStateToProps = (state) => ({ setting: state.product.setting });
 export default withRouter(connect(mapStateToProps)(MainContent));

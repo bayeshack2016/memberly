@@ -2,32 +2,41 @@ import React, { Component } from "react";
 import { Form, Input, Button, Row, Select, message } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import "./index.css";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 const { Option } = Select;
 class WechatPay extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loading: false };
   }
-  onFinish = values => {
-    $axios.post(`/wechatPay/${this.props.formData._id}`, values).then(() => {
-      message.success("保存成功");
-    });
+  onFinish = (values) => {
+    this.setState({ loading: true });
+
+    $axios
+      .post(`/wechatPay/${this.props.formData._id}`, values)
+      .then(() => {
+        message.success("保存成功");
+        this.setState({ loading: false });
+      })
+      .catch(() => {
+        message.error("保存失败");
+        this.setState({ loading: false });
+      });
   };
   render() {
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 2 },
-        sm: { span: 16, offset: 7 }
-      }
+        sm: { span: 16, offset: 7 },
+      },
     };
     const formItemLayout = {
       labelCol: {
-        sm: { span: 3 }
+        sm: { span: 3 },
       },
       wrapperCol: {
-        sm: { span: 10, offset: 0 }
-      }
+        sm: { span: 10, offset: 0 },
+      },
     };
     return (
       <div className="wechat-container" style={{ position: "relative" }}>
@@ -68,8 +77,8 @@ class WechatPay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入公众账号ID"
-              }
+                message: "请输入公众账号ID",
+              },
             ]}
           >
             <Input placeholder="请输入公众账号ID" />
@@ -80,8 +89,8 @@ class WechatPay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您的商户ID"
-              }
+                message: "请输入您的商户ID",
+              },
             ]}
           >
             <Input.TextArea
@@ -96,8 +105,8 @@ class WechatPay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入密匙"
-              }
+                message: "请输入密匙",
+              },
             ]}
           >
             <Input.TextArea
@@ -112,8 +121,8 @@ class WechatPay extends Component {
             rules={[
               {
                 required: true,
-                message: "选择签名方式"
-              }
+                message: "选择签名方式",
+              },
             ]}
           >
             <Select placeholder="选择签名方式">
@@ -127,8 +136,8 @@ class WechatPay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您就读小学的所在城市"
-              }
+                message: "请输入您就读小学的所在城市",
+              },
             ]}
           >
             <Input placeholder="请输入您就读小学的所在城市" />
@@ -139,14 +148,19 @@ class WechatPay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您最高学历就读学校的所在城市"
-              }
+                message: "请输入您最高学历就读学校的所在城市",
+              },
             ]}
           >
             <Input placeholder="请输入您最高学历就读学校的所在城市" />
           </Form.Item>
           <Form.Item {...formItemLayoutWithOutLabel}>
-            <Button type="primary" htmlType="submit" disabled>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled
+              loading={this.state.loading}
+            >
               保存
             </Button>
           </Form.Item>

@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { Col, Row } from "antd";
-
 import numeral from "numeral";
 import "./index.css";
 import BasicChart from "../basicChart";
 import { chartData } from "@/utils/fetchChartData";
-// import { getRankingList } from "../../utils/rankingListUtil";
 
 class DataCard extends Component {
   render() {
-    // console.log(this.props.currentRange, "currentRange");
     const rankingListData =
       this.props.currentRange === "year"
         ? this.props.rankingListData.year

@@ -23,24 +23,24 @@ export function restoreFormData(productInfo) {
       : null,
     levelPrice1: {
       price1: productInfo.levelPrice[0].price,
-      unit1: productInfo.levelPrice[0].unit
+      unit1: productInfo.levelPrice[0].unit,
     },
     levelPrice2: productInfo.levelPrice[1]
       ? {
           price2: productInfo.levelPrice[1].price,
-          unit2: productInfo.levelPrice[1].unit
+          unit2: productInfo.levelPrice[1].unit,
         }
       : null,
     levelPrice3: productInfo.levelPrice[2]
       ? {
           price3: productInfo.levelPrice[2].price,
-          unit3: productInfo.levelPrice[2].unit
+          unit3: productInfo.levelPrice[2].unit,
         }
       : null,
     levelPrice4: productInfo.levelPrice[3]
       ? {
           price4: productInfo.levelPrice[3].price,
-          unit4: productInfo.levelPrice[3].unit
+          unit4: productInfo.levelPrice[3].unit,
         }
       : null,
     levelLimit1: productInfo.levelLimit[0],
@@ -50,7 +50,7 @@ export function restoreFormData(productInfo) {
     levelNote1: productInfo.levelNote[0],
     levelNote2: productInfo.levelNote[1],
     levelNote3: productInfo.levelNote[2],
-    levelNote4: productInfo.levelNote[3]
+    levelNote4: productInfo.levelNote[3],
   });
 }
 export function parseFormData(data, productId) {
@@ -58,21 +58,21 @@ export function parseFormData(data, productId) {
   return Object.assign(
     {
       productName: data.productName,
+      productType: data.productType,
+      callbackUrl: data.callbackUrl || "未配置",
       productInfo: data.productInfo,
       memberLevel: parseInt(data.memberLevel),
-      sendMail: data.sendMail,
-      shippingMethod: data.shippingMethod,
       onSale: data.onSale,
       theme: data.theme || "default",
       productId: parseInt(productId) || 1,
-      contact: data.contact.split("\n")
+      contact: data.contact.split("\n"),
     },
     {
       levelName: [
         data.levelName1,
         data.levelName2 !== undefined ? data.levelName2 : null,
         data.levelName3 !== undefined ? data.levelName3 : null,
-        data.levelName4 !== undefined ? data.levelName4 : null
+        data.levelName4 !== undefined ? data.levelName4 : null,
       ],
       // console.log(levelName, "levelName");
       levelPrice: [
@@ -85,29 +85,29 @@ export function parseFormData(data, productId) {
           : null,
         data.levelPrice4 !== undefined
           ? { price: data.levelPrice4.price4, unit: data.levelPrice4.unit4 }
-          : null
+          : null,
       ],
       // console.log(levelPrice, "levelPrice");
       levelDesc: [
         data.levelDesc1.split("\n"),
         data.levelDesc2 !== undefined ? data.levelDesc2.split("\n") : null,
         data.levelDesc3 !== undefined ? data.levelDesc3.split("\n") : null,
-        data.levelDesc4 !== undefined ? data.levelDesc4.split("\n") : null
+        data.levelDesc4 !== undefined ? data.levelDesc4.split("\n") : null,
       ],
       // console.log(levelDesc, "levelDesc");
       levelLimit: [
         data.levelLimit1,
         data.levelLimit2 !== undefined ? data.levelLimit2 : null,
         data.levelLimit3 !== undefined ? data.levelLimit3 : null,
-        data.levelLimit4 !== undefined ? data.levelLimit4 : null
+        data.levelLimit4 !== undefined ? data.levelLimit4 : null,
       ],
       // console.log(levelLimit, "levelLimit");
       levelNote: [
         data.levelNote1,
         data.levelNote2 !== undefined ? data.levelNote2 : null,
         data.levelNote3 !== undefined ? data.levelNote3 : null,
-        data.levelNote4 !== undefined ? data.levelNote4 : null
-      ]
+        data.levelNote4 !== undefined ? data.levelNote4 : null,
+      ],
     }
   );
 }

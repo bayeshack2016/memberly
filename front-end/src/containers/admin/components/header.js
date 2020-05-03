@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import { Layout, Badge, Card, List } from "antd";
+import { Layout, Badge, Card, List, message, Modal, Button } from "antd";
 import {
   BellOutlined,
   LogoutOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { handleUserInfo } from "@/redux/login.redux";
-import { handleCollapse } from "@/redux/sidebar.redux";
-import $axios from "@/$axios";
+import { handleUserInfo } from "@/redux/actions/login";
+import { handleCollapse } from "@/redux/actions/sidebar";
+import $axios from "@/axios/$axios";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+const { confirm } = Modal;
 const { Header } = Layout;
 const { Meta } = Card;
 
@@ -19,54 +21,51 @@ class HeaderBar extends Component {
     visible: false,
     showMessage: false,
     orders: null,
-    messageNumber: null
+    messageNumber: null,
   };
   UNSAFE_componentWillMount() {
     let date = new Date();
     this.fetch({ year: date.getFullYear(), month: date.getMonth() + 1 });
   }
-
-  componentDidMount() {
-    // let userInfo =
-    //   localStorage.getItem("userInfo") &&
-    //   JSON.parse(localStorage.getItem("userInfo"));
-    // if (userInfo) {
-    //   this.props.handleUserInfo(userInfo);
-    // } else {
-    //   this.props.handleUserInfo({});
-    //   this.props.history.push("/login");
-    // }
-  }
+  showConfirm = () => {
+    confirm({
+      title: "退出",
+      icon: <ExclamationCircleOutlined />,
+      content: "是否退出登录?",
+      okText: "退出",
+      okType: "danger",
+      cancelText: "取消",
+      onOk: () => {
+        this.handleLogout();
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
   fetch = (params = {}) => {
     $axios
       .get("/order/all", {
-        params: { ...params }
+        params: { ...params },
       })
-      .then(data => {
+      .then((data) => {
         this.setState({
-          orders: data.data
+          orders: data.data,
         });
-        // console.log(this.state.orders);
         let ordersNumber = localStorage.getItem("ordersNumber") || 0;
         let length = this.state.orders.length;
-        // if
         this.setState({ messageNumber: length - ordersNumber });
+      })
+      .catch(() => {
+        message.error("获取订单失败");
       });
   };
   handleLogout = () => {
-    // console.log("hellolog");
-    // this.props.handleUserInfo({});
     localStorage.removeItem("jwt");
-    // localStorage.removeItem("userInfo");
-    // console.log(this.props.history);
     this.props.history.push("/");
   };
   handleMessage = () => {
     this.setState({ showMessage: !this.state.showMessage });
-  };
-  toggle = () => {
-    // console.log("hello");
-    this.props.handleCollapse(!this.props.isCollapsed);
   };
   setting = () => {
     this.setState({ visible: true });
@@ -80,24 +79,29 @@ class HeaderBar extends Component {
     localStorage.setItem("ordersNumber", this.state.orders.length);
   };
   renderMessage = () => {
-    // this.handleMessageNumber();
-    return this.state.orders.reverse().map(item => {
+    return this.state.orders.reverse().map((item) => {
       return `${item.email} 于 ${item.date} ${item.time} 购买 ${item.productName}${item.levelName}，消费${item.price}元`;
     });
   };
   render() {
-    // console.log(this.state.messageNumber, "messageNumber");
-
     return (
       <Header theme="light">
         {this.state.visible}
         {this.props.isCollapsed ? (
-          <MenuUnfoldOutlined onClick={this.toggle} />
+          <MenuUnfoldOutlined
+            onClick={() => {
+              this.props.handleCollapse(!this.props.isCollapsed);
+            }}
+          />
         ) : (
-          <MenuFoldOutlined onClick={this.toggle} />
+          <MenuFoldOutlined
+            onClick={() => {
+              this.props.handleCollapse(!this.props.isCollapsed);
+            }}
+          />
         )}
 
-        <LogoutOutlined onClick={this.handleLogout} />
+        <LogoutOutlined onClick={this.showConfirm} />
         <div className="header-number" onClick={this.handleMessage}>
           <a href="#" className="header-number-icon">
             <Badge count={this.state.messageNumber}></Badge>
@@ -108,7 +112,7 @@ class HeaderBar extends Component {
           <Card
             style={{ width: 300 }}
             actions={[
-              <div onClick={this.handleClearMessage}>全部标记已读</div>
+              <div onClick={this.handleClearMessage}>全部标记已读</div>,
             ]}
             className="header-message-box"
           >
@@ -120,7 +124,7 @@ class HeaderBar extends Component {
                     size="small"
                     bordered={false}
                     dataSource={this.renderMessage()}
-                    renderItem={item => <List.Item>{item}</List.Item>}
+                    renderItem={(item) => <List.Item>{item}</List.Item>}
                     className="header-message-box-content"
                   />
                 </div>
@@ -132,14 +136,14 @@ class HeaderBar extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isCollapsed: state.sidebar.isCollapsed,
-    ordersByMonth: state.monthData.ordersByMonth
+    ordersByMonth: state.monthData.ordersByMonth,
   };
 };
 const actionCreator = {
   handleCollapse,
-  handleUserInfo
+  handleUserInfo,
 };
 export default connect(mapStateToProps, actionCreator)(withRouter(HeaderBar));

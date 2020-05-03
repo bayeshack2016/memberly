@@ -7,53 +7,49 @@ import {
   Form,
   Input,
   Checkbox,
-  Result
+  Result,
 } from "antd";
 import { Link } from "react-router-dom";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 const { Step } = Steps;
 const formItemLayoutWithOutLabel1 = {
   wrapperCol: {
     xs: { span: 24, offset: 12 },
-    sm: { span: 16, offset: 11 }
-  }
+    sm: { span: 16, offset: 11 },
+  },
 };
 const formItemLayoutWithOutLabel2 = {
   wrapperCol: {
     xs: { span: 24, offset: 12 },
-    sm: { span: 16, offset: 5 }
-  }
+    sm: { span: 16, offset: 5 },
+  },
 };
 const formItemLayout1 = {
   labelCol: {
-    sm: { span: 6, offset: 0 }
+    sm: { span: 6, offset: 0 },
   },
   wrapperCol: {
-    sm: { span: 16, offset: 0 }
-  }
+    sm: { span: 16, offset: 0 },
+  },
 };
 const formItemLayout2 = {
   labelCol: {
-    sm: { span: 0, offset: 1 }
+    sm: { span: 0, offset: 1 },
   },
   wrapperCol: {
-    sm: { span: 20, offset: 2 }
-  }
+    sm: { span: 20, offset: 2 },
+  },
 };
 class CollectInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       current: 0,
-      formData: null
+      formData: null,
+      loading: false,
     };
   }
-  onFinish = values => {
-    // console.log(
-    //   this.state.formData,
-    //   { ...this.state.formData, ...values },
-    //   "this.state.formData"
-    // );
+  onFinish = (values) => {
     if (values.password === values.passwordAgain) {
       this.setState({ formData: { ...this.state.formData, ...values } });
       if (this.state.current === 1) {
@@ -99,12 +95,12 @@ class CollectInfo extends Component {
               rules={[
                 {
                   type: "email",
-                  message: "The input is not valid E-mail!"
+                  message: "The input is not valid E-mail!",
                 },
                 {
                   required: true,
-                  message: "请输入邮箱"
-                }
+                  message: "请输入邮箱",
+                },
               ]}
             >
               <Input placeholder="请输入邮箱" />
@@ -115,8 +111,8 @@ class CollectInfo extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入密码"
-                }
+                  message: "请输入密码",
+                },
               ]}
             >
               <Input.Password placeholder="请输入密码" />
@@ -127,8 +123,8 @@ class CollectInfo extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请再次输入密码"
-                }
+                  message: "请再次输入密码",
+                },
               ]}
             >
               <Input.Password placeholder="请再次输入密码" />
@@ -140,7 +136,7 @@ class CollectInfo extends Component {
               </Button>
             </Form.Item>
           </Form>
-        )
+        ),
       },
       {
         title: "设置安全问题",
@@ -158,8 +154,8 @@ class CollectInfo extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请确认您已知晓安全问题的重要性"
-                }
+                  message: "请确认您已知晓安全问题的重要性",
+                },
               ]}
             >
               <Checkbox.Group>
@@ -174,8 +170,8 @@ class CollectInfo extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入您就读小学的所在城市"
-                }
+                  message: "请输入您就读小学的所在城市",
+                },
               ]}
             >
               <Input placeholder="请输入您就读小学的所在城市" />
@@ -186,8 +182,8 @@ class CollectInfo extends Component {
               rules={[
                 {
                   required: true,
-                  message: "您最高学历就读学校的所在城市"
-                }
+                  message: "您最高学历就读学校的所在城市",
+                },
               ]}
             >
               <Input placeholder="您最高学历就读学校的所在城市" />
@@ -198,6 +194,7 @@ class CollectInfo extends Component {
                 type="primary"
                 htmlType="submit"
                 className="collect-finish"
+                loading={this.state.loading}
               >
                 完成注册
               </Button>
@@ -211,7 +208,7 @@ class CollectInfo extends Component {
               上一步
             </Button>
           </Form>
-        )
+        ),
       },
       {
         title: "完成注册",
@@ -232,8 +229,8 @@ class CollectInfo extends Component {
             className="result"
             style={{ marginTop: "20px" }}
           ></Result>
-        )
-      }
+        ),
+      },
     ];
     const { current } = this.state;
     return (
@@ -241,7 +238,7 @@ class CollectInfo extends Component {
         <img src="/assets/tech.svg" alt="" className="welcome-bg" />
         <Row justify="center" className="collect-steps-container">
           <Steps current={current} className="collect-steps">
-            {steps.map(item => (
+            {steps.map((item) => (
               <Step key={item.title} title={item.title} />
             ))}
           </Steps>

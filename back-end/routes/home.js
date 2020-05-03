@@ -10,13 +10,13 @@ const {
   getSalesData,
   createSalesData,
   getStats,
-  createStats
+  createStats,
   // addVisits
 } = require("../controllers/home");
 
-router.get("/stats", getStats);
+router.get("/stats", auth, getStats);
 // router.post("/stats", createStats);
-router.get("/salesData", getSalesData);
+router.get("/salesData", auth, getSalesData);
 // router.post("/salesData", createSalesData);
 // router.get("/addVisits", addVisits);
 

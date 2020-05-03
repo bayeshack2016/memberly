@@ -1,3 +1,4 @@
+//添加产品信息
 import React, { Component } from "react";
 import AddStepOne from "./components/addStepOne";
 import AddStepTwo from "./components/addStepTwo";
@@ -12,8 +13,6 @@ class AddSteps extends Component {
     this.setState({ formData: values });
   }
   render() {
-    // console.log(this.props.next);
-    // console.log(this.props.currentStep);
     return this.props.currentStep === 0 ? (
       <AddStepOne
         handleNext={this.props.next}

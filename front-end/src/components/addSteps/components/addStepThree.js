@@ -7,12 +7,7 @@ class AddStepThree extends Component {
     super(props);
     this.state = { allProducts: this.props.allProducts };
   }
-  UNSAFE_componentWillMount() {
-    // this.props.handleFetchAllProduct();
-  }
-
   render() {
-    // console.log(this.props.allProducts.length);
     const information = (
       <div className="information">
         <Descriptions column={1}>
@@ -55,10 +50,10 @@ class AddStepThree extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     formData: state.form.formData,
-    allProducts: state.product.allProducts
+    allProducts: state.product.allProducts,
   };
 };
 const actionCreator = {

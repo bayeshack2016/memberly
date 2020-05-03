@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const Product = require("../models/product");
 const jsonwebtoken = require("jsonwebtoken");
 const { secret } = require("../config");
 const { sendMail } = require("../utils/emailUtil");
@@ -8,7 +9,7 @@ class OrderCtl {
     // console.log(ctx.request.body, ctx.request.body.code);
     const order = await Order.findOne({ code: ctx.request.body.code });
     if (!order) {
-      ctx.throw(401, "未找到您的订单信息");
+      ctx.throw(404, "未找到您的订单信息");
     }
     await Order.updateOne(
       { code: ctx.request.body.code },
@@ -21,14 +22,14 @@ class OrderCtl {
       // console.log(1);
       var order = await Order.findOne({
         email: ctx.request.query.email,
-        password: md5Pwd(ctx.request.query.password)
+        password: md5Pwd(ctx.request.query.password),
       });
     } else {
       // console.log(2);
       var order = await Order.findOne(ctx.request.query);
     }
     if (!order) {
-      ctx.throw(401, "未找到订单信息");
+      ctx.throw(404, "未找到订单信息");
       ctx.body = null;
     }
     // console.log(3);
@@ -38,7 +39,7 @@ class OrderCtl {
     // console.log("fetchOrder");
     const order = await Order.findOne({ orderId: ctx.params.id });
     if (!order) {
-      ctx.throw(401, "未找到订单信息");
+      ctx.throw(404, "未找到订单信息");
     }
     ctx.body = order;
   }
@@ -55,41 +56,64 @@ class OrderCtl {
       productId: { type: "number", required: true },
       orderId: { type: "string", required: true },
       productName: { type: "string", required: true },
-      levelName: { type: "string", required: true }
+      levelName: { type: "string", required: true },
     });
     // const { name } = ctx.request.body;
-    // console.log(JSON.stringify(ctx.request.body));
     let date = new Date();
     let code =
-      Math.random()
-        .toString(36)
-        .substr(4)
-        .toUpperCase() +
-      Math.random()
-        .toString(36)
-        .substr(4)
-        .toUpperCase();
-    const order = await new Order({
-      date: date.toLocaleDateString(),
-      time: date.toLocaleTimeString(),
-      code: code,
-      activation: "未激活",
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-      week: date.getDay(),
-      price: ctx.request.body.price,
-      email: ctx.request.body.email,
-      ip: ctx.request.ip.substring(7),
-      password: md5Pwd(ctx.request.body.password),
-      payment: ctx.request.body.payment,
+      Math.random().toString(36).substr(4).toUpperCase() +
+      Math.random().toString(36).substr(4).toUpperCase();
+    const productInfo = await Product.findOne({
       productId: ctx.request.body.productId,
-      orderId: ctx.request.body.orderId,
-      productName: ctx.request.body.productName,
-      levelName: ctx.request.body.levelName,
-      paymentStatus: "未知",
-      noInvoice: "noInvoice"
-    }).save();
+    });
+    console.log(ctx.request.body, "ctx.request.body");
+    console.log(productInfo, "productInfo");
+    if (productInfo.productType === 1) {
+      const order = await new Order({
+        date: date.toLocaleDateString(),
+        time: date.toLocaleTimeString(),
+        code: code,
+        activation: "未激活",
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+        week: date.getDay(),
+        price: ctx.request.body.price,
+        email: ctx.request.body.email,
+        ip: ctx.request.ip,
+        password: md5Pwd(ctx.request.body.password),
+        payment: ctx.request.body.payment,
+        productId: ctx.request.body.productId,
+        orderId: ctx.request.body.orderId,
+        productName: ctx.request.body.productName,
+        levelName: ctx.request.body.levelName,
+        paymentStatus: "未知",
+        noInvoice: "noInvoice",
+      }).save();
+    } else {
+      const order = await new Order({
+        date: date.toLocaleDateString(),
+        time: date.toLocaleTimeString(),
+        code: "非会员码产品",
+        activation: "非会员码产品",
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+        week: date.getDay(),
+        price: ctx.request.body.price,
+        email: ctx.request.body.email,
+        ip: ctx.request.ip,
+        password: md5Pwd(ctx.request.body.password),
+        payment: ctx.request.body.payment,
+        productId: ctx.request.body.productId,
+        orderId: ctx.request.body.orderId,
+        productName: ctx.request.body.productName,
+        levelName: ctx.request.body.levelName,
+        paymentStatus: "未知",
+        noInvoice: "noInvoice",
+      }).save();
+    }
+
     // console.log(order);
     await next();
     // ctx.body = order;

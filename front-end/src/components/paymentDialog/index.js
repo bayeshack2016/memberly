@@ -4,11 +4,11 @@ import {
   WechatOutlined,
   createFromIconfontCN,
   CloseOutlined,
-  LoadingOutlined
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { encrypt } from "../../utils/crypto";
 import QRCode from "qrcode.react";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 import {
   Result,
   Spin,
@@ -18,12 +18,11 @@ import {
   Input,
   Button,
   Radio,
-  message
+  message,
 } from "antd";
-// import faker from "faker";
 import "./index.css";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1701775_ulwzj52gr7s.js"
+  scriptUrl: "//at.alicdn.com/t/font_1701775_ulwzj52gr7s.js",
 });
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 class PaymentDialog extends Component {
@@ -34,11 +33,12 @@ class PaymentDialog extends Component {
       formData: null,
       qrUrl: null,
       orderInfo: null,
-      questNumber: 0
+      questNumber: 0,
+      failed: false,
     };
     this.checkPayment = null;
   }
-  onFinish = async values => {
+  onFinish = async (values) => {
     let orderId = Date.now().toString() + Math.floor(Math.random() * 9999) + 1;
     this.setState({ formData: values });
 
@@ -48,24 +48,22 @@ class PaymentDialog extends Component {
       productId: this.props.productInfo.productId,
       orderId: orderId,
       productName: this.props.productInfo.productName,
-      levelName: this.props.chooseLevel.levelName
+      levelName: this.props.chooseLevel.levelName,
     });
-    // console.log(metadata.data, "qrUrl");
     this.setState({ qrUrl: metadata.data });
-
     this.checkPayment = setInterval(async () => {
       let metadata = await $axios(`/order/fetch/${orderId}`);
-      // console.log(metadata);
       let orderInfo = metadata.data;
+      console.log(orderInfo, "orderInfo");
       let questNumber = this.state.questNumber;
       questNumber++;
       this.setState({ questNumber: questNumber });
-      // console.log(this.state.questNumber, "questNumber");
-      // console.log(orderInfo, "orderInfo");
-      // await $axios.post(`/alipay/callback/${orderInfo._id}`, orderInfo);
-      // console.log(metadata1, "metadata1");
       if (orderInfo.paymentStatus === "已支付") {
         this.setState({ orderInfo: orderInfo });
+        localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
+      }
+      if (orderInfo.paymentStatus === "订单异常") {
+        this.setState({ orderInfo: orderInfo, failed: true });
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
       }
     }, 2000);
@@ -74,26 +72,25 @@ class PaymentDialog extends Component {
     this.props.handleDialog(false, null);
   };
   render() {
-    if (this.state.orderInfo || this.state.questNumber > 30) {
+    if (this.state.orderInfo || this.state.questNumber > 10) {
       clearInterval(this.checkPayment);
     }
-    this.state.questNumber > 30 &&
+    this.state.questNumber > 10 &&
       message.error("我们暂时无法处理您的请求，请稍后重试");
     const { chooseLevel } = this.props;
-    // console.log(productInfo);
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 12 },
-        sm: { span: 20, offset: 4 }
-      }
+        sm: { span: 20, offset: 4 },
+      },
     };
     const formItemLayout = {
       labelCol: {
-        sm: { span: 24 }
+        sm: { span: 24 },
       },
       wrapperCol: {
-        sm: { span: 24 }
-      }
+        sm: { span: 24 },
+      },
     };
     return (
       <div className="product-payment-container">
@@ -107,27 +104,55 @@ class PaymentDialog extends Component {
           创建订单
         </Row>
         <Row justify="center" className="product-payment-message">
-          {`支付完成后，您将获得一个${chooseLevel.levelName}会员的激活码，激活码永久有效，请妥善保管，
-          邮箱密码仅用于查询激活码，不用于注册`}
+          {this.props.productInfo.productType === 1
+            ? `支付完成后，您将获得一个${chooseLevel.levelName}会员的激活码，邮箱密码仅用于查询激活码，如果您有任何订单问题，请点击右上角的联系我们，与我们取得联系`
+            : `请输入您的${this.props.productInfo.productName}邮箱和密码，支付完成后，您的账户就会自动获得${chooseLevel.levelName}会员，如果您有任何问题，请点击右上角的联系我们，与我们取得联系`}
         </Row>
         {this.state.orderInfo ? (
-          <Result
-            status="success"
-            title="购买成功"
-            extra={[
-              <div className="product-payment-results-detail" key={"orderInfo"}>
-                <p>订单号：{this.state.orderInfo.orderId}</p>
-                <p>购买日期：{this.state.orderInfo.date}</p>
-                <p>
-                  产品信息：{this.state.orderInfo.productName}
-                  {this.state.orderInfo.levelName}
-                </p>
-                <p>金额：{this.state.orderInfo.price}元</p>
-                <p>会员码：{this.state.orderInfo.code}</p>
-              </div>
-            ]}
-            className="product-payment-results"
-          />
+          this.state.failed ? (
+            <Result
+              status="error"
+              title="购买失败"
+              subTitle="支付成功，但更新订单状态失败，请尽快与技术人员取得联系，以下是您的订单信息"
+              extra={[
+                <div
+                  className="product-payment-results-detail"
+                  key={"orderInfo"}
+                >
+                  <p>订单号：{this.state.orderInfo.orderId}</p>
+                  <p>购买日期：{this.state.orderInfo.date}</p>
+                  <p>
+                    产品信息：{this.state.orderInfo.productName}
+                    {this.state.orderInfo.levelName}
+                  </p>
+                  <p>金额：{this.state.orderInfo.price}元</p>
+                  <p>邮箱：{this.state.orderInfo.email}</p>
+                </div>,
+              ]}
+              className="product-payment-results"
+            />
+          ) : (
+            <Result
+              status="success"
+              title="购买成功"
+              extra={[
+                <div
+                  className="product-payment-results-detail"
+                  key={"orderInfo"}
+                >
+                  <p>订单号：{this.state.orderInfo.orderId}</p>
+                  <p>购买日期：{this.state.orderInfo.date}</p>
+                  <p>
+                    产品信息：{this.state.orderInfo.productName}
+                    {this.state.orderInfo.levelName}
+                  </p>
+                  <p>金额：{this.state.orderInfo.price}元</p>
+                  <p>会员码：{this.state.orderInfo.code}</p>
+                </div>,
+              ]}
+              className="product-payment-results"
+            />
+          )
         ) : (
           <Row justify="center">
             <Col>
@@ -141,8 +166,9 @@ class PaymentDialog extends Component {
               </Row>
               <Row>
                 <Col className="product-payment-prefix">
-                  <div>查询邮箱</div>
-                  <div>查询密码</div>
+                  <div>邮箱</div>
+                  <div>密码</div>
+
                   <div>支付方式</div>
                 </Col>
                 <Col>
@@ -157,12 +183,12 @@ class PaymentDialog extends Component {
                       rules={[
                         {
                           required: true,
-                          message: "请输入查询邮箱"
-                        }
+                          message: "请输入邮箱",
+                        },
                       ]}
                       style={{ width: "200px" }}
                     >
-                      <Input placeholder="请输入查询邮箱" />
+                      <Input placeholder="请输入邮箱" />
                     </Form.Item>
                     <Form.Item
                       name="password"
@@ -170,12 +196,12 @@ class PaymentDialog extends Component {
                       rules={[
                         {
                           required: true,
-                          message: "请输入查询密码"
-                        }
+                          message: "请输入密码",
+                        },
                       ]}
                       style={{ width: "200px" }}
                     >
-                      <Input placeholder="请输入查询密码" />
+                      <Input placeholder="请输入密码" />
                     </Form.Item>
 
                     <Form.Item
@@ -184,8 +210,8 @@ class PaymentDialog extends Component {
                       rules={[
                         {
                           required: true,
-                          message: "请选择支付方式"
-                        }
+                          message: "请选择支付方式",
+                        },
                       ]}
                     >
                       <Radio.Group defaultValue="alipay">
@@ -222,12 +248,18 @@ class PaymentDialog extends Component {
                 {this.state.formData.payment !== "paypal" ? (
                   <div className="product-payment-qrcode-container">
                     {this.state.qrUrl ? (
-                      <QRCode
-                        value={this.state.qrUrl} //value参数为生成二维码的链接
-                        size={150} //二维码的宽高尺寸
-                        fgColor="#000000" //二维码的颜色
-                        className="product-payment-qrcode"
-                      />
+                      <a
+                        href={this.state.qrUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <QRCode
+                          value={this.state.qrUrl} //value参数为生成二维码的链接
+                          size={150} //二维码的宽高尺寸
+                          fgColor="#000000" //二维码的颜色
+                          className="product-payment-qrcode"
+                        />
+                      </a>
                     ) : (
                       <Spin
                         indicator={antIcon}

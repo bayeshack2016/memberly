@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-// import Admin from "./containers/admin";
 import { Provider } from "react-redux";
-// import { hot } from "react-hot-loader/root";
+import "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import Router from "./router/index";
-import store from "./store";
+import store from "./redux/store";
 import "./assets/style/reset.css";
 
 class App extends Component {
@@ -17,4 +17,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default hot(App);

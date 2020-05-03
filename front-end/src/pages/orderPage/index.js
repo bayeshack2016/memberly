@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Table, Button, Input, DatePicker } from "antd";
-import $axios from "@/$axios";
+import { Table, Button, Input, DatePicker, message } from "antd";
+import $axios from "@/axios/$axios";
 import axios from "axios";
 import moment from "moment";
-// import "./index.css";
 const dateFormat = "YYYY-MM-DD";
 const { Search } = Input;
 
@@ -12,7 +11,7 @@ class TableSearch extends Component {
     data: [],
     pagination: {
       pageSize: 10,
-      current: 1
+      current: 1,
     },
     loading: false,
     selectedRowKeys: [],
@@ -21,70 +20,70 @@ class TableSearch extends Component {
         title: "订单号",
         dataIndex: "orderId",
         key: "orderId",
-        width: 180
+        width: 180,
       },
       {
         title: "产品名称",
         key: "productName",
         dataIndex: "productName",
-        width: 100
+        width: 100,
       },
       {
         title: "产品等级",
         key: "levelName",
         dataIndex: "levelName",
-        width: 100
+        width: 100,
       },
       {
         title: "支付状态",
         key: "paymentStatus",
         dataIndex: "paymentStatus",
-        width: 100
+        width: 100,
       },
       {
         title: "会员码",
         key: "code",
         dataIndex: "code",
-        width: 200
+        width: 200,
       },
       {
         title: "激活状态",
         key: "activation",
         dataIndex: "activation",
-        width: 100
+        width: 100,
       },
       {
         title: "创建日期",
         dataIndex: "date",
         key: "date",
-        width: 100
+        width: 100,
       },
 
       {
         title: "价格",
         dataIndex: "price",
         key: "price",
-        width: 100
+        width: 100,
       },
       {
         title: "支付方式",
         dataIndex: "payment",
         key: "payment",
-        width: 100
+        width: 100,
       },
       {
         title: "邮箱",
         dataIndex: "email",
         key: "email",
-        width: 200
+        width: 200,
       },
       {
         title: "IP地址",
         dataIndex: "ip",
         key: "ip",
-        width: 200
-      }
-    ]
+        width: 200,
+      },
+    ],
   };
 
   componentWillMount() {
@@ -103,63 +102,66 @@ class TableSearch extends Component {
     this.setState({ loading: true });
     $axios
       .get("/order/all", {
-        params: { ...params }
+        params: { ...params },
       })
-      .then(data => {
+      .then((data) => {
         const pagination = { ...this.state.pagination };
         pagination.total = data.data.length;
         this.setState({
           loading: false,
           data: data.data,
-          pagination
+          pagination,
         });
+      })
+      .catch(() => {
+        message.error("获取订单失败");
       });
   };
 
-  onSelectedRowKeysChange = selectedRowKeys => {
+  onSelectedRowKeysChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   };
-  handleSearch = value => {
+  handleSearch = (value) => {
     axios
       .all([
         $axios(`/order/all?orderId=${value}`),
-        $axios(`/order/all?email=${value}`)
+        $axios(`/order/all?email=${value}`),
       ])
-      .then(responseArr => {
+      .then((responseArr) => {
         //this will be executed only when all requests are complete
         const pagination = { ...this.state.pagination };
         let data = [];
-        responseArr.forEach(item => {
+        responseArr.forEach((item) => {
           data.push(...item.data);
         });
         pagination.total = data.length;
         this.setState({
           loading: false,
           data: data,
-          pagination
+          pagination,
         });
+      })
+      .catch(() => {
+        message.error("搜索失败");
       });
   };
   handleReset = () => {
-    // this.props.form.resetFields();
     this.fetch();
     let inputBox = document.querySelector(".ant-input");
     inputBox.value = "";
-    // console.log(inputBox);
   };
   onDateChange = (date, dateString) => {
-    // console.log(date._d.getDate(), dateString);
     this.fetch({
       year: date._d.getFullYear(),
       month: date._d.getMonth() + 1,
-      day: date._d.getDate()
+      day: date._d.getDate(),
     });
   };
   render() {
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
-      onChange: this.onSelectedRowKeysChange
+      onChange: this.onSelectedRowKeysChange,
     };
     const date = new Date();
     return (
@@ -169,7 +171,7 @@ class TableSearch extends Component {
           style={{
             backgroundColor: "white",
             height: "100px",
-            padding: "30px 20px"
+            padding: "30px 20px",
           }}
         >
           <div style={{ fontSize: "20px", fontWeight: "500" }}>订单管理</div>
@@ -181,7 +183,7 @@ class TableSearch extends Component {
           style={{
             backgroundColor: "white",
             height: "80px",
-            margin: "20px 20px 0 20px"
+            margin: "20px 20px 0 20px",
           }}
         >
           <div
@@ -189,7 +191,7 @@ class TableSearch extends Component {
               marginLeft: "20px",
               float: "left",
               lineHeight: "80px",
-              fontSize: "18px"
+              fontSize: "18px",
             }}
           >
             搜索订单
@@ -202,12 +204,11 @@ class TableSearch extends Component {
               margin: "25px 10px 25px 10px",
               float: "left",
               height: "20px",
-              fontSize: "25px"
+              fontSize: "25px",
             }}
-            onSearch={value => {
+            onSearch={(value) => {
               this.handleSearch(value);
             }}
-            // allowClear={true}
           />
           <DatePicker
             defaultValue={moment(`${date.toLocaleDateString()}`, dateFormat)}
@@ -216,17 +217,15 @@ class TableSearch extends Component {
             style={{
               width: 200,
               margin: "25px 20px",
-              float: "left"
+              float: "left",
             }}
           />
           <Button
-            // type="primary"
             onClick={this.handleReset}
             style={{
-              // width: 40,
               margin: "25px 10px",
               float: "left",
-              color: "#40A9FF !important"
+              color: "#40A9FF !important",
             }}
           >
             重置
@@ -237,12 +236,10 @@ class TableSearch extends Component {
           style={{ backgroundColor: "white", margin: "0px 20px" }}
         >
           <Table
-            // bordered={false}
             columns={this.state.columns}
             dataSource={this.state.data}
             loading={this.state.loading}
-            // pagination={paginationProps}
-            rowKey={record => record}
+            rowKey={(record) => record}
             rowSelection={rowSelection}
             style={{ userSelect: "text" }}
             scroll={{ x: 800 }}

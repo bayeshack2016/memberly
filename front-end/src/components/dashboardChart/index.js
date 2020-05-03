@@ -4,41 +4,25 @@ import "./index.css";
 import { connect } from "react-redux";
 import { getRankingList } from "@/utils/rankingListUtil";
 import DataCard from "../dataCard";
-// const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 
 class DashboardChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // rangePickerValue: getTimeDistance("year"),
-      currentRange: "year"
+      currentRange: "year",
     };
   }
-  selectDate = type => {
-    // console.log(type, "type");
+  selectDate = (type) => {
     this.setState({ currentRange: type });
   };
 
   render() {
-    // console.log(this.state.currentRange, "state");
-    // console.log(this.props.salesByYear, "hello");
-    // console.log(this.props.salesByMonth, "hello");
-    // console.log(this.props.salesByWeek, "week");
-    // let rankingListData =
-    //   this.state.currentRange === "year" && this.props.salesByYear
-    //     ? getRankingList(this.props.salesByYear, this.state.currentRange)
-    //     : this.state.currentRange === "month" && this.props.salesByMonth
-    //     ? getRankingList(this.props.salesByMonth, this.state.currentRange)
-    //     : this.state.currentRange === "week" && this.props.salesByWeek
-    //     ? getRankingList(this.props.salesByWeek, this.state.currentRange)
-    //     : [];
-
     return (
       <Card
         bordered={false}
         bodyStyle={{
-          padding: 0
+          padding: 0,
         }}
       >
         <div className={"salesCard"}>
@@ -52,7 +36,6 @@ class DashboardChart extends Component {
                     }
                     style={{ fontSize: "15px" }}
                     onClick={() => this.selectDate("week")}
-                    
                   >
                     本周
                   </a>
@@ -79,7 +62,7 @@ class DashboardChart extends Component {
             }
             size="large"
             tabBarStyle={{
-              marginBottom: 24
+              marginBottom: 24,
             }}
             style={{ height: "400px !important" }}
           >
@@ -102,7 +85,7 @@ class DashboardChart extends Component {
                   week: getRankingList(
                     this.props.salesByWeek,
                     this.state.currentRange
-                  )
+                  ),
                 }}
               />
             </TabPane>
@@ -125,7 +108,7 @@ class DashboardChart extends Component {
                   week: getRankingList(
                     this.props.visitsByWeek,
                     this.state.currentRange
-                  )
+                  ),
                 }}
               />
             </TabPane>
@@ -148,7 +131,7 @@ class DashboardChart extends Component {
                   week: getRankingList(
                     this.props.ordersByWeek,
                     this.state.currentRange
-                  )
+                  ),
                 }}
               />
             </TabPane>
@@ -158,7 +141,7 @@ class DashboardChart extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     salesByYear: state.yearData.salesByYear,
     visitsByYear: state.yearData.visitsByYear,
@@ -168,7 +151,7 @@ const mapStateToProps = state => {
     ordersByMonth: state.monthData.ordersByMonth,
     salesByWeek: state.weekData.salesByWeek,
     visitsByWeek: state.weekData.visitsByWeek,
-    ordersByWeek: state.weekData.ordersByWeek
+    ordersByWeek: state.weekData.ordersByWeek,
   };
 };
 const actionCreator = {};

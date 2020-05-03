@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Card, Steps, Row } from "antd";
+import { Card, Steps, Row, message } from "antd";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import AddSteps from "@/components/addSteps";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 import "./index.css";
 import { connect } from "react-redux";
-import { handleFetchAllProduct } from "../../redux/product.redux";
+import { handleFetchAllProduct } from "@/redux/actions/product";
 import { parseFormData } from "../../utils/productUtil";
 const { Step } = Steps;
 
@@ -19,24 +19,16 @@ class AddProduct extends Component {
   }
   UNSAFE_componentWillMount() {
     let url = document.location.toString();
-
     let idArr = url.split("/");
     let id = idArr[idArr.length - 1];
-    // console.log(id - 0);
     if (!isNaN(parseInt(id))) {
       this.setState({
-        mode: "edit"
+        mode: "edit",
       });
       this.setState({ id: this.props.allProducts[id - 1]._id });
     }
   }
   next() {
-    // console.log(this.state.current);
-    // console.log(this.state.current, "this.state.current1");
-    // const current = this.state.current + 1;
-    // console.log(current, "current");
-
-    // console.log(this.state.current, "this.state.current2");
     if (this.state.mode === "add") {
       const current = this.state.current + 1;
       if (current === 1) {
@@ -53,17 +45,15 @@ class AddProduct extends Component {
                 : 1
             )
           )
-          .then(async results => {
-            // console.log(results);
+          .then(async (results) => {
             await this.props.handleFetchAllProduct();
             this.setState({ current: current });
           })
-          .catch(err => {
-            console.log(err);
+          .catch((err) => {
+            message.error("添加失败");
           });
       }
     } else {
-      // console.log(parseFormData(this.props.formData));
       const current = this.state.current + 1;
       if (current === 1) {
         this.setState({ current: current });
@@ -73,13 +63,12 @@ class AddProduct extends Component {
             `/product/${this.state.id}`,
             parseFormData(this.props.formData, this.state.id)
           )
-          .then(async results => {
-            // console.log(results);
+          .then(async (results) => {
             await this.props.handleFetchAllProduct();
             this.setState({ current: current });
           })
-          .catch(err => {
-            console.log(err);
+          .catch((err) => {
+            message.error("添加失败");
           });
       }
     }
@@ -91,7 +80,6 @@ class AddProduct extends Component {
   }
   render() {
     const { current } = this.state;
-
     return (
       <div className="product-add-page">
         <Link to="/productList">
@@ -133,13 +121,13 @@ class AddProduct extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     formData: state.form.formData,
-    allProducts: state.product.allProducts
+    allProducts: state.product.allProducts,
   };
 };
 const actionCreator = {
-  handleFetchAllProduct
+  handleFetchAllProduct,
 };
 export default connect(mapStateToProps, actionCreator)(AddProduct);

@@ -3,7 +3,7 @@ import { Card, List, message } from "antd";
 import "./index.css";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 import { CheckOutlined } from "@ant-design/icons";
 
 class ThemePage extends Component {
@@ -11,11 +11,11 @@ class ThemePage extends Component {
     super(props);
     this.state = { showMask: false, demo: null };
   }
-  handleApply = theme => {
+  handleApply = (theme) => {
     $axios
       .post(`/setting/${this.props.setting._id}`, {
         ...this.props.setting,
-        themeOption: theme
+        themeOption: theme,
       })
       .then(() => {
         message.success("应用成功，快去产品页查看效果吧");
@@ -36,7 +36,7 @@ class ThemePage extends Component {
           lg: 3,
           md: 3,
           sm: 2,
-          xs: 1
+          xs: 1,
         }}
         dataSource={[
           {
@@ -44,15 +44,15 @@ class ThemePage extends Component {
             title: "默认主题",
             cover: "/assets/default.svg",
             href: "",
-            subDescription: "没有你，良辰美景更与何人说！"
+            subDescription: "没有你，良辰美景更与何人说！",
           },
           {
             id: "tech",
             title: "科技主题",
             cover: "/assets/tech.svg",
             href: "",
-            subDescription: "城镇中有那么多的酒馆，她却偏偏走进了我的酒馆"
-          }
+            subDescription: "城镇中有那么多的酒馆，她却偏偏走进了我的酒馆",
+          },
         ]}
         renderItem={(item, index) => (
           <List.Item>
@@ -75,7 +75,7 @@ class ThemePage extends Component {
                 >
                   <CheckOutlined />
                   &nbsp; 应用主题
-                </div>
+                </div>,
               ]}
             >
               <Card.Meta title={item.title} description={item.subDescription} />
@@ -94,10 +94,10 @@ class ThemePage extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     // allProducts: state.product.allProducts,
-    setting: state.product.setting
+    setting: state.product.setting,
   };
 };
 const actionCreator = {

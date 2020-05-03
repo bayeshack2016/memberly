@@ -3,7 +3,7 @@ import { Tabs, Modal, Button, Form, Input, message } from "antd";
 import "./index.css";
 import SlideVerify from "slide-verify";
 import { decrypt } from "../../utils/crypto";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 const { TabPane } = Tabs;
 
 class Query extends Component {
@@ -14,72 +14,70 @@ class Query extends Component {
       captchaVisible: false,
       allowQuery: "forbid",
       orderInfo: null,
-      formData: null
+      formData: null,
+      loading: false,
     };
   }
-  componentDidMount() {}
-  warning = () => {
-    message.warning("未找到订单，请确认查询条件是否正确");
-  };
   handleCheck = async () => {
+    this.setState({ loading: true });
     if (this.state.formData.orderId !== undefined) {
       $axios(`/order/query?orderId=${this.state.formData.orderId}`)
-        .then(result => {
-          // console.log(result);
-
+        .then((result) => {
           this.setState({ orderInfo: result.data });
+          this.setState({ loading: false });
           this.showModal();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
-          this.warning();
+          this.setState({ loading: false });
+          message.warning("未找到订单，请确认查询条件是否正确");
         });
     } else {
       $axios(
         `/order/query?email=${this.state.formData.email}&&password=${this.state.formData.password}`
       )
-        .then(result => {
+        .then((result) => {
           this.setState({ orderInfo: result.data });
           this.showModal();
+          this.setState({ loading: false });
         })
-        .catch(err => {
-          this.warning();
-          // this.warning(err);
+        .catch((err) => {
+          message.warning("未找到订单，请确认查询条件是否正确");
+          this.setState({ loading: false });
         });
     }
   };
   showModal = () => {
     if (localStorage.getItem("orderInfo")) {
       this.setState({
-        orderInfo: JSON.parse(decrypt(localStorage.getItem("orderInfo")))
+        orderInfo: JSON.parse(decrypt(localStorage.getItem("orderInfo"))),
       });
     } else {
       message.warning("未查询到订单信息");
+      return;
     }
 
     this.setState({
-      dialogVisible: true
+      dialogVisible: true,
     });
     this.setState({
-      allowQuery: "forbid"
+      allowQuery: "forbid",
     });
   };
 
-  handleOk = e => {
-    // console.log(e);
+  handleOk = (e) => {
     this.setState({
-      dialogVisible: false
+      dialogVisible: false,
     });
     this.setState({ orderInfo: null });
   };
 
-  handleCancel = e => {
+  handleCancel = (e) => {
     console.log(e);
     this.setState({
-      dialogVisible: false
+      dialogVisible: false,
     });
     this.setState({ orderInfo: null });
-    // console.log(this.state.orderInfo);
   };
   handleVerify = () => {
     this.setState({ captchaVisible: true });
@@ -96,25 +94,15 @@ class Query extends Component {
       onRefresh: () => {
         console.log("refresh");
       }, // 刷新回调
-      photo: "https://picsum.photos/310/210" // 背景图片地址
+      photo: "https://picsum.photos/310/210", // 背景图片地址
     });
   };
-  onFinish = values => {
+  onFinish = (values) => {
     console.log(values);
     this.setState({ formData: values });
     this.handleCheck();
   };
   render() {
-    // console.log(
-    //   this.state.orderInfo,
-    //   localStorage.getItem("orderInfo"),
-    //   decrypt(localStorage.getItem("orderInfo")),
-    //   JSON.parse(decrypt(localStorage.getItem("orderInfo"))),
-    //   "fhadh"
-    // );
-    // let metadata = $axios;
-    // console.log(this.state.orderInfo);
-
     return (
       <div className="query-container">
         {this.state.dialogVisible ? (
@@ -127,7 +115,7 @@ class Query extends Component {
             footer={[
               <Button key="confirm" type="primary" onClick={this.handleOk}>
                 确认
-              </Button>
+              </Button>,
             ]}
           >
             <p>订单号：{this.state.orderInfo.orderId}</p>
@@ -166,6 +154,7 @@ class Query extends Component {
               onClick={this.showModal}
               size="medium"
               disabled={this.state.allowQuery === "forbid"}
+              loading={this.state.loading}
             >
               获取订单信息
             </Button>
@@ -180,8 +169,8 @@ class Query extends Component {
                 rules={[
                   {
                     required: true,
-                    message: "请输入订单号"
-                  }
+                    message: "请输入订单号",
+                  },
                 ]}
               >
                 <Input
@@ -207,6 +196,7 @@ class Query extends Component {
                   disabled={this.state.allowQuery === "forbid"}
                   size="medium"
                   style={{ marginTop: "10px" }}
+                  loading={this.state.loading}
                 >
                   获取订单信息
                 </Button>
@@ -221,8 +211,8 @@ class Query extends Component {
                 rules={[
                   {
                     required: true,
-                    message: "请输入查询邮箱"
-                  }
+                    message: "请输入查询邮箱",
+                  },
                 ]}
               >
                 <Input
@@ -237,8 +227,8 @@ class Query extends Component {
                 rules={[
                   {
                     required: true,
-                    message: "请输入查询密码"
-                  }
+                    message: "请输入查询密码",
+                  },
                 ]}
               >
                 <Input
@@ -264,6 +254,7 @@ class Query extends Component {
                   size="medium"
                   disabled={this.state.allowQuery === "forbid"}
                   style={{ marginTop: "10px" }}
+                  loading={this.state.loading}
                 >
                   获取订单信息
                 </Button>

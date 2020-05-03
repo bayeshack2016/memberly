@@ -2,34 +2,42 @@ import React, { Component } from "react";
 import { Form, Input, Button, Row, Select, message } from "antd";
 import { createFromIconfontCN } from "@ant-design/icons";
 import "./index.css";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1693087_csjervhanqr.js"
+  scriptUrl: "//at.alicdn.com/t/font_1693087_csjervhanqr.js",
 });
 class Paypal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loading: false };
   }
-  onFinish = values => {
-    $axios.post(`/paypal/${this.props.formData._id}`, values).then(() => {
-      message.success("保存成功");
-    });
+  onFinish = (values) => {
+    this.setState({ loading: true });
+    $axios
+      .post(`/paypal/${this.props.formData._id}`, values)
+      .then(() => {
+        message.success("保存成功");
+        this.setState({ loading: false });
+      })
+      .catch(() => {
+        message.error("保存失败");
+        this.setState({ loading: false });
+      });
   };
   render() {
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 2 },
-        sm: { span: 16, offset: 7 }
-      }
+        sm: { span: 16, offset: 7 },
+      },
     };
     const formItemLayout = {
       labelCol: {
-        sm: { span: 3 }
+        sm: { span: 3 },
       },
       wrapperCol: {
-        sm: { span: 10, offset: 0 }
-      }
+        sm: { span: 10, offset: 0 },
+      },
     };
     return (
       <div className="paypal-container" style={{ position: "relative" }}>
@@ -70,8 +78,8 @@ class Paypal extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您申请的ClientID"
-              }
+                message: "请输入您申请的ClientID",
+              },
             ]}
           >
             <Input.TextArea
@@ -86,8 +94,8 @@ class Paypal extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入 Paypal 私匙"
-              }
+                message: "请输入 Paypal 私匙",
+              },
             ]}
           >
             <Input.TextArea
@@ -102,8 +110,8 @@ class Paypal extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入兑换汇率"
-              }
+                message: "请输入兑换汇率",
+              },
             ]}
           >
             <Input placeholder="请输入兑换汇率" />
@@ -115,8 +123,8 @@ class Paypal extends Component {
             rules={[
               {
                 required: true,
-                message: "选择工作模式"
-              }
+                message: "选择工作模式",
+              },
             ]}
           >
             <Select placeholder="选择模式">
@@ -130,8 +138,8 @@ class Paypal extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您就读小学的所在城市"
-              }
+                message: "请输入您就读小学的所在城市",
+              },
             ]}
           >
             <Input placeholder="请输入您就读小学的所在城市" />
@@ -142,14 +150,19 @@ class Paypal extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您最高学历就读学校的所在城市"
-              }
+                message: "请输入您最高学历就读学校的所在城市",
+              },
             ]}
           >
             <Input placeholder="请输入您最高学历就读学校的所在城市" />
           </Form.Item>
           <Form.Item {...formItemLayoutWithOutLabel}>
-            <Button type="primary" htmlType="submit" disabled>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled
+              loading={this.state.loading}
+            >
               保存
             </Button>
           </Form.Item>

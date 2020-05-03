@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Layout, Menu } from "antd";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
-import { handleUserInfo } from "@/redux/login.redux";
+import { handleUserInfo } from "@/redux/actions/login";
 import {
   IdcardOutlined,
   DashboardOutlined,
@@ -10,7 +10,7 @@ import {
   PayCircleOutlined,
   AccountBookOutlined,
   MailOutlined,
-  SkinOutlined
+  SkinOutlined,
 } from "@ant-design/icons";
 const { Sider } = Layout;
 class Sidebar extends Component {
@@ -32,7 +32,7 @@ class Sidebar extends Component {
         style={{
           height: "100%",
           boxShadow: "0px 0px 6px rgba(0,0,0,0.09)",
-          zIndex: "10"
+          zIndex: "10",
         }}
         theme="light"
       >
@@ -43,7 +43,7 @@ class Sidebar extends Component {
             style={{
               width: "40px",
               margin: "30px 10px 20px 24px",
-              float: "left"
+              float: "left",
             }}
           />
 
@@ -54,7 +54,7 @@ class Sidebar extends Component {
                 color: "rgba(72,72,72,1)",
                 float: "left",
                 marginTop: "40px",
-                fontWeight: "500"
+                fontWeight: "500",
               }}
             >
               Coodo Pay
@@ -101,9 +101,7 @@ class Sidebar extends Component {
           <Menu.Item key="/dashboard">
             <Link to="/dashboard">
               <DashboardOutlined />
-              <span className="nav-text">
-                统计数据
-              </span>
+              <span className="nav-text">统计数据</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="/account">
@@ -117,12 +115,12 @@ class Sidebar extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    isCollapsed: state.sidebar.isCollapsed
+    isCollapsed: state.sidebar.isCollapsed,
   };
 };
 const actionCreator = {
-  handleUserInfo
+  handleUserInfo,
 };
 export default connect(mapStateToProps, actionCreator)(withRouter(Sidebar));

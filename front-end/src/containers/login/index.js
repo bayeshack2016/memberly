@@ -1,48 +1,52 @@
 import React, { Component } from "react";
 import { Form, Input, Button, Row, Col, Checkbox, message } from "antd";
 import { connect } from "react-redux";
-import { handleUserInfo } from "../../redux/login.redux";
+import { handleUserInfo } from "@/redux/actions/login";
 import "./index.css";
-import $axios from "@/$axios";
-
+import $axios from "@/axios/$axios";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import MobilePage from "../../components/mobilePage";
+
 const FormItem = Form.Item;
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { isForget: false };
+    this.state = { isForget: false, loading: false };
   }
-  onFinish = values => {
-    // console.log("Success:", values);
+  onFinish = (values) => {
+    this.setState({ loading: true });
     if (this.state.isForget) {
-      // console.log(true);
       $axios
         .post("/user/forget", values)
         .then(() => {
           message.success("修改成功，请使用新密码登录");
+          this.setState({ loading: false });
         })
-        .catch(err => {
+        .catch((err) => {
           message.error("安全问题验证失败");
+          this.setState({ loading: false });
         });
     } else {
       $axios
         .post("/user/login", values)
-        .then(res => {
-          // console.log(res.data);
+        .then((res) => {
           localStorage.setItem("jwt", res.data);
           this.props.history.push("/productList");
+          message.success("登录成功");
+          this.setState({ loading: false });
         })
-        .catch(err => {
+        .catch((err) => {
           message.error("登录失败");
+          this.setState({ loading: false });
         });
     }
   };
 
-  onFinishFailed = errorInfo => {
+  onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  handleForget = bool => {
+  handleForget = (bool) => {
     this.setState({ isForget: bool });
   };
   componentWillUnmount() {
@@ -53,6 +57,22 @@ class Login extends Component {
   }
 
   render() {
+    const sUserAgent = navigator.userAgent.toLowerCase();
+    let userAgent;
+    if (
+      /ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
+        sUserAgent
+      )
+    ) {
+      //跳转移动端页面
+      userAgent = "mobile";
+    } else {
+      //跳转pc端页面
+      userAgent = "pc";
+    }
+    if (userAgent === "mobile") {
+      return <MobilePage productInfo={{ productName: "Coodo Pay" }} />;
+    }
     return (
       <div className="login-container">
         <img src="assets/login.svg" alt="" className="login-image" />
@@ -77,7 +97,7 @@ class Login extends Component {
             <Form
               className="login-form"
               initialValues={{
-                remember: true
+                remember: true,
               }}
               onFinish={this.onFinish}
               onFinishFailed={this.onFinishFailed}
@@ -87,7 +107,10 @@ class Login extends Component {
                   <FormItem
                     name="answer1"
                     rules={[
-                      { required: true, message: "请输入您就读小学的所在城市" }
+                      {
+                        required: true,
+                        message: "请输入您就读小学的所在城市",
+                      },
                     ]}
                     style={{ marginBottom: "20px" }}
                   >
@@ -101,8 +124,8 @@ class Login extends Component {
                     rules={[
                       {
                         required: true,
-                        message: "请输入您最高学历就读学校的所在城市！"
-                      }
+                        message: "请输入您最高学历就读学校的所在城市！",
+                      },
                     ]}
                   >
                     <Input
@@ -115,8 +138,8 @@ class Login extends Component {
                     rules={[
                       {
                         required: true,
-                        message: "请输入新密码"
-                      }
+                        message: "请输入新密码",
+                      },
                     ]}
                   >
                     <Input.Password
@@ -162,7 +185,7 @@ class Login extends Component {
                         height: "30px",
                         lineHeight: "35px",
                         color: "#40a9ff",
-                        cursor: "pointer"
+                        cursor: "pointer",
                       }}
                       onClick={() => {
                         this.handleForget(true);
@@ -175,7 +198,13 @@ class Login extends Component {
               )}
 
               <FormItem>
-                <Button type="primary" htmlType="submit" block size="large">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  size="large"
+                  loading={this.state.loading}
+                >
                   {this.state.isForget ? "提交" : "登录"}
                 </Button>
                 {this.state.isForget ? (
@@ -198,8 +227,8 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = (state) => state;
 const actionCreator = {
-  handleUserInfo
+  handleUserInfo,
 };
 export default connect(mapStateToProps, actionCreator)(Login);

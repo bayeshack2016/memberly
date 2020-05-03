@@ -1,5 +1,4 @@
 const Koa = require("koa");
-const Router = require("koa-router");
 const app = new Koa();
 const koaBody = require("koa-body");
 const routing = require("./routes");
@@ -41,18 +40,18 @@ if (ENV !== "production") {
   // 线上环境
   const logFileName = path.join(__dirname, "logs", "access.log");
   const writeStream = fs.createWriteStream(logFileName, {
-    flags: "a"
+    flags: "a",
   });
   app.use(
     morgan("combined", {
-      stream: writeStream
+      stream: writeStream,
     })
   );
 }
 app.use(
   error({
     postFormat: (e, { stack, ...rest }) =>
-      process.env.NODE_ENV === "production" ? { ...rest } : { stack, ...rest }
+      process.env.NODE_ENV === "production" ? { ...rest } : { stack, ...rest },
   })
 );
 app.use(
@@ -60,8 +59,8 @@ app.use(
     multipart: true,
     formidable: {
       uploadDir: path.join(__dirname, "/public/uploads"),
-      keepExtensions: true
-    }
+      keepExtensions: true,
+    },
   })
 );
 app.use(parameter(app));

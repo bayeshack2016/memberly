@@ -6,15 +6,15 @@ import Content from "./components/content";
 import "./index.css";
 import { connect } from "react-redux";
 import Pageloading from "../../components/pageLoading";
-import { handleFetchByWeek } from "@/redux/weekData.redux";
-import { handleFetchByMonth } from "@/redux/monthData.redux";
-import { handleFetchByYear } from "@/redux/yearData.redux";
-import { handleFetchByPeriod } from "@/redux/periodData.redux";
+import { handleFetchByWeek } from "@/redux/actions/weekData";
+import { handleFetchByMonth } from "@/redux/actions/monthData";
+import { handleFetchByYear } from "@/redux/actions/yearData";
+import { handleFetchByPeriod } from "@/redux/actions/periodData";
 import {
   handleFetchAllProduct,
-  handleFetchSetting
-} from "../../redux/product.redux";
-import { handleFetchForm } from "../../redux/form.redux";
+  handleFetchSetting,
+} from "@/redux/actions/product";
+import { handleFetchForm } from "@/redux/actions/form";
 class App extends Component {
   state = { loading: true };
   UNSAFE_componentWillMount() {
@@ -27,41 +27,13 @@ class App extends Component {
     this.props.handleFetchSetting();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
     this.setState({
-      loading: !(
-        // nextProps.salesByPeriod &&
-        // nextProps.visitsByPeriod &&
-        // nextProps.ordersByPeriod &&
-        // nextProps.allSales &&
-        // nextProps.allVisits &&
-        // nextProps.allOrders &&
-        // nextProps.salesByYear &&
-        // nextProps.visitsByYear &&
-        // nextProps.ordersByYear &&
-        // nextProps.salesByMonth &&
-        // nextProps.visitsByMonth &&
-        // nextProps.ordersByMonth &&
-        // nextProps.salesByWeek &&
-        // nextProps.visitsByWeek &&
-        // nextProps.ordersByWeek &&
-        (
-          nextProps.allProducts &&
-          nextProps.alipay &&
-          nextProps.wechatPay &&
-          nextProps.paypal &&
-          nextProps.email &&
-          nextProps.user &&
-          nextProps.setting
-        )
-        // nextProps.period
-      )
+      loading: !(nextProps.allProducts && nextProps.setting && nextProps.user),
     });
   }
 
   render() {
     const { loading } = this.state;
-    // console.log(loading);
     const renderFetchMask = () => {
       return (
         <div className="fetching-data-mask">
@@ -84,7 +56,7 @@ class App extends Component {
                 className="login-logo"
                 style={{
                   width: "30px",
-                  marginTop: "30px"
+                  marginTop: "30px",
                   // marginLeft: "70px"
                 }}
               />
@@ -113,31 +85,11 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    salesByPeriod: state.periodData.salesByPeriod,
-    visitsByPeriod: state.periodData.visitsByPeriod,
-    ordersByPeriod: state.periodData.ordersByPeriod,
-    allSales: state.periodData.allSales,
-    allVisits: state.periodData.allVisits,
-    allOrders: state.periodData.allOrders,
-    period: state.periodData.period,
-    salesByYear: state.yearData.salesByYear,
-    visitsByYear: state.yearData.visitsByYear,
-    ordersByYear: state.yearData.ordersByYear,
-    salesByMonth: state.monthData.salesByMonth,
-    visitsByMonth: state.monthData.visitsByMonth,
-    ordersByMonth: state.monthData.ordersByMonth,
-    salesByWeek: state.weekData.salesByWeek,
-    visitsByWeek: state.weekData.visitsByWeek,
-    ordersByWeek: state.weekData.ordersByWeek,
     allProducts: state.product.allProducts,
-    alipay: state.form.alipay,
-    wechatPay: state.form.wechatPay,
-    paypal: state.form.paypal,
-    email: state.form.email,
     user: state.form.user,
-    setting: state.product.setting
+    setting: state.product.setting,
   };
 };
 const actionCreator = {
@@ -147,7 +99,7 @@ const actionCreator = {
   handleFetchByMonth,
   handleFetchByWeek,
   handleFetchForm,
-  handleFetchSetting
+  handleFetchSetting,
 };
 
 export default connect(mapStateToProps, actionCreator)(App);

@@ -1,37 +1,20 @@
 import React from "react";
-// import { connect } from "react-redux";
 import Chart from "../basicChart";
 const chartData = {
   backgroundColor: "#fff",
-
   tooltip: {
     trigger: "axis",
     axisPointer: {
-      type: "line"
+      type: "line",
     },
-    padding: [5, 10]
+    padding: [5, 10],
   },
-  // tab
-  // legend: {
-  //   top: 20,
-  //   icon: "rect",
-  //   itemWidth: 14,
-  //   itemHeight: 5,
-  //   itemGap: 13,
-  //   right: "2%",
-  //   textStyle: {
-  //     fontSize: 12,
-  //     color: "#57617B"
-  //   }
-  // },
-
-  // 图表
   grid: {
     top: 0,
     left: "0",
     right: "0",
     bottom: "0",
-    containLabel: false
+    containLabel: false,
   },
   // x轴
 
@@ -41,19 +24,19 @@ const chartData = {
       type: "value",
       name: "(%)",
       axisTick: {
-        show: false
+        show: false,
       },
       axisLabel: {
         margin: 0,
         textStyle: {
-          fontSize: 0
-        }
-      }
-    }
-  ]
+          fontSize: 0,
+        },
+      },
+    },
+  ],
 };
 
-const AreaChart = props => (
+const AreaChart = (props) => (
   <Chart
     chartData={{
       ...chartData,
@@ -67,24 +50,24 @@ const AreaChart = props => (
           showSymbol: true,
           lineStyle: {
             normal: {
-              width: 0
-            }
+              width: 0,
+            },
           },
           areaStyle: {
             normal: {
               color: "#975FE4",
-              opacity: 1
-            }
+              opacity: 1,
+            },
           },
           itemStyle: {
             normal: {
               color: "#975FE4",
               // borderColor: "rgba(137,189,2,0.27)",
-              borderWidth: 12
-            }
+              borderWidth: 12,
+            },
           },
-          data: props.visitsByPeriod
-        }
+          data: props.visitsByPeriod,
+        },
       ],
       xAxis: [
         {
@@ -95,11 +78,11 @@ const AreaChart = props => (
           axisLabel: {
             margin: 0,
             textStyle: {
-              fontSize: 0
-            }
-          }
-        }
-      ]
+              fontSize: 0,
+            },
+          },
+        },
+      ],
     }}
     height={"50px"}
     style={{ padding: 0 }}

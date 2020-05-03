@@ -1,10 +1,9 @@
 import React from "react";
-// import { connect } from "react-redux";
 import Chart from "../basicChart";
 const chartData = {
   backgroundColor: "#fff",
   tooltip: {
-    trigger: "axis"
+    trigger: "axis",
   },
   // tab
 
@@ -13,7 +12,7 @@ const chartData = {
     left: 0,
     right: 0,
     bottom: 0,
-    containLabel: false
+    containLabel: false,
   },
   // x轴
 
@@ -22,13 +21,13 @@ const chartData = {
       type: "value",
       show: false,
       axisLabel: {
-        formatter: "{value} mm"
-      }
-    }
-  ]
+        formatter: "{value} mm",
+      },
+    },
+  ],
 };
 
-const BarChart = props => (
+const BarChart = (props) => (
   <Chart
     chartData={{
       ...chartData,
@@ -44,32 +43,26 @@ const BarChart = props => (
               label: {
                 show: false,
                 position: "top",
-                formatter: "{c}"
+                formatter: "{c}",
                 // formatter: '{b}\n{c}'
-              }
-            }
+              },
+            },
           },
           // 设置柱的宽度，要是数据太少，柱子太宽不美观~
-          barWidth: 8
-        }
+          barWidth: 8,
+        },
       ],
       xAxis: [
         {
           type: "category", //分类
           show: false,
-          data: props.period
-        }
-      ]
+          data: props.period,
+        },
+      ],
     }}
     height={"50px"}
     style={{ padding: 0 }}
   />
 );
-
-// const mapStateToProps = state => {
-//   return {
-//     salesByYear: state.yearData.salesByYear
-//   };
-// };
 
 export default BarChart;

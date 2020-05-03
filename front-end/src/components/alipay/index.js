@@ -1,41 +1,47 @@
+//添加支付宝当面付的支付信息
 import React, { Component } from "react";
 import { Form, Input, Button, Row, message } from "antd";
 import { AlipayCircleOutlined } from "@ant-design/icons";
 import "./index.css";
 import { connect } from "react-redux";
-import { handleFetchForm } from "@/redux/form.redux";
-import $axios from "@/$axios";
+import { handleFetchForm } from "@/redux/actions/form";
+import $axios from "@/axios/$axios";
 class Alipay extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loading: false };
   }
-  onFinish = values => {
+  onFinish = (values) => {
+    this.setState({ loading: true });
     $axios
-      .post(`/alipay/${this.props.formData._id}`, values)
+      .post(`/alipay/${this.props.formData._id}`, {
+        ...values,
+        paymentName: "支付宝",
+      })
       .then(() => {
         message.success("保存成功");
+        this.setState({ loading: false });
         this.props.handleFetchForm();
       })
       .catch(() => {
+        this.setState({ loading: false });
         message.error("验证失败");
       });
   };
   render() {
-    // console.log(this.props.formData);
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 2 },
-        sm: { span: 16, offset: 7 }
-      }
+        sm: { span: 16, offset: 7 },
+      },
     };
     const formItemLayout = {
       labelCol: {
-        sm: { span: 3 }
+        sm: { span: 3 },
       },
       wrapperCol: {
-        sm: { span: 10, offset: 0 }
-      }
+        sm: { span: 10, offset: 0 },
+      },
     };
     return (
       <div className="alipay-container" style={{ position: "relative" }}>
@@ -77,8 +83,8 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您申请的应用ID"
-              }
+                message: "请输入您申请的应用ID",
+              },
             ]}
           >
             <Input placeholder="请输入您申请的应用ID" />
@@ -89,8 +95,8 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入支付宝公匙"
-              }
+                message: "请输入支付宝公匙",
+              },
             ]}
           >
             <Input.TextArea
@@ -105,8 +111,8 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入RSA2(SHA256)私匙"
-              }
+                message: "请输入RSA2(SHA256)私匙",
+              },
             ]}
           >
             <Input.TextArea
@@ -121,8 +127,8 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您的服务器域名"
-              }
+                message: "请输入您的服务器域名",
+              },
             ]}
           >
             <Input placeholder="请输入您的服务器域名，请带上http或https" />
@@ -133,8 +139,8 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您就读小学的所在城市"
-              }
+                message: "请输入您就读小学的所在城市",
+              },
             ]}
           >
             <Input placeholder="请输入您就读小学的所在城市" />
@@ -145,14 +151,18 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入您最高学历就读学校的所在城市"
-              }
+                message: "请输入您最高学历就读学校的所在城市",
+              },
             ]}
           >
             <Input placeholder="请输入您最高学历就读学校的所在城市" />
           </Form.Item>
           <Form.Item {...formItemLayoutWithOutLabel}>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={this.state.loading}
+            >
               保存
             </Button>
           </Form.Item>
@@ -161,10 +171,10 @@ class Alipay extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {};
 };
 const actionCreator = {
-  handleFetchForm
+  handleFetchForm,
 };
 export default connect(mapStateToProps, actionCreator)(Alipay);

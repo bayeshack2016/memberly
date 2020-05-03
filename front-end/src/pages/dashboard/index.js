@@ -3,10 +3,6 @@ import DashboardHeader from "@/components/dashboardHeader";
 import DashboardChart from "@/components/dashboardChart";
 import PageLoading from "../../components/pageLoading";
 import { connect } from "react-redux";
-import { handleFetchByWeek } from "@/redux/weekData.redux";
-import { handleFetchByMonth } from "@/redux/monthData.redux";
-import { handleFetchByYear } from "@/redux/yearData.redux";
-import { handleFetchByPeriod } from "@/redux/periodData.redux";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -27,12 +23,15 @@ class Dashboard extends Component {
         this.props.salesByWeek &&
         this.props.visitsByWeek &&
         this.props.ordersByWeek &&
-        this.props.period
-      )
+        this.props.period &&
+        this.props.alipay &&
+        this.props.wechatPay &&
+        this.props.paypal &&
+        this.props.email
+      ),
     };
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
     this.setState({
       loading: !(
         nextProps.salesByPeriod &&
@@ -50,13 +49,28 @@ class Dashboard extends Component {
         nextProps.salesByWeek &&
         nextProps.visitsByWeek &&
         nextProps.ordersByWeek &&
-        nextProps.period
-      )
+        nextProps.period &&
+        nextProps.alipay &&
+        nextProps.wechatPay &&
+        nextProps.paypal &&
+        nextProps.email
+      ),
     });
   }
+  componentDidMount() {
+    const echartsUrl = "/lib/echarts.min.js";
+    this.addScript(echartsUrl);
+  }
+
+  addScript = (url) => {
+    const script = document.createElement("script");
+    script.src = url;
+    script.type = "text/javascript";
+    script.async = true;
+    document.head.appendChild(script);
+  };
   render() {
     const { loading } = this.state;
-    // console.log(this.props, "ordersByMonth");
     return (
       <div>
         {loading ? (
@@ -71,7 +85,7 @@ class Dashboard extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     salesByPeriod: state.periodData.salesByPeriod,
     visitsByPeriod: state.periodData.visitsByPeriod,
@@ -88,14 +102,11 @@ const mapStateToProps = state => {
     ordersByMonth: state.monthData.ordersByMonth,
     salesByWeek: state.weekData.salesByWeek,
     visitsByWeek: state.weekData.visitsByWeek,
-    ordersByWeek: state.weekData.ordersByWeek
+    ordersByWeek: state.weekData.ordersByWeek,
+    alipay: state.form.alipay,
+    wechatPay: state.form.wechatPay,
+    paypal: state.form.paypal,
+    email: state.form.email,
   };
 };
-const actionCreator = {
-  handleFetchByPeriod,
-  handleFetchByYear,
-  handleFetchByMonth,
-  handleFetchByWeek
-};
-
-export default connect(mapStateToProps, actionCreator)(Dashboard);
+export default connect(mapStateToProps, null)(Dashboard);

@@ -1,24 +1,22 @@
 import React, { Component } from "react";
 import { Menu, Form, Input, Button, Descriptions, message, Modal } from "antd";
 import { connect } from "react-redux";
-// import "./index.css";
 import { withRouter } from "react-router-dom";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import $axios from "@/$axios";
+import $axios from "@/axios/$axios";
 const { Item } = Menu;
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
     xs: { span: 24, offset: 12 },
-    sm: { span: 16, offset: 8 }
-  }
+    sm: { span: 16, offset: 8 },
+  },
 };
 const formItemLayout = {
   labelCol: {
-    sm: { span: 8 }
+    sm: { span: 8 },
   },
   wrapperCol: {
-    sm: { span: 12, offset: 0 }
-  }
+    sm: { span: 12, offset: 0 },
+  },
 };
 class accountPage extends Component {
   main = undefined;
@@ -28,14 +26,14 @@ class accountPage extends Component {
     const menuMap = {
       info: "账户信息",
       changeMail: "更改邮箱",
-      changePassword: "更改密码"
+      changePassword: "更改密码",
       // notification: "New Message Notification"
     };
     this.state = {
       mode: "inline",
       menuMap,
       selectKey: "info",
-      loading: false
+      loading: false,
     };
   }
   info = () => {
@@ -48,15 +46,22 @@ class accountPage extends Component {
       ),
       onOk: () => {
         this.setState({ loading: false });
-      }
+      },
     });
   };
 
-  onFinish = values => {
-    // console.log(values);
-    $axios.post(`/user/${this.props.user._id}`, values).then(() => {
-      message.success("保存成功");
-    });
+  onFinish = (values) => {
+    this.setState({ loading: true });
+    $axios
+      .post(`/user/${this.props.user._id}`, values)
+      .then(() => {
+        message.success("保存成功");
+        this.setState({ loading: false });
+      })
+      .catch(() => {
+        message.error("保存失败");
+        this.setState({ loading: false });
+      });
   };
   componentDidMount() {
     window.addEventListener("resize", this.resize);
@@ -70,7 +75,7 @@ class accountPage extends Component {
     this.setState({ loading: true });
     await $axios
       .get("https://pay.960960.xyz/api/setting")
-      .then(result => {
+      .then((result) => {
         if (result.data.version > this.props.setting.version) {
           this.info();
         } else {
@@ -80,11 +85,12 @@ class accountPage extends Component {
       })
       .catch(() => {
         message.error("检查更新失败");
+        this.setState({ loading: false });
       });
   };
   getMenu = () => {
     const { menuMap } = this.state;
-    return Object.keys(menuMap).map(item => (
+    return Object.keys(menuMap).map((item) => (
       <Item key={item}>{menuMap[item]}</Item>
     ));
   };
@@ -94,9 +100,9 @@ class accountPage extends Component {
     return menuMap[selectKey];
   };
 
-  selectKey = key => {
+  selectKey = (key) => {
     this.setState({
-      selectKey: key
+      selectKey: key,
     });
   };
 
@@ -122,7 +128,7 @@ class accountPage extends Component {
       }
 
       this.setState({
-        mode
+        mode,
       });
     });
   };
@@ -173,8 +179,8 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入邮箱"
-            }
+              message: "请输入邮箱",
+            },
           ]}
         >
           <Input placeholder="请输入邮箱" />
@@ -185,8 +191,8 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入密码"
-            }
+              message: "请输入密码",
+            },
           ]}
         >
           <Input.Password placeholder="请输入密码" />
@@ -198,8 +204,8 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入您就读小学的所在城市"
-            }
+              message: "请输入您就读小学的所在城市",
+            },
           ]}
         >
           <Input placeholder="请输入您就读小学的所在城市" />
@@ -210,14 +216,14 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入您最高学历就读学校的所在城市"
-            }
+              message: "请输入您最高学历就读学校的所在城市",
+            },
           ]}
         >
           <Input placeholder="请输入您最高学历就读学校的所在城市" />
         </Form.Item>
         <Form.Item {...formItemLayoutWithOutLabel}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={this.state.loading}>
             保存
           </Button>
         </Form.Item>
@@ -239,8 +245,8 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入邮箱"
-            }
+              message: "请输入邮箱",
+            },
           ]}
           defaultValue={this.props.user.email}
         >
@@ -252,8 +258,8 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入新密码"
-            }
+              message: "请输入新密码",
+            },
           ]}
         >
           <Input.Password placeholder="请输入新密码" />
@@ -264,8 +270,8 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入您就读小学的所在城市"
-            }
+              message: "请输入您就读小学的所在城市",
+            },
           ]}
         >
           <Input placeholder="请输入您就读小学的所在城市" />
@@ -276,15 +282,15 @@ class accountPage extends Component {
           rules={[
             {
               required: true,
-              message: "请输入您最高学历就读学校的所在城市"
-            }
+              message: "请输入您最高学历就读学校的所在城市",
+            },
           ]}
         >
           <Input placeholder="请输入您最高学历就读学校的所在城市" />
         </Form.Item>
 
         <Form.Item {...formItemLayoutWithOutLabel}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={this.state.loading}>
             保存
           </Button>
         </Form.Item>
@@ -322,7 +328,7 @@ class accountPage extends Component {
             onClick={({ key }) => this.selectKey(key)}
             className="payment-page"
             style={{
-              marginTop: "10px"
+              marginTop: "10px",
             }}
           >
             {this.getMenu()}
@@ -333,13 +339,10 @@ class accountPage extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.form.user,
-    setting: state.product.setting
+    setting: state.product.setting,
   };
 };
-const actionCreator = {
-  // handleFetchForm
-};
-export default connect(mapStateToProps, actionCreator)(withRouter(accountPage));
+export default connect(mapStateToProps, null)(withRouter(accountPage));

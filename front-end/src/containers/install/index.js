@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import WelcomePage from "./components/wecomePage";
 import CollectInfo from "./components/collectInfo";
 import "./index.css";
-import { handleFetchSetting } from "../../redux/product.redux";
+import { handleFetchSetting } from "@/redux/actions/product";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 class Install extends Component {
@@ -14,12 +14,11 @@ class Install extends Component {
     this.props.handleFetchSetting();
   }
 
-  handleCurrent = currentStep => {
+  handleCurrent = (currentStep) => {
     this.setState({ currentStep: currentStep });
   };
   render() {
     const { setting } = this.props;
-    // console.log(setting);
     return (
       <div>
         {setting &&
@@ -36,13 +35,13 @@ class Install extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    setting: state.product.setting
+    setting: state.product.setting,
   };
 };
 const actionCreator = {
-  handleFetchSetting
+  handleFetchSetting,
 };
 
 export default connect(mapStateToProps, actionCreator)(Install);

@@ -1,0 +1,26 @@
+const initState = {
+  formData: null,
+  alipay: null,
+  wechatPay: null,
+  paypal: null,
+  email: null,
+  user: null,
+};
+export const form = (state = initState, action) => {
+  switch (action.type) {
+    case "HANDLE_FORM_DATA":
+      return { ...state, formData: action.payload };
+    case "HANDLE_ALIPAY":
+      return { ...state, alipay: action.payload };
+    case "HANDLE_WECHAT_PAY":
+      return { ...state, wechatPay: action.payload };
+    case "HANDLE_PAYPAL":
+      return { ...state, paypal: action.payload };
+    case "HANDLE_EMAIL":
+      return { ...state, email: action.payload };
+    case "HANDLE_USER":
+      return { ...state, user: action.payload };
+    default:
+      return state;
+  }
+};

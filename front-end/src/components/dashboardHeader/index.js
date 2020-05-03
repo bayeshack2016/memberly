@@ -13,8 +13,8 @@ const topColResponsiveProps = {
   lg: 12,
   xl: 6,
   style: {
-    marginBottom: 24
-  }
+    marginBottom: 24,
+  },
 };
 
 class DashboardHeader extends Component {
@@ -22,36 +22,23 @@ class DashboardHeader extends Component {
     super(props);
     this.state = {};
   }
-
-  diff = arr => {
+  diff = (arr) => {
     let result = [];
     for (let i = 0; i < arr.length - 1; i++) {
       result.push(Math.abs(arr[i + 1] - arr[i]));
     }
-    // console.log(result);
-    // console.log(arr);
     return result;
   };
-  sum = arr => {
+  sum = (arr) => {
     let sum = 0;
-    arr.forEach(item => {
+    arr.forEach((item) => {
       sum += item;
     });
     return sum;
   };
   render() {
-    // const { loading } = this.state;
-    // let saleSum1,
-    //   saleSum2 = 0;
-    // if (!loading) {
-    // let saleArr1 = [];
-    // let saleArr2 = [];
-    // saleArr1 = [...this.props.salesByPeriod];
-    // saleArr2 = [...this.props.salesByPeriod];
     let saleSum1 = this.props.salesByPeriod[14] - this.props.salesByPeriod[7];
     let saleSum2 = this.props.salesByPeriod[7] - this.props.salesByPeriod[0];
-    // console.log(this.props.salesByPeriod);
-
     return (
       <Row justify="center" gutter={24} type="flex">
         <Col {...topColResponsiveProps}>
@@ -176,7 +163,7 @@ class DashboardHeader extends Component {
               style={{
                 fontSize: "15px",
                 color: "#13C2C2",
-                marginTop: "10px"
+                marginTop: "10px",
               }}
             >
               {this.props.alipay.secretKey === " " &&
@@ -203,7 +190,7 @@ class DashboardHeader extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     salesByPeriod: state.periodData.salesByPeriod,
     visitsByPeriod: state.periodData.visitsByPeriod,
@@ -216,9 +203,8 @@ const mapStateToProps = state => {
     alipay: state.form.alipay,
     wechatPay: state.form.wechatPay,
     paypal: state.form.paypal,
-    email: state.form.email
+    email: state.form.email,
   };
 };
-const actionCreator = {};
 
-export default connect(mapStateToProps, actionCreator)(DashboardHeader);
+export default connect(mapStateToProps, null)(DashboardHeader);

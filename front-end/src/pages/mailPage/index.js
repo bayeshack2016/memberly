@@ -2,38 +2,44 @@ import React, { Component } from "react";
 import { Form, Input, Button, message } from "antd";
 import "./index.css";
 import { connect } from "react-redux";
-import $axios from "@/$axios";
-import { handleFetchForm } from "@/redux/form.redux";
+import $axios from "@/axios/$axios";
+import { handleFetchForm } from "@/redux/actions/form";
 class MailPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loading: false };
   }
-  onFinish = values => {
+  onFinish = (values) => {
+    this.setState({ loading: true });
+
     $axios
       .post(`/email/${this.props.email._id}`, values)
       .then(() => {
         message.success("保存成功");
         this.props.handleFetchForm();
+        this.setState({
+          loading: false,
+        });
       })
       .catch(() => {
         message.error("验证失败");
+        this.setState({ loading: false });
       });
   };
   render() {
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 2 },
-        sm: { span: 16, offset: 4 }
-      }
+        sm: { span: 16, offset: 7 },
+      },
     };
     const formItemLayout = {
       labelCol: {
-        sm: { span: 4 }
+        sm: { span: 4 },
       },
       wrapperCol: {
-        sm: { span: 8, offset: 0 }
-      }
+        sm: { span: 8, offset: 0 },
+      },
     };
     return (
       <div className="mail-page-container">
@@ -42,7 +48,7 @@ class MailPage extends Component {
           style={{
             backgroundColor: "white",
             height: "100px",
-            padding: "30px 20px"
+            padding: "30px 20px",
           }}
         >
           <div style={{ fontSize: "20px", fontWeight: "500" }}>邮箱设置</div>
@@ -54,7 +60,7 @@ class MailPage extends Component {
           style={{
             backgroundColor: "white",
             margin: "20px 20px 0 20px",
-            padding: "20px"
+            padding: "20px",
           }}
           className="mail-page-setting"
         >
@@ -89,8 +95,8 @@ class MailPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入QQ邮箱地址"
-                }
+                  message: "请输入QQ邮箱地址",
+                },
               ]}
             >
               <Input placeholder="请输入QQ邮箱地址" />
@@ -101,8 +107,8 @@ class MailPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入QQ邮箱授权码"
-                }
+                  message: "请输入QQ邮箱授权码",
+                },
               ]}
             >
               <Input placeholder="请输入QQ邮箱授权码" />
@@ -113,8 +119,8 @@ class MailPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入发件人昵称"
-                }
+                  message: "请输入发件人昵称",
+                },
               ]}
             >
               <Input placeholder="请输入发件人昵称" />
@@ -125,8 +131,8 @@ class MailPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入您就读小学的所在城市"
-                }
+                  message: "请输入您就读小学的所在城市",
+                },
               ]}
             >
               <Input placeholder="请输入您就读小学的所在城市" />
@@ -137,14 +143,18 @@ class MailPage extends Component {
               rules={[
                 {
                   required: true,
-                  message: "请输入您最高学历就读学校的所在城市"
-                }
+                  message: "请输入您最高学历就读学校的所在城市",
+                },
               ]}
             >
               <Input placeholder="请输入您最高学历就读学校的所在城市" />
             </Form.Item>
             <Form.Item {...formItemLayoutWithOutLabel}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={this.state.loading}
+              >
                 保存
               </Button>
             </Form.Item>
@@ -154,12 +164,12 @@ class MailPage extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    email: state.form.email
+    email: state.form.email,
   };
 };
 const actionCreator = {
-  handleFetchForm
+  handleFetchForm,
 };
 export default connect(mapStateToProps, actionCreator)(MailPage);

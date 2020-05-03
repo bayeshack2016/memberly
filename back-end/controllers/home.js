@@ -48,11 +48,13 @@ class HomeCtl {
     const stat = await Stats.findOne({
       date: date.toLocaleDateString()
     });
-    // console.log(stat);
-    let todayVisits = stat.todayVisits || 0;
-    todayVisits++;
-
-    await Stats.findByIdAndUpdate(stat._id, { todayVisits: todayVisits });
+    // console.log(!stat);
+    if (stat) {
+      console.log("ehlo");
+      let todayVisits = stat.todayVisits;
+      todayVisits++;
+      await Stats.findByIdAndUpdate(stat._id, { todayVisits: todayVisits });
+    }
     await next();
   }
 }
