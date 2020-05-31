@@ -72,10 +72,10 @@ class PaymentDialog extends Component {
     this.props.handleDialog(false, null);
   };
   render() {
-    if (this.state.orderInfo || this.state.questNumber > 10) {
+    if (this.state.orderInfo || this.state.questNumber > 20) {
       clearInterval(this.checkPayment);
     }
-    this.state.questNumber > 10 &&
+    this.state.questNumber > 20 &&
       message.error("我们暂时无法处理您的请求，请稍后重试");
     const { chooseLevel } = this.props;
     const formItemLayoutWithOutLabel = {
