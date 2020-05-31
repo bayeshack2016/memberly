@@ -10,7 +10,7 @@ const {
   loginUser,
   updateUser,
   forgetUser,
-  verifyAnswer
+  verifyAnswer,
 } = require("../controllers/user");
 const db = new Map();
 const ratelimit = require("koa-ratelimit");
@@ -19,14 +19,14 @@ const ipBasedRatelimit = ratelimit({
   db: db,
   duration: 60000,
   errorMessage: "请求次数太多，请稍后重试",
-  id: ctx => ctx.ip,
+  id: (ctx) => ctx.ip,
   headers: {
     remaining: "Rate-Limit-Remaining",
     reset: "Rate-Limit-Reset",
-    total: "Rate-Limit-Total"
+    total: "Rate-Limit-Total",
   },
   max: 10,
-  disableHeader: false
+  disableHeader: false,
 });
 
 router.get("/", auth, fetchUser);

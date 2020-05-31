@@ -10,7 +10,7 @@ const User = require("../models/user");
 
 class initUtil {
   async initData() {
-    // await User.deleteMany({}, () => {
+    // await Setting.deleteMany({}, () => {
     //   console.log("delete success");
     // });
     const alipay = await Alipay.find();
@@ -20,7 +20,7 @@ class initUtil {
         appId: " ",
         publicKey: " ",
         secretKey: " ",
-        notifyUrl: " "
+        notifyUrl: " ",
       }).save();
     }
     const paypal = await Paypal.find();
@@ -30,7 +30,7 @@ class initUtil {
         clientID: " ",
         exchangeRate: 7,
         secretKey: " ",
-        mode: "生产模式"
+        mode: "生产模式",
       }).save();
     }
     const wechatPay = await WechatPay.find();
@@ -40,7 +40,7 @@ class initUtil {
         accountID: " ",
         bussinessId: " ",
         signMethod: "MD5",
-        secretKey: " "
+        secretKey: " ",
       }).save();
     }
     const email = await Email.find();
@@ -48,7 +48,7 @@ class initUtil {
       await Email({
         mailAddress: " ",
         mailPassword: " ",
-        sendName: " "
+        sendName: " ",
       }).save();
     }
     const setting = await Setting.find();
@@ -57,7 +57,7 @@ class initUtil {
       await Setting({
         themeOption: "default",
         isFirst: "yes",
-        version: 1.0
+        version: 1.1,
       }).save();
     }
 
@@ -74,7 +74,7 @@ class initUtil {
         totalSales: 0,
         totalVisits: 0,
         totalOrders: 0,
-        todayVisits: 0
+        todayVisits: 0,
       }).save();
     }
     // let date = new Date();
@@ -108,7 +108,7 @@ class initUtil {
         week: date.getDay(),
         sales: 0,
         orders: 0,
-        visits: 0
+        visits: 0,
       }).save();
     }
   }

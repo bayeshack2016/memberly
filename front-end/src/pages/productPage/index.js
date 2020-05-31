@@ -1,32 +1,15 @@
 import React, { Component } from "react";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  List,
-  Typography,
-  Modal,
-  message,
-  Form,
-  Input,
-} from "antd";
+import { Button, Card, List, Typography, Modal, message } from "antd";
 import "./index.css";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import $axios from "@/axios/$axios";
 import { handleFetchAllProduct } from "@/redux/actions/product";
-import { handleForm } from "../../redux/actions/form";
-import { parseFormData } from "../../utils/productUtil";
-
+import { handleForm, handleVerifyDialog } from "../../redux/actions/form";
+import VerifyId from "../../components/verifyId";
 const { confirm } = Modal;
 const { Paragraph } = Typography;
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 10, span: 16 },
-};
 class ProductPage extends Component {
   constructor(props) {
     super(props);
@@ -35,31 +18,12 @@ class ProductPage extends Component {
   componentDidMount() {
     this.props.handleForm(null);
   }
-  handleVerify = (index) => {
-    this.setState({ visible: true });
-    this.setState({ deleteIndex: index });
-  };
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-  onFinish = (values) => {
-    // console.log(values);
-    this.setState({ loading: true });
 
-    $axios
-      .post("/user/verify", values)
-      .then(() => {
-        this.showConfirm(this.state.deleteIndex);
-        this.setState({ visible: false });
-        message.success("验证成功");
-        this.setState({ loading: false });
-      })
-      .catch(() => {
-        message.error("验证失败");
-        this.setState({ loading: false });
-      });
-  };
   showConfirm = (index) => {
+    if (!this.props.isVerified) {
+      this.props.handleVerifyDialog(true);
+      return;
+    }
     let { allProducts } = this.props;
     // console.log(this.props.allProducts, index, "products1");
     let { handleFetchAllProduct } = this.props;
@@ -98,7 +62,7 @@ class ProductPage extends Component {
     }
   };
   render() {
-    const { visible, loading } = this.state;
+    console.log(this.props.allProducts, "this.props.allProducts");
     const content = (
       <div className={"pageHeaderContent"} style={{ padding: "20px" }}>
         <div
@@ -122,64 +86,7 @@ class ProductPage extends Component {
     return (
       <div className="product-page-container">
         <div className="product-page-header">{content}</div>
-        <Modal
-          visible={visible}
-          title="这是一个危险操作，我们需要验证你的身份"
-          // onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              onClick={this.handleCancel}
-            >
-              取消
-            </Button>,
-          ]}
-        >
-          <Form
-            {...layout}
-            onFinish={this.onFinish}
-            onFinishFailed={this.onFinishFailed}
-            // initialValues={this.props.formData ? this.props.formData : null}
-            // style={{ marginTop: "40px" }}
-          >
-            <Form.Item
-              label="问题一"
-              name="answer1"
-              rules={[
-                {
-                  required: true,
-                  message: "请输入您就读小学的所在城市",
-                },
-              ]}
-            >
-              <Input placeholder="请输入您就读小学的所在城市" />
-            </Form.Item>
-            <Form.Item
-              label="问题二"
-              name="answer2"
-              rules={[
-                {
-                  required: true,
-                  message: "请输入您最高学历就读学校的所在城市",
-                },
-              ]}
-            >
-              <Input placeholder="请输入您最高学历就读学校的所在城市" />
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={this.state.loading}
-              >
-                验证回答
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
+        <VerifyId />
         <div className={"cardList"} style={{ padding: "20px" }}>
           <List
             rowKey="id"
@@ -205,7 +112,7 @@ class ProductPage extends Component {
                         <a
                           key="delete"
                           onClick={() => {
-                            this.handleVerify(index);
+                            this.showConfirm(index);
                           }}
                         >
                           删除
@@ -273,10 +180,12 @@ const mapStateToProps = (state) => {
     wechatPay: state.form.wechatPay,
     paypal: state.form.paypal,
     email: state.form.email,
+    isVerified: state.form.isVerified,
   };
 };
 const actionCreator = {
   handleFetchAllProduct,
   handleForm,
+  handleVerifyDialog,
 };
 export default connect(mapStateToProps, actionCreator)(withRouter(ProductPage));

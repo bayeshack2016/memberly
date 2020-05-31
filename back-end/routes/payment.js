@@ -7,14 +7,14 @@ const {
   fetchAlipay,
   updateAlipay,
   fetchAlipayQrcode,
-  handleAlipayCallback
+  handleAlipayCallback,
 } = require("../controllers/alipay");
 const {
   updateWechat,
   updatePaypal,
 
   fetchWechatPay,
-  fetchPaypal
+  fetchPaypal,
   // handleAlipayCallback
 } = require("../controllers/payment");
 const { secret } = require("../config");
@@ -22,7 +22,7 @@ const auth = jwt({ secret });
 
 // router.post("/alipay/qrcode", fetchAlipayQrcode);
 router.post("/alipay/callback", handleAlipayCallback);
-router.post("/alipay/:id", auth, verifyAnswer, updateAlipay);
+router.post("/alipay/:id", auth, updateAlipay);
 router.post("/wechatPay/:id", auth, verifyAnswer, updateWechat);
 router.post("/paypal/:id", auth, verifyAnswer, updatePaypal);
 router.get("/alipay", auth, fetchAlipay);

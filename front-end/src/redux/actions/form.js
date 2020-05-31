@@ -38,6 +38,18 @@ export const handleUser = (data) => {
     payload: data,
   };
 };
+export const handleVerify = (data) => {
+  return {
+    type: "HANDLE_VERIFY",
+    payload: data,
+  };
+};
+export const handleVerifyDialog = (data) => {
+  return {
+    type: "HANDLE_VERIFY_DIALOG",
+    payload: data,
+  };
+};
 export const handleFetchForm = () => {
   return (dispatch) => {
     axios

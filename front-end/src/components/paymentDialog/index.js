@@ -188,7 +188,13 @@ class PaymentDialog extends Component {
                       ]}
                       style={{ width: "200px" }}
                     >
-                      <Input placeholder="请输入邮箱" />
+                      <Input
+                        placeholder={
+                          this.props.productInfo.productType === 1
+                            ? `用于接收${this.props.productInfo.productName}会员码`
+                            : `请输入您的${this.props.productInfo.productName}账号`
+                        }
+                      />
                     </Form.Item>
                     <Form.Item
                       name="password"
@@ -201,7 +207,13 @@ class PaymentDialog extends Component {
                       ]}
                       style={{ width: "200px" }}
                     >
-                      <Input placeholder="请输入密码" />
+                      <Input
+                        placeholder={
+                          this.props.productInfo.productType === 1
+                            ? `用于查询${this.props.productInfo.productName}会员码`
+                            : `请输入您的${this.props.productInfo.productName}密码`
+                        }
+                      />
                     </Form.Item>
 
                     <Form.Item

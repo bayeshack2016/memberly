@@ -8,10 +8,10 @@ const {
   // index,
   // upload,
   updateEmail,
-  fetchEmail
+  fetchEmail,
 } = require("../controllers/email");
 
-router.post("/:id", auth, verifyAnswer, updateEmail);
+router.post("/:id", auth, updateEmail);
 router.get("/", auth, fetchEmail);
 
 // router.post("/upload", auth, upload);

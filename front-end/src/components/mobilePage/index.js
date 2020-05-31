@@ -47,13 +47,20 @@ class MobilePage extends Component {
             <div style={{ fontSize: 30, margin: 20, fontWeight: 500 }}>
               {productInfo.productName}
             </div>
-            <div style={{ fontSize: 30, margin: 20, fontWeight: 500 }}>
+            <div
+              style={{
+                fontSize: "calc(0.2rem + 1em)",
+                margin: 20,
+                fontWeight: 500,
+              }}
+            >
               移动端暂未开发
             </div>
-            <div style={{ opacity: 0.8 }}>
-              为了更好的用户体验，请使用电脑端访问
+            <div style={{ width: "70vw" }}>
+              <div style={{ opacity: 0.8 }}>
+                为了更好的用户体验，请使用电脑端访问，给您带来的不便敬请谅解
+              </div>
             </div>
-            <div style={{ opacity: 0.8 }}>给您带来的不便敬请谅解</div>
           </div>
         </div>
       </div>

@@ -115,6 +115,9 @@ class HeaderBar extends Component {
               <div onClick={this.handleClearMessage}>全部标记已读</div>,
             ]}
             className="header-message-box"
+            onMouseLeave={() => {
+              this.handleMessage();
+            }}
           >
             <Meta
               title="本月交易提醒"

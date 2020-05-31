@@ -6,7 +6,7 @@ import "./index.css";
 import $axios from "@/axios/$axios";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import MobilePage from "../../components/mobilePage";
-
+import { isMobile } from "react-device-detect";
 const FormItem = Form.Item;
 
 class Login extends Component {
@@ -57,21 +57,14 @@ class Login extends Component {
   }
 
   render() {
-    const sUserAgent = navigator.userAgent.toLowerCase();
-    let userAgent;
-    if (
-      /ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
-        sUserAgent
-      )
-    ) {
-      //跳转移动端页面
-      userAgent = "mobile";
-    } else {
-      //跳转pc端页面
-      userAgent = "pc";
-    }
-    if (userAgent === "mobile") {
-      return <MobilePage productInfo={{ productName: "Coodo Pay" }} />;
+    console.log(isMobile);
+    if (isMobile) {
+      return (
+        <MobilePage
+          productInfo={{ productName: "Coodo Pay" }}
+          theme="default"
+        />
+      );
     }
     return (
       <div className="login-container">

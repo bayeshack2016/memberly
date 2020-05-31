@@ -25,11 +25,13 @@ class AddProduct extends Component {
       this.setState({
         mode: "edit",
       });
+      console.log(this.props.allProducts, this.props.allProducts[id - 1]);
       this.setState({ id: this.props.allProducts[id - 1]._id });
     }
   }
   next() {
     if (this.state.mode === "add") {
+      //添加商品时走这条分支
       const current = this.state.current + 1;
       if (current === 1) {
         this.setState({ current: current });
@@ -54,6 +56,8 @@ class AddProduct extends Component {
           });
       }
     } else {
+      //编辑商品时走这条分支
+
       const current = this.state.current + 1;
       if (current === 1) {
         this.setState({ current: current });
@@ -61,7 +65,7 @@ class AddProduct extends Component {
         $axios
           .post(
             `/product/${this.state.id}`,
-            parseFormData(this.props.formData, this.state.id)
+            parseFormData(this.props.formData, this.getProductId(this.state.id))
           )
           .then(async (results) => {
             await this.props.handleFetchAllProduct();
@@ -78,6 +82,13 @@ class AddProduct extends Component {
     const current = this.state.current - 1;
     this.setState({ current });
   }
+  getProductId = (id) => {
+    const product = this.props.allProducts.filter((item) => {
+      return item._id === id;
+    });
+    console.log(this.props.allProducts, product);
+    return product[0].productId;
+  };
   render() {
     const { current } = this.state;
     return (

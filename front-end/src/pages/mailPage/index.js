@@ -3,15 +3,23 @@ import { Form, Input, Button, message } from "antd";
 import "./index.css";
 import { connect } from "react-redux";
 import $axios from "@/axios/$axios";
-import { handleFetchForm } from "@/redux/actions/form";
+import { handleFetchForm, handleVerifyDialog } from "@/redux/actions/form";
+import VerifyId from "../../components/verifyId";
 class MailPage extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: false };
   }
+  formRef = React.createRef();
   onFinish = (values) => {
     this.setState({ loading: true });
-
+    if (!this.props.isVerified) {
+      this.props.handleVerifyDialog(true);
+      this.setState({
+        loading: false,
+      });
+      return;
+    }
     $axios
       .post(`/email/${this.props.email._id}`, values)
       .then(() => {
@@ -26,11 +34,20 @@ class MailPage extends Component {
         this.setState({ loading: false });
       });
   };
+  handleVerify = () => {
+    if (this.props.isVerified) {
+      console.log(this.formRef);
+      this.formRef.current.setFieldsValue(this.props.email);
+    } else {
+      this.props.handleVerifyDialog(true);
+    }
+  };
   render() {
+    console.log(this.formRef);
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 2 },
-        sm: { span: 16, offset: 7 },
+        sm: { span: 16, offset: 5 },
       },
     };
     const formItemLayout = {
@@ -41,8 +58,10 @@ class MailPage extends Component {
         sm: { span: 8, offset: 0 },
       },
     };
+    console.log(this.props.isVerified, "is-active");
     return (
       <div className="mail-page-container">
+        <VerifyId />
         <div
           className="order-page-header"
           style={{
@@ -84,9 +103,15 @@ class MailPage extends Component {
           </div>
           <Form
             {...formItemLayout}
+            ref={this.formRef}
+            name="control-ref"
             onFinish={this.onFinish}
             onFinishFailed={this.onFinishFailed}
-            // initialValues={this.props.email ? this.props.email : null}
+            initialValues={
+              this.props.isVerified && this.props.email
+                ? this.props.email
+                : null
+            }
             style={{ marginTop: "40px" }}
           >
             <Form.Item
@@ -125,35 +150,19 @@ class MailPage extends Component {
             >
               <Input placeholder="请输入发件人昵称" />
             </Form.Item>
-            <Form.Item
-              label="问题一"
-              name="answer1"
-              rules={[
-                {
-                  required: true,
-                  message: "请输入您就读小学的所在城市",
-                },
-              ]}
-            >
-              <Input placeholder="请输入您就读小学的所在城市" />
-            </Form.Item>
-            <Form.Item
-              label="问题二"
-              name="answer2"
-              rules={[
-                {
-                  required: true,
-                  message: "请输入您最高学历就读学校的所在城市",
-                },
-              ]}
-            >
-              <Input placeholder="请输入您最高学历就读学校的所在城市" />
-            </Form.Item>
+
             <Form.Item {...formItemLayoutWithOutLabel}>
+              <Button
+                onClick={this.handleVerify}
+                // disabled={this.props.isVerified}
+              >
+                显示表单数据
+              </Button>
               <Button
                 type="primary"
                 htmlType="submit"
                 loading={this.state.loading}
+                style={{ marginLeft: "10px" }}
               >
                 保存
               </Button>
@@ -167,9 +176,11 @@ class MailPage extends Component {
 const mapStateToProps = (state) => {
   return {
     email: state.form.email,
+    isVerified: state.form.isVerified,
   };
 };
 const actionCreator = {
   handleFetchForm,
+  handleVerifyDialog,
 };
 export default connect(mapStateToProps, actionCreator)(MailPage);

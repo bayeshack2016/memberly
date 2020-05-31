@@ -4,15 +4,32 @@ import { Form, Input, Button, Row, message } from "antd";
 import { AlipayCircleOutlined } from "@ant-design/icons";
 import "./index.css";
 import { connect } from "react-redux";
-import { handleFetchForm } from "@/redux/actions/form";
+import { handleFetchForm, handleVerifyDialog } from "@/redux/actions/form";
 import $axios from "@/axios/$axios";
+import VerifyId from "../../components/verifyId";
 class Alipay extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: false };
   }
+  formRef = React.createRef();
+  handleVerify = () => {
+    if (this.props.isVerified) {
+      console.log(this.formRef);
+      this.formRef.current.setFieldsValue(this.props.formData);
+    } else {
+      this.props.handleVerifyDialog(true);
+    }
+  };
   onFinish = (values) => {
     this.setState({ loading: true });
+    if (!this.props.isVerified) {
+      this.props.handleVerifyDialog(true);
+      this.setState({
+        loading: false,
+      });
+      return;
+    }
     $axios
       .post(`/alipay/${this.props.formData._id}`, {
         ...values,
@@ -32,7 +49,7 @@ class Alipay extends Component {
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
         xs: { span: 24, offset: 2 },
-        sm: { span: 16, offset: 7 },
+        sm: { span: 16, offset: 4 },
       },
     };
     const formItemLayout = {
@@ -45,6 +62,7 @@ class Alipay extends Component {
     };
     return (
       <div className="alipay-container" style={{ position: "relative" }}>
+        <VerifyId />
         <Row justify="center" style={{ marginTop: "20px" }}>
           <AlipayCircleOutlined className="alipay-icon" />
           <p className="alipay-title">添加支付宝当面付</p>
@@ -71,7 +89,13 @@ class Alipay extends Component {
           {...formItemLayout}
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
-          // initialValues={this.props.formData ? this.props.formData : null}
+          ref={this.formRef}
+          name="control-ref"
+          initialValues={
+            this.props.isVerified && this.props.formData
+              ? this.props.formData
+              : null
+          }
           style={{ marginTop: "40px" }}
         >
           <Form.Item label="支付名称" name="paymentName">
@@ -111,7 +135,7 @@ class Alipay extends Component {
             rules={[
               {
                 required: true,
-                message: "请输入RSA2(SHA256)私匙",
+                message: "请输入应用私匙",
               },
             ]}
           >
@@ -133,31 +157,10 @@ class Alipay extends Component {
           >
             <Input placeholder="请输入您的服务器域名，请带上http或https" />
           </Form.Item>
-          <Form.Item
-            label="问题一"
-            name="answer1"
-            rules={[
-              {
-                required: true,
-                message: "请输入您就读小学的所在城市",
-              },
-            ]}
-          >
-            <Input placeholder="请输入您就读小学的所在城市" />
-          </Form.Item>
-          <Form.Item
-            label="问题二"
-            name="answer2"
-            rules={[
-              {
-                required: true,
-                message: "请输入您最高学历就读学校的所在城市",
-              },
-            ]}
-          >
-            <Input placeholder="请输入您最高学历就读学校的所在城市" />
-          </Form.Item>
           <Form.Item {...formItemLayoutWithOutLabel}>
+            <Button onClick={this.handleVerify} style={{ marginRight: "10px" }}>
+              显示表单数据
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -172,9 +175,10 @@ class Alipay extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return {};
+  return { isVerified: state.form.isVerified };
 };
 const actionCreator = {
   handleFetchForm,
+  handleVerifyDialog,
 };
 export default connect(mapStateToProps, actionCreator)(Alipay);

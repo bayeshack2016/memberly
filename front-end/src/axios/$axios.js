@@ -43,10 +43,14 @@ $axios.interceptors.response.use(
     if (error.response) {
       const { status } = error.response;
       //如果401或405则到登录页
-      if (status == 401 || status == 405) {
+      if (status === 401 || status === 405) {
         // history.push("/login");
-        message.warning("请重新登陆");
+        if (localStorage.getItem("jwt")) {
+          return;
+        }
         localStorage.removeItem("jwt");
+        message.warning("请重新登陆");
+
         window.location.reload();
       }
     }

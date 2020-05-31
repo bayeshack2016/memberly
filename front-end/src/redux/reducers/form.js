@@ -5,6 +5,8 @@ const initState = {
   paypal: null,
   email: null,
   user: null,
+  isVerified: false,
+  isShowDialog: false,
 };
 export const form = (state = initState, action) => {
   switch (action.type) {
@@ -20,6 +22,10 @@ export const form = (state = initState, action) => {
       return { ...state, email: action.payload };
     case "HANDLE_USER":
       return { ...state, user: action.payload };
+    case "HANDLE_VERIFY":
+      return { ...state, isVerified: action.payload };
+    case "HANDLE_VERIFY_DIALOG":
+      return { ...state, isShowDialog: action.payload };
     default:
       return state;
   }

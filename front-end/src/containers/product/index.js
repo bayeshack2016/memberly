@@ -5,12 +5,12 @@ import {
 } from "@/redux/actions/product";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import ProductPage from "@/components/productPage";
+import PaymentPage from "@/components/paymentPage";
 import MobilePage from "@/components/mobilePage";
 import "./index.css";
 import PaymentDialog from "@/components/paymentDialog";
 import PageLoading from "@/components/pageLoading";
-
+import { isMobile } from "react-device-detect";
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -47,20 +47,6 @@ class Product extends Component {
     if (productInfo === 404) {
       return <Redirect to="/error/404" />;
     }
-    const sUserAgent = navigator.userAgent.toLowerCase();
-    let userAgent;
-    if (
-      /ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
-        sUserAgent
-      )
-    ) {
-      //跳转移动端页面
-      userAgent = "mobile";
-    } else {
-      //跳转pc端页面
-      userAgent = "pc";
-    }
-    // console.log(sUserAgent, userAgent, "userAgent");
     return (
       <div className="product-theme-container">
         {this.state.showDialog ? (
@@ -71,14 +57,14 @@ class Product extends Component {
             showDialog={this.state.showDialog}
           />
         ) : null}
-        {userAgent === "mobile" ? (
+        {isMobile ? (
           <MobilePage
             productInfo={productInfo}
             handleDialog={this.handleDialog}
             theme={setting.themeOption}
           />
         ) : (
-          <ProductPage
+          <PaymentPage
             productInfo={productInfo}
             handleDialog={this.handleDialog}
             theme={setting.themeOption}

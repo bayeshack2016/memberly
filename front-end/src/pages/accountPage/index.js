@@ -25,8 +25,7 @@ class accountPage extends Component {
     super(props);
     const menuMap = {
       info: "账户信息",
-      changeMail: "更改邮箱",
-      changePassword: "更改密码",
+      changeInfo: "更改账户",
       // notification: "New Message Notification"
     };
     this.state = {
@@ -63,18 +62,10 @@ class accountPage extends Component {
         this.setState({ loading: false });
       });
   };
-  componentDidMount() {
-    window.addEventListener("resize", this.resize);
-    this.resize();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-  }
   checkUpdate = async () => {
     this.setState({ loading: true });
     await $axios
-      .get("https://pay.960960.xyz/api/setting")
+      .get("https://coodopay.herokuapp.com/api/setting")
       .then((result) => {
         if (result.data.version > this.props.setting.version) {
           this.info();
@@ -94,42 +85,13 @@ class accountPage extends Component {
       <Item key={item}>{menuMap[item]}</Item>
     ));
   };
-
   getRightTitle = () => {
     const { selectKey, menuMap } = this.state;
     return menuMap[selectKey];
   };
-
   selectKey = (key) => {
     this.setState({
       selectKey: key,
-    });
-  };
-
-  resize = () => {
-    if (!this.main) {
-      return;
-    }
-
-    requestAnimationFrame(() => {
-      if (!this.main) {
-        return;
-      }
-
-      let mode = "inline";
-      const { offsetWidth } = this.main;
-
-      if (this.main.offsetWidth < 641 && offsetWidth > 400) {
-        mode = "horizontal";
-      }
-
-      if (window.innerWidth < 768 && offsetWidth > 400) {
-        mode = "horizontal";
-      }
-
-      this.setState({
-        mode,
-      });
     });
   };
   renderAccountInfo = () => {
@@ -164,7 +126,7 @@ class accountPage extends Component {
       </Descriptions>
     );
   };
-  renderChangeEmail = () => {
+  renderChangeInfo = () => {
     return (
       <Form
         {...formItemLayout}
@@ -174,7 +136,7 @@ class accountPage extends Component {
         style={{ marginTop: "40px" }}
       >
         <Form.Item
-          label="新邮箱"
+          label="邮箱"
           name="email"
           rules={[
             {
@@ -230,73 +192,7 @@ class accountPage extends Component {
       </Form>
     );
   };
-  renderChangePassword = () => {
-    return (
-      <Form
-        {...formItemLayout}
-        onFinish={this.onFinish}
-        onFinishFailed={this.onFinishFailed}
-        initialValues={this.props.formData ? this.props.formData : null}
-        style={{ marginTop: "40px" }}
-      >
-        <Form.Item
-          label="邮箱"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "请输入邮箱",
-            },
-          ]}
-          defaultValue={this.props.user.email}
-        >
-          <Input placeholder="请输入邮箱" />
-        </Form.Item>
-        <Form.Item
-          label="新密码"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "请输入新密码",
-            },
-          ]}
-        >
-          <Input.Password placeholder="请输入新密码" />
-        </Form.Item>
-        <Form.Item
-          label="您就读小学的所在城市"
-          name="answer1"
-          rules={[
-            {
-              required: true,
-              message: "请输入您就读小学的所在城市",
-            },
-          ]}
-        >
-          <Input placeholder="请输入您就读小学的所在城市" />
-        </Form.Item>
-        <Form.Item
-          label="您最高学历就读学校的所在城市"
-          name="answer2"
-          rules={[
-            {
-              required: true,
-              message: "请输入您最高学历就读学校的所在城市",
-            },
-          ]}
-        >
-          <Input placeholder="请输入您最高学历就读学校的所在城市" />
-        </Form.Item>
 
-        <Form.Item {...formItemLayoutWithOutLabel}>
-          <Button type="primary" htmlType="submit" loading={this.state.loading}>
-            保存
-          </Button>
-        </Form.Item>
-      </Form>
-    );
-  };
   renderChildren = () => {
     const { selectKey } = this.state;
 
@@ -304,12 +200,8 @@ class accountPage extends Component {
       case "info":
         return this.renderAccountInfo();
 
-      case "changeMail":
-        return this.renderChangeEmail();
-
-      case "changePassword":
-        return this.renderChangePassword();
-
+      case "changeInfo":
+        return this.renderChangeInfo();
       default:
         break;
     }
@@ -345,4 +237,5 @@ const mapStateToProps = (state) => {
     setting: state.product.setting,
   };
 };
-export default connect(mapStateToProps, null)(withRouter(accountPage));
+const actionCreator = {};
+export default connect(mapStateToProps, actionCreator)(withRouter(accountPage));
