@@ -81,11 +81,11 @@ class AlipayCtl {
         noInvoice: result.out_trade_no,
       }
     );
-    const order = await Order.findOne({
-      orderId: ctx.request.body.orderId,
-    });
-    const { code, email, productName, levelName, price, orderId, date } = order;
-    sendMail(code, email, productName, levelName, price, orderId, date);
+    // const order = await Order.findOne({
+    //   orderId: ctx.request.body.orderId,
+    // });
+    // const { code, email, productName, levelName, price, orderId, date } = order;
+    // sendMail(code, email, productName, levelName, price, orderId, date);
 
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
@@ -138,10 +138,20 @@ class AlipayCtl {
     const { productId } = orderInfo;
     const { callbackUrl, productType } = await Product.findOne({ productId });
     if (productType === 1) {
-      await Order.updateOne(
+      const order = await Order.updateOne(
         { noInvoice: ctx.request.body.out_trade_no },
         { paymentStatus: "已支付" }
       );
+      const {
+        code,
+        email,
+        productName,
+        levelName,
+        price,
+        orderId,
+        date,
+      } = order;
+      sendMail(code, email, productName, levelName, price, orderId, date);
     } else {
       setTimeout(() => {
         let verifiedTimer = setInterval(async () => {
@@ -161,9 +171,27 @@ class AlipayCtl {
               // console.log(error, response, body, "error, response, body");
               if (!error && response.statusCode == 200 && body.verified) {
                 orderVerified = true;
-                await Order.updateOne(
+                const order = await Order.updateOne(
                   { noInvoice: ctx.request.body.out_trade_no },
                   { paymentStatus: "已支付" }
+                );
+                const {
+                  code,
+                  email,
+                  productName,
+                  levelName,
+                  price,
+                  orderId,
+                  date,
+                } = order;
+                sendMail(
+                  code,
+                  email,
+                  productName,
+                  levelName,
+                  price,
+                  orderId,
+                  date
                 );
               }
               if (orderVerified || verifiedNum > 5) {

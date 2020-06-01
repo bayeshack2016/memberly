@@ -65,7 +65,7 @@ class accountPage extends Component {
   checkUpdate = async () => {
     this.setState({ loading: true });
     await $axios
-      .get("https://coodopay.herokuapp.com/api/setting")
+      .get("/setting")
       .then((result) => {
         if (result.data.version > this.props.setting.version) {
           this.info();

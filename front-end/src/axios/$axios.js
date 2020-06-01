@@ -1,11 +1,11 @@
 import axios from "axios";
 import { message } from "antd";
-
+import { devHost, prodHost } from "../config";
 const $axios = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3001/api/"
-      : "https://coodopay.herokuapp.com/api/",
+      ? `${devHost}/api`
+      : `${prodHost}/api`,
   timeout: 6000,
   retry: 4,
   retryDelay: 1000,

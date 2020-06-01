@@ -1,8 +1,5 @@
 const Order = require("../models/order");
 const Product = require("../models/product");
-const jsonwebtoken = require("jsonwebtoken");
-const { secret } = require("../config");
-const { sendMail } = require("../utils/emailUtil");
 const { md5Pwd } = require("../utils/cryptoUtil");
 class OrderCtl {
   async verifyCode(ctx) {
