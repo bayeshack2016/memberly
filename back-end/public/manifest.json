@@ -1,0 +1,15 @@
+{
+  "short_name": "Coodo Pay",
+  "name": "一个基于 React 和 Koa2 开发的在线支付系统",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "white",
+  "background_color": "white"
+}

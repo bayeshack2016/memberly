@@ -5,7 +5,7 @@ const CronJob = require("cron").CronJob;
 
 const setSalesData = async () => {
   let date = new Date();
-  //获取今日订单量
+  //获取今日订单数据
   const todayOrders = await Order.find({
     date: date.toLocaleDateString(),
   });
@@ -19,16 +19,19 @@ const setSalesData = async () => {
   //销售数据编号加一
   number++;
   const sales = 0;
+  if(todayOrders){
   todayOrders.forEach((item) => {
     //计算今日销售额
     sales += item.price;
   });
+  }
+
   date = new Date();
   //获取今日访问量
   const { todayVisits } = await Stats.findOne({
     date: date.toLocaleDateString(),
   });
-  //新建销售记录
+
   const sale = SalesData.findOne({
     date: date.toLocaleDateString(),
   });
@@ -43,8 +46,8 @@ const setSalesData = async () => {
       day: date.getDate(),
       week: date.getDay(),
       sales: sales,
-      orders: todayOrders.length,
-      visits: todayVisits,
+      orders: todayOrders.length||0,
+      visits: todayVisits||0,
     }).save();
   }
 };
@@ -69,9 +72,9 @@ const setStats = async () => {
       month: date.getMonth() + 1,
       day: date.getDate(),
       week: date.getDay(),
-      totalSales: totalSales,
-      totalVisits: totalVisits,
-      totalOrders: totalOrders,
+      totalSales: totalSales||0,
+      totalVisits: totalVisits||0,
+      totalOrders: totalOrders||0,
       todayVisits: 0,
     }).save();
   }
