@@ -1,6 +1,7 @@
 import axios from "axios";
 import { message } from "antd";
 import { devHost, prodHost } from "../config";
+let number = 0;
 const $axios = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
@@ -45,12 +46,13 @@ $axios.interceptors.response.use(
       //如果401或405则到登录页
       if (status === 401 || status === 405) {
         // history.push("/login");
-        if (localStorage.getItem("jwt")) {
+        //解决多次提示重新登陆的问题
+        if (number === 1) {
           return;
         }
         localStorage.removeItem("jwt");
         message.warning("请重新登陆");
-
+        number++;
         window.location.reload();
       }
     }

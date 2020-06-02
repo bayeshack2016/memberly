@@ -33,6 +33,7 @@ export function handleFetchByPeriod(catergory) {
         date.getMonth() + 1
       }&&day=${date.getDate()}`
     );
+    console.log(metadata);
     let id = metadata.data[0] !== undefined ? metadata.data[0].number : 14;
     for (let i = id - 14; i <= id; i++) {
       $axios.defaults.headers.common["X-token"] = localStorage.getItem("jwt");

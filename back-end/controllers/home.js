@@ -5,7 +5,7 @@ const faker = require("faker");
 class HomeCtl {
   async getSalesData(ctx) {
     const salesData = await SalesData.find(ctx.request.query);
-
+    console.log(ctx.request.query, salesData, "salesData");
     ctx.body = salesData;
   }
   // async createSalesData(ctx) {
@@ -46,11 +46,13 @@ class HomeCtl {
   async addVisits(ctx, next) {
     let date = new Date();
     const stat = await Stats.findOne({
-      date: date.toLocaleDateString()
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
     });
-    // console.log(!stat);
+    // console.log(stat);
     if (stat) {
-      console.log("ehlo");
+      // console.log(stat.todayVisits);
       let todayVisits = stat.todayVisits;
       todayVisits++;
       await Stats.findByIdAndUpdate(stat._id, { todayVisits: todayVisits });

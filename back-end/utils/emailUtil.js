@@ -4,6 +4,7 @@ const Email = require("../models/email");
 // async..await is not allowed in global scope, must use a wrapper
 class emailUtil {
   async sendMail(code, email, productName, levelName, price, orderId, date) {
+    console.log("hello mail");
     const emails = await Email.findOne();
     const { mailAddress, mailPassword, sendName } = emails;
     // console.log(mailAddress, mailPassword, sendName);

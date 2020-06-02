@@ -138,10 +138,13 @@ class AlipayCtl {
     const { productId } = orderInfo;
     const { callbackUrl, productType } = await Product.findOne({ productId });
     if (productType === 1) {
-      const order = await Order.updateOne(
+      await Order.updateOne(
         { noInvoice: ctx.request.body.out_trade_no },
         { paymentStatus: "已支付" }
       );
+      const order = await Order.findOne({
+        noInvoice: ctx.request.body.out_trade_no,
+      });
       const {
         code,
         email,
@@ -151,6 +154,7 @@ class AlipayCtl {
         orderId,
         date,
       } = order;
+      console.log(order);
       sendMail(code, email, productName, levelName, price, orderId, date);
     } else {
       setTimeout(() => {
@@ -171,10 +175,13 @@ class AlipayCtl {
               // console.log(error, response, body, "error, response, body");
               if (!error && response.statusCode == 200 && body.verified) {
                 orderVerified = true;
-                const order = await Order.updateOne(
+                await Order.updateOne(
                   { noInvoice: ctx.request.body.out_trade_no },
                   { paymentStatus: "已支付" }
                 );
+                const order = await Order.findOne({
+                  noInvoice: ctx.request.body.out_trade_no,
+                });
                 const {
                   code,
                   email,
