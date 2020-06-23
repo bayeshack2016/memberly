@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Select, Button, Radio, InputNumber, Tooltip } from "antd";
+import { Form, Input, Select, Button, Radio, InputNumber } from "antd";
 import { handleForm } from "@/redux/actions/form";
 import { connect } from "react-redux";
 import { restoreFormData } from "../../../utils/productUtil";

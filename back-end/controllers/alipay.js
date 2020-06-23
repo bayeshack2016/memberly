@@ -2,13 +2,11 @@ const Alipay = require("../models/alipay");
 const Order = require("../models/order");
 const Product = require("../models/product");
 const alipayf2f = require("alipay-ftof");
-const axios = require("axios");
 const request = require("request");
 const { sendMail } = require("../utils/emailUtil");
 const { handleLimit } = require("../service/handleLimit");
 let orderVerified = false;
 let verifiedNum = 0;
-const verifiedOrder = async (callbackUrl, order) => {};
 class AlipayCtl {
   async updateAlipay(ctx) {
     ctx.verifyParams({
@@ -81,12 +79,6 @@ class AlipayCtl {
         noInvoice: result.out_trade_no,
       }
     );
-    // const order = await Order.findOne({
-    //   orderId: ctx.request.body.orderId,
-    // });
-    // const { code, email, productName, levelName, price, orderId, date } = order;
-    // sendMail(code, email, productName, levelName, price, orderId, date);
-
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
   async handleAlipayCallback(ctx) {
@@ -127,10 +119,7 @@ class AlipayCtl {
       return ctx.throw("回调签名验证未通过");
     }
 
-    /* 商户订单号 */
-    var noInvoice = ctx.request.body.out_trade_no;
     /* 订单状态 */
-    // console.log(ctx.request.body.trade_status);
     var invoiceStatus = ctx.request.body.trade_status;
     const orderInfo = await Order.findOne({
       noInvoice: ctx.request.body.out_trade_no,
@@ -172,7 +161,6 @@ class AlipayCtl {
               body: JSON.stringify(orderInfo),
             },
             async (error, response, body) => {
-              // console.log(error, response, body, "error, response, body");
               if (!error && response.statusCode == 200 && body.verified) {
                 orderVerified = true;
                 await Order.updateOne(
@@ -206,12 +194,10 @@ class AlipayCtl {
                 clearInterval(verifiedTimer);
               }
               if (verifiedNum > 5) {
-                const order = await Order.updateOne(
+                await Order.updateOne(
                   { noInvoice: ctx.request.body.out_trade_no },
                   { paymentStatus: "订单异常" }
                 );
-                // console.log(ctx.request.body.orderId, order, "updated");
-
                 verifiedNum = 0;
               }
             }

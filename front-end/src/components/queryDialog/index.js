@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Tabs, Modal, Button, Form, Input, message } from "antd";
 import "./index.css";
-import SlideVerify from "slide-verify";
 import { decrypt } from "../../utils/crypto";
 import $axios from "@/axios/$axios";
+import Captcha from "../captcha";
 const { TabPane } = Tabs;
 
 class Query extends Component {
@@ -11,11 +11,11 @@ class Query extends Component {
     super(props);
     this.state = {
       dialogVisible: false,
-      captchaVisible: false,
       allowQuery: "forbid",
       orderInfo: null,
       formData: null,
       loading: false,
+      activeTab: 1,
     };
   }
   handleCheck = async () => {
@@ -79,23 +79,12 @@ class Query extends Component {
     });
     this.setState({ orderInfo: null });
   };
-  handleVerify = () => {
-    this.setState({ captchaVisible: true });
-    let Slide = new SlideVerify({
-      elementId: "captcha", // DOM挂载点
-      onSuccess: () => {
-        console.log("success");
-        this.setState({ captchaVisible: false });
-        this.setState({ allowQuery: "allow" });
-      }, // 成功回调
-      onFail: () => {
-        console.log("fail");
-      }, // 失败回调
-      onRefresh: () => {
-        console.log("refresh");
-      }, // 刷新回调
-      photo: "https://picsum.photos/310/210", // 背景图片地址
-    });
+  handleChange = (key) => {
+    console.log(key, "key");
+    this.setState({ activeTab: parseInt(key) });
+  };
+  handleQuery = () => {
+    this.setState({ allowQuery: "allow" });
   };
   onFinish = (values) => {
     console.log(values);
@@ -135,25 +124,18 @@ class Query extends Component {
           style={this.state.captchaVisible ? {} : { display: "none" }}
         ></div>
         <p className="query-alert">仅能查询最近一次购买记录</p>
-        <Tabs defaultActiveKey="1" className="query-box-container">
+        <Tabs
+          defaultActiveKey="1"
+          className="query-box-container"
+          onChange={(activeKey) => {
+            this.handleChange(activeKey);
+          }}
+        >
           <TabPane tab="本机查询" key="1" className="query-by-local">
-            <div>
-              <Button
-                onClick={() => {
-                  this.handleVerify();
-                }}
-                size="medium"
-                type={this.state.allowQuery === "forbid" ? "primary" : ""}
-              >
-                点我开始验证
-              </Button>
-            </div>
-
             <Button
               type="primary"
               onClick={this.showModal}
               size="medium"
-              disabled={this.state.allowQuery === "forbid"}
               loading={this.state.loading}
             >
               获取订单信息
@@ -179,15 +161,9 @@ class Query extends Component {
                   style={{ borderRadius: "5px" }}
                 />
               </Form.Item>
-              <Button
-                onClick={() => {
-                  this.handleVerify();
-                }}
-                size="medium"
-                type={this.state.allowQuery === "forbid" ? "primary" : ""}
-              >
-                点我开始验证
-              </Button>
+              {this.state.activeTab === 2 ? (
+                <Captcha handleQuery={this.handleQuery} />
+              ) : null}
 
               <Form.Item>
                 <Button
@@ -237,15 +213,9 @@ class Query extends Component {
                   style={{ borderRadius: "5px" }}
                 />
               </Form.Item>
-              <Button
-                onClick={() => {
-                  this.handleVerify();
-                }}
-                size="medium"
-                type={this.state.allowQuery === "forbid" ? "primary" : ""}
-              >
-                点我开始验证
-              </Button>
+              {this.state.activeTab === 3 ? (
+                <Captcha handleQuery={this.handleQuery} />
+              ) : null}
               <Form.Item>
                 <Button
                   className=""

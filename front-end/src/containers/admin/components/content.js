@@ -22,6 +22,7 @@ class MainContent extends Component {
     // console.log("test");
   };
   render() {
+    const date = new Date();
     return (
       <div
         className="content-container"
@@ -48,7 +49,7 @@ class MainContent extends Component {
             {" "}
             Coodo Pay
           </a>
-          , Copyright © 2020
+          , Copyright © {date.getFullYear()}
           <a
             href="https://github.com/troyeguo"
             target="_blank"

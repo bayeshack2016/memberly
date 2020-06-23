@@ -50,7 +50,7 @@ class HeaderBar extends Component {
       })
       .then((data) => {
         this.setState({
-          orders: data.data,
+          orders: data.data.reverse(),
         });
         let ordersNumber = localStorage.getItem("ordersNumber") || 0;
         let length = this.state.orders.length;
@@ -79,7 +79,7 @@ class HeaderBar extends Component {
     localStorage.setItem("ordersNumber", this.state.orders.length);
   };
   renderMessage = () => {
-    return this.state.orders.reverse().map((item) => {
+    return this.state.orders.map((item) => {
       return `${item.email} 于 ${item.date} ${item.time} 购买 ${item.productName}${item.levelName}，消费${item.price}元`;
     });
   };

@@ -34,6 +34,7 @@ class paymentPage extends Component {
     this.setState({ showQuery: bool });
   };
   render() {
+    const date = new Date();
     const { productInfo } = this.props;
     const renderLevelDesc = (desc) => {
       return desc.map((item, index) => {
@@ -191,7 +192,7 @@ class paymentPage extends Component {
               {" "}
               Coodo Pay
             </a>
-            , Copyright © 2020
+            , Copyright © {date.getFullYear()}
             <a
               href="https://github.com/troyeguo"
               target="_blank"

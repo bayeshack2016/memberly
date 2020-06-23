@@ -8,12 +8,18 @@ import $axios from "@/axios/$axios";
 import { handleFetchAllProduct } from "@/redux/actions/product";
 import { handleForm, handleVerifyDialog } from "../../redux/actions/form";
 import VerifyId from "../../components/verifyId";
+import Logo from "../../components/logo";
 const { confirm } = Modal;
 const { Paragraph } = Typography;
 class ProductPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, visible: false, deleteIndex: null };
+    this.state = {
+      loading: false,
+      visible: false,
+      deleteIndex: null,
+      uploadIndex: -1,
+    };
   }
   componentDidMount() {
     this.props.handleForm(null);
@@ -61,8 +67,10 @@ class ProductPage extends Component {
       this.props.history.push("/productAdd");
     }
   };
+  handleShowUpload = (index) => {
+    this.setState({ uploadIndex: index });
+  };
   render() {
-    console.log(this.props.allProducts, "this.props.allProducts");
     const content = (
       <div className={"pageHeaderContent"} style={{ padding: "20px" }}>
         <div
@@ -129,14 +137,7 @@ class ProductPage extends Component {
                       ]}
                     >
                       <Card.Meta
-                        avatar={
-                          <img
-                            href="/#"
-                            alt=""
-                            className={"cardAvatar"}
-                            src={item.avatar || "/assets/logo.svg"}
-                          />
-                        }
+                        avatar={<Logo productId={item._id} url={item.logo} />}
                         title={<a href="/#">{item.productName}</a>}
                         description={
                           <Paragraph

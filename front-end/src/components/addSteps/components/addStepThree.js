@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Button, Result, Descriptions } from "antd";
+import { Button, Result, Descriptions, message } from "antd";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleFetchAllProduct } from "@/redux/actions/product.js";
-
+const copy = require("copy-text-to-clipboard");
 class AddStepThree extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,10 @@ class AddStepThree extends Component {
       this.setState({ id: this.props.allProducts[id - 1]._id });
     }
   }
+  handleCopy = (link) => {
+    copy(link);
+    message.success("复制链接到剪切板");
+  };
   getProductId = (id) => {
     const product = this.props.allProducts.filter((item) => {
       return item._id === id;
@@ -31,6 +35,12 @@ class AddStepThree extends Component {
     return product[0].productId;
   };
   render() {
+    const productLink = `${this.host}#/product/${
+      this.state.mode === "edit"
+        ? this.getProductId(this.state.id)
+        : this.props.allProducts[this.props.allProducts.length - 1].productId +
+          1
+    }`;
     const information = (
       <div className="information">
         <Descriptions column={1}>
@@ -41,12 +51,17 @@ class AddStepThree extends Component {
             {this.props.formData.productInfo}
           </Descriptions.Item>
           <Descriptions.Item label="产品链接">
-            {`${this.host}#/product/${
-              this.state.mode === "edit"
-                ? this.getProductId(this.state.id)
-                : this.props.allProducts[this.props.allProducts.length - 1]
-                    .productId + 1
-            }`}
+            <a href={productLink} target="_blank" rel="noopener noreferrer">
+              {productLink}
+            </a>
+            <Button
+              onClick={() => {
+                this.handleCopy(productLink);
+              }}
+              style={{ marginLeft: "20px" }}
+            >
+              点击复制
+            </Button>
           </Descriptions.Item>
         </Descriptions>
       </div>

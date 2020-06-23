@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, Col, Row, Statistic } from "antd";
 import numeral from "numeral";
 import "./index.css";
@@ -16,180 +16,169 @@ const topColResponsiveProps = {
     marginBottom: 24,
   },
 };
-
-class DashboardHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  diff = (arr) => {
+const DashboardHeader = (props) => {
+  const diff = (arr) => {
     let result = [];
     for (let i = 0; i < arr.length - 1; i++) {
       result.push(Math.abs(arr[i + 1] - arr[i]));
     }
     return result;
   };
-  sum = (arr) => {
+  const sum = (arr) => {
     let sum = 0;
     arr.forEach((item) => {
       sum += item;
     });
     return sum;
   };
-  render() {
-    let saleSum1 = this.props.salesByPeriod[14] - this.props.salesByPeriod[7];
-    let saleSum2 = this.props.salesByPeriod[7] - this.props.salesByPeriod[0];
-    return (
-      <Row justify="center" gutter={24} type="flex">
-        <Col {...topColResponsiveProps}>
-          <Card>
-            <Statistic title="销售额" value={this.props.allSales} />
-            <Statistic
-              title="周同比"
-              value={parseInt(((saleSum2 - saleSum1) / saleSum1) * 100) || 0}
-              valueStyle={
-                saleSum2 / saleSum1 > 1
-                  ? { color: "#cf1322" }
-                  : { color: "#3f8600" }
-              }
-              prefix={
-                saleSum2 / saleSum1 > 1 ? (
-                  <ArrowUpOutlined />
-                ) : (
-                  <ArrowDownOutlined />
-                )
-              }
-              suffix="%"
+  let saleSum1 = props.salesByPeriod[14] - props.salesByPeriod[7];
+  let saleSum2 = props.salesByPeriod[7] - props.salesByPeriod[0];
+  return (
+    <Row justify="center" gutter={24} type="flex">
+      <Col {...topColResponsiveProps}>
+        <Card>
+          <Statistic title="销售额" value={props.allSales} />
+          <Statistic
+            title="周同比"
+            value={parseInt(((saleSum2 - saleSum1) / saleSum1) * 100) || 0}
+            valueStyle={
+              saleSum2 / saleSum1 > 1
+                ? { color: "#cf1322" }
+                : { color: "#3f8600" }
+            }
+            prefix={
+              saleSum2 / saleSum1 > 1 ? (
+                <ArrowUpOutlined />
+              ) : (
+                <ArrowDownOutlined />
+              )
+            }
+            suffix="%"
+          />
+          <Statistic
+            title="日同比"
+            className="header-day-stats"
+            value={
+              parseInt(
+                (props.salesByPeriod[14] +
+                  props.salesByPeriod[12] -
+                  2 * props.salesByPeriod[13]) /
+                  (props.salesByPeriod[13] - props.salesByPeriod[12])
+              ) * 100 || 0
+            }
+            valueStyle={
+              (props.salesByPeriod[14] - props.salesByPeriod[13]) /
+                (props.salesByPeriod[13] - props.salesByPeriod[12]) >
+              1
+                ? { color: "#cf1322" }
+                : { color: "#3f8600" }
+            }
+            prefix={
+              (props.salesByPeriod[14] - props.salesByPeriod[13]) /
+                (props.salesByPeriod[13] - props.salesByPeriod[12]) >
+              1 ? (
+                <ArrowUpOutlined />
+              ) : (
+                <ArrowDownOutlined />
+              )
+            }
+            suffix="%"
+          />
+
+          <p className="card-footer">
+            今日销售额{" "}
+            {`￥${numeral(
+              props.salesByPeriod[14] - props.salesByPeriod[13] || 0
+            ).format("0,0")}`}
+          </p>
+        </Card>
+      </Col>
+      <Col {...topColResponsiveProps}>
+        <Card>
+          <Statistic title="访问量" value={props.allVisits} />
+
+          {sum(diff(props.visitsByPeriod)) === 0 ? (
+            <div className="header-chart-no-data">
+              没有过去14天的访问数据
+              <div className="card-line"></div>
+            </div>
+          ) : (
+            <AreaChart
+              visitsByPeriod={diff(props.visitsByPeriod)}
+              period={props.period}
             />
-            <Statistic
-              title="日同比"
-              className="header-day-stats"
-              value={
-                parseInt(
-                  (this.props.salesByPeriod[14] +
-                    this.props.salesByPeriod[12] -
-                    2 * this.props.salesByPeriod[13]) /
-                    (this.props.salesByPeriod[13] -
-                      this.props.salesByPeriod[12])
-                ) * 100 || 0
-              }
-              valueStyle={
-                (this.props.salesByPeriod[14] - this.props.salesByPeriod[13]) /
-                  (this.props.salesByPeriod[13] -
-                    this.props.salesByPeriod[12]) >
-                1
-                  ? { color: "#cf1322" }
-                  : { color: "#3f8600" }
-              }
-              prefix={
-                (this.props.salesByPeriod[14] - this.props.salesByPeriod[13]) /
-                  (this.props.salesByPeriod[13] -
-                    this.props.salesByPeriod[12]) >
-                1 ? (
-                  <ArrowUpOutlined />
-                ) : (
-                  <ArrowDownOutlined />
-                )
-              }
-              suffix="%"
+          )}
+
+          <p className="card-footer">
+            今日访问量{" "}
+            {`${numeral(
+              props.visitsByPeriod[14] - props.visitsByPeriod[13] || 0
+            ).format("0,0")}`}
+          </p>
+        </Card>
+      </Col>
+
+      <Col {...topColResponsiveProps}>
+        <Card>
+          <Statistic title="订单数" value={props.allOrders} />
+
+          {sum(diff(props.ordersByPeriod)) === 0 ? (
+            <div className="header-chart-no-data">
+              没有过去14天的订单数据
+              <div className="card-line"></div>
+            </div>
+          ) : (
+            <BarChart
+              ordersByPeriod={diff(props.ordersByPeriod)}
+              period={props.period}
             />
+          )}
 
-            <p className="card-footer">
-              今日销售额{" "}
-              {`￥${numeral(
-                this.props.salesByPeriod[14] - this.props.salesByPeriod[13] || 0
-              ).format("0,0")}`}
-            </p>
-          </Card>
-        </Col>
-        <Col {...topColResponsiveProps}>
-          <Card>
-            <Statistic title="访问量" value={this.props.allVisits} />
-
-            {this.sum(this.diff(this.props.visitsByPeriod)) === 0 ? (
-              <div className="header-chart-no-data">
-                没有过去14天的访问数据
-                <div className="card-line"></div>
-              </div>
-            ) : (
-              <AreaChart
-                visitsByPeriod={this.diff(this.props.visitsByPeriod)}
-                period={this.props.period}
-              />
-            )}
-
-            <p className="card-footer">
-              今日访问量{" "}
-              {`${numeral(
-                this.props.visitsByPeriod[14] - this.props.visitsByPeriod[13] ||
-                  0
-              ).format("0,0")}`}
-            </p>
-          </Card>
-        </Col>
-
-        <Col {...topColResponsiveProps}>
-          <Card>
-            <Statistic title="订单数" value={this.props.allOrders} />
-
-            {this.sum(this.diff(this.props.ordersByPeriod)) === 0 ? (
-              <div className="header-chart-no-data">
-                没有过去14天的订单数据
-                <div className="card-line"></div>
-              </div>
-            ) : (
-              <BarChart
-                ordersByPeriod={this.diff(this.props.ordersByPeriod)}
-                period={this.props.period}
-              />
-            )}
-
-            <p className="card-footer">
-              今日订单数{" "}
-              {`${numeral(
-                this.props.ordersByPeriod[14] - this.props.ordersByPeriod[13] ||
-                  0
-              ).format("0,0")}`}
-            </p>
-          </Card>
-        </Col>
-        <Col {...topColResponsiveProps}>
-          <Card>
-            <p style={{ opacity: "0.7" }}>运行状态</p>
-            <p style={{ fontSize: "30px", color: "" }}>
-              {this.props.allProducts.length > 0 ? "交易中" : "暂无上架"}
-            </p>
-            <p
-              style={{
-                fontSize: "15px",
-                color: "#13C2C2",
-                marginTop: "10px",
-              }}
+          <p className="card-footer">
+            今日订单数{" "}
+            {`${numeral(
+              props.ordersByPeriod[14] - props.ordersByPeriod[13] || 0
+            ).format("0,0")}`}
+          </p>
+        </Card>
+      </Col>
+      <Col {...topColResponsiveProps}>
+        <Card>
+          <p style={{ opacity: "0.7" }}>运行状态</p>
+          <p style={{ fontSize: "30px", color: "" }}>
+            {props.allProducts.length > 0 ? "交易中" : "暂无上架"}
+          </p>
+          <p
+            style={{
+              fontSize: "15px",
+              color: "#13C2C2",
+              marginTop: "10px",
+            }}
+          >
+            {props.alipay.secretKey === " " &&
+            props.wechatPay.secretKey === " " &&
+            props.alipay.secretKey === " "
+              ? "暂未配置支付信息"
+              : props.email.mailPassword === " "
+              ? "暂未配置邮箱信息"
+              : "一切都已配置完成"}
+          </p>
+          <div className="card-line"></div>
+          <p className="card-footer">
+            <a
+              href="https://www.jianshu.com/p/13e3ed3f7079"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              {this.props.alipay.secretKey === " " &&
-              this.props.wechatPay.secretKey === " " &&
-              this.props.alipay.secretKey === " "
-                ? "暂未配置支付信息"
-                : this.props.email.mailPassword === " "
-                ? "暂未配置邮箱信息"
-                : "一切都已配置完成"}
-            </p>
-            <div className="card-line"></div>
-            <p className="card-footer">
-              <a
-                href="https://www.jianshu.com/p/12d59f51eb1d"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                了解更多
-              </a>
-            </p>
-          </Card>
-        </Col>
-      </Row>
-    );
-  }
-}
+              了解更多
+            </a>
+          </p>
+        </Card>
+      </Col>
+    </Row>
+  );
+};
+
 const mapStateToProps = (state) => {
   return {
     salesByPeriod: state.periodData.salesByPeriod,

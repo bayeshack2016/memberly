@@ -1,6 +1,4 @@
 const Setting = require("../models/setting");
-const jsonwebtoken = require("jsonwebtoken");
-const { secret } = require("../config");
 class SettingCtl {
   async fetchSetting(ctx) {
     ctx.body = await Setting.findOne();

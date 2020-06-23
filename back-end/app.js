@@ -15,7 +15,7 @@ const koaStatic = require("koa-static");
 const { connection } = require("./config");
 const { initData } = require("./utils/initUtil");
 const { salesCron, statsCron } = require("./utils/cronJobs");
-
+const compress = require("koa-compress");
 mongoose.connect(connection, { useNewUrlParser: true }, () => {
   console.log("连接成功");
 });
@@ -23,7 +23,7 @@ mongoose.connection.on("error", console.error);
 app.use(helmet());
 app.use(cors());
 app.use(logger());
-
+app.use(compress({ threshold: 2048 }));
 app.use(koaStatic(path.join(__dirname, "public")));
 app.use(async (ctx, next) => {
   const start = new Date();
@@ -54,6 +54,13 @@ app.use(
       process.env.NODE_ENV === "production" ? { ...rest } : { stack, ...rest },
   })
 );
+var dirPath = path.join(__dirname, "/public/uploads");
+if (!fs.existsSync(dirPath)) {
+  fs.mkdirSync(dirPath);
+  console.log("文件夹创建成功");
+} else {
+  console.log("文件夹已存在");
+}
 app.use(
   koaBody({
     multipart: true,

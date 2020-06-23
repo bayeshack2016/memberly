@@ -50,7 +50,6 @@ class VerifyId extends Component {
   };
 
   render() {
-    const { loading } = this.state;
     return (
       <Modal
         visible={this.props.isShowDialog}

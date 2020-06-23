@@ -7,7 +7,7 @@ const $axios = axios.create({
     process.env.NODE_ENV === "development"
       ? `${devHost}/api`
       : `${prodHost}/api`,
-  timeout: 6000,
+  timeout: 15000,
   retry: 4,
   retryDelay: 1000,
 });

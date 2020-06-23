@@ -17,6 +17,7 @@ const productSchema = new Schema({
   productId: { type: "number", required: true },
   contact: { type: "array", required: true },
   callbackUrl: { type: "string", required: true },
+  logo: { type: "string", required: false },
 });
 
 module.exports = model("Product", productSchema);

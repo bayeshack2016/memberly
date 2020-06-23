@@ -1,48 +1,34 @@
-// const path = require("path");
 const SalesData = require("../models/salesData");
 const Stats = require("../models/stats");
 const faker = require("faker");
+const Product = require("../models/product");
 class HomeCtl {
   async getSalesData(ctx) {
     const salesData = await SalesData.find(ctx.request.query);
     console.log(ctx.request.query, salesData, "salesData");
     ctx.body = salesData;
   }
-  // async createSalesData(ctx) {
-  //   ctx.verifyParams({
-  //     date: { type: "string", required: true },
-  //     year: { type: "number", required: true },
-  //     month: { type: "number", required: true },
-  //     day: { type: "number", required: true },
-  //     week: { type: "number", required: true },
-  //     sales: { type: "number", required: true },
-  //     visits: { type: "number", required: true },
-  //     orders: { type: "number", required: true },
-  //     number: { type: "number", required: true }
-  //   });
-  //   ctx.body = await new SalesData(ctx.request.body).save();
-  // }
   async getStats(ctx) {
     const stats = await Stats.find(ctx.request.query);
 
     ctx.body = stats;
   }
-  // async createStats(ctx) {
-  //   ctx.verifyParams({
-  //     date: { type: "string", required: true },
-  //     year: { type: "number", required: true },
-  //     month: { type: "number", required: true },
-  //     day: { type: "number", required: true },
-  //     week: { type: "number", required: true },
-  //     totalSales: { type: "number", required: true },
-  //     totalVisits: { type: "number", required: true },
-  //     totalOrders: { type: "number", required: true },
-  //     todayVisits: { type: "number", required: true },
-  //     number: { type: "number", required: true }
-  //   });
-  //   // console.log(ctx.request.body);
-  //   ctx.body = await new Stats(ctx.request.body).save();
-  // }
+  async upload(ctx) {
+    console.log("shangchuan");
+    const file = ctx.request.files.file;
+
+    console.log(file, ctx.request.body.id);
+    const product = await Product.findByIdAndUpdate(ctx.request.body.id, {
+      ...ctx.request.body,
+      logo: file.path.split("\\").reverse()[0],
+    });
+    if (!product) {
+      ctx.throw(404, "上传logo失败");
+    }
+    console.log(product, "product");
+    ctx.body = product;
+    // ctx.body = { success: true, path: file.path.split("\\").reverse()[0] };
+  }
   async addVisits(ctx, next) {
     let date = new Date();
     const stat = await Stats.findOne({
