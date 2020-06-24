@@ -35,14 +35,14 @@ export const handleFetchProductInfo = (productId) => {
 export const handleFetchAllProduct = () => {
   return async (dispatch) => {
     $axios
-      .get(`/product/`)
+      .get(`/product/all`)
       .then((res) => {
         console.log(res.data, "metadata");
         let allProducts = res.data || [];
         dispatch(handleAllProducts(allProducts));
       })
       .catch(() => {
-        message.error("获取产品信息失败");
+        message.error("获取商品信息失败");
       });
   };
 };

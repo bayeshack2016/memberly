@@ -29,7 +29,7 @@ const Captcha = (props) => {
           //验证弹窗关闭触发
         });
       });
-  }, []);
+  });
   return (
     <div
       id="vaptchaContainer"

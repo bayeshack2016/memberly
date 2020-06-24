@@ -1,6 +1,6 @@
 {
   "name": "coodo-pay",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "",
   "engines": {
     "node": ">=10.14"
@@ -23,6 +23,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "faker": "^4.1.0",
+    "form-data": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
@@ -39,12 +40,15 @@
     "koa-session": "^6.0.0",
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
+    "koa2-swagger-ui": "^3.0.1",
+    "mime-types": "^2.1.27",
     "mongoose": "^5.9.5",
     "nodemailer": "^6.4.5",
     "nodemon": "^2.0.2",
     "pm2": "^4.2.3",
     "request": "^2.88.2",
     "svg-captcha": "^1.4.0",
+    "swagger-jsdoc": "^4.0.0",
     "utility": "^1.16.3"
   }
 }

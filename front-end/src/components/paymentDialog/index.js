@@ -68,9 +68,7 @@ const PaymentDialog = (props) => {
       let metadata = await $axios(`/order/fetch/${orderId}`);
       let orderInfo = metadata.data;
       console.log(orderInfo, "orderInfo");
-      let questNumber = questNumber;
-      questNumber++;
-      setQuestNumber(questNumber);
+      setQuestNumber(questNumber + 1);
       if (orderInfo.paymentStatus === "已支付") {
         setOrderInfo(orderInfo);
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
@@ -112,7 +110,7 @@ const PaymentDialog = (props) => {
                 <p>订单号：{orderInfo.orderId}</p>
                 <p>购买日期：{orderInfo.date}</p>
                 <p>
-                  产品信息：{orderInfo.productName}
+                  商品信息：{orderInfo.productName}
                   {orderInfo.levelName}
                 </p>
                 <p>金额：{orderInfo.price}元</p>
@@ -130,7 +128,7 @@ const PaymentDialog = (props) => {
                 <p>订单号：{orderInfo.orderId}</p>
                 <p>购买日期：{orderInfo.date}</p>
                 <p>
-                  产品信息：{orderInfo.productName}
+                  商品信息：{orderInfo.productName}
                   {orderInfo.levelName}
                 </p>
                 <p>金额：{orderInfo.price}元</p>

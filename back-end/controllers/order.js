@@ -3,7 +3,6 @@ const Product = require("../models/product");
 const { md5Pwd } = require("../utils/cryptoUtil");
 class OrderCtl {
   async verifyCode(ctx) {
-    // console.log(ctx.request.body, ctx.request.body.code);
     const order = await Order.findOne({ code: ctx.request.body.code });
     if (!order) {
       ctx.throw(404, "未找到您的订单信息");
@@ -15,25 +14,21 @@ class OrderCtl {
     ctx.body = order;
   }
   async queryOrder(ctx) {
-    if (ctx.request.query.password !== undefined) {
-      // console.log(1);
+    if (ctx.request.query.password) {
       var order = await Order.findOne({
         email: ctx.request.query.email,
         password: md5Pwd(ctx.request.query.password),
       });
     } else {
-      // console.log(2);
       var order = await Order.findOne(ctx.request.query);
     }
     if (!order) {
       ctx.throw(404, "未找到订单信息");
       ctx.body = null;
     }
-    // console.log(3);
     ctx.body = order;
   }
   async fetchOrder(ctx) {
-    // console.log("fetchOrder");
     const order = await Order.findOne({ orderId: ctx.params.id });
     if (!order) {
       ctx.throw(404, "未找到订单信息");
@@ -41,7 +36,6 @@ class OrderCtl {
     ctx.body = order;
   }
   async fetchAllOrder(ctx) {
-    // console.log("fetchAllOrder");
     ctx.body = await Order.find(ctx.request.query);
   }
   async createOrder(ctx, next) {
@@ -55,7 +49,6 @@ class OrderCtl {
       productName: { type: "string", required: true },
       levelName: { type: "string", required: true },
     });
-    // const { name } = ctx.request.body;
     let date = new Date();
     let code =
       Math.random().toString(36).substr(4).toUpperCase() +
@@ -63,10 +56,8 @@ class OrderCtl {
     const productInfo = await Product.findOne({
       productId: ctx.request.body.productId,
     });
-    console.log(ctx.request.body, "ctx.request.body");
-    console.log(productInfo, "productInfo");
     if (productInfo.productType === 1) {
-      const order = await new Order({
+      await new Order({
         date: date.toLocaleDateString(),
         time: date.toLocaleTimeString(),
         code: code,
@@ -88,7 +79,7 @@ class OrderCtl {
         noInvoice: "noInvoice",
       }).save();
     } else {
-      const order = await new Order({
+      await new Order({
         date: date.toLocaleDateString(),
         time: date.toLocaleTimeString(),
         code: "非会员码产品",
@@ -110,10 +101,7 @@ class OrderCtl {
         noInvoice: "noInvoice",
       }).save();
     }
-
-    // console.log(order);
     await next();
-    // ctx.body = order;
   }
 }
 module.exports = new OrderCtl();

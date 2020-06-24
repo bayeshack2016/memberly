@@ -57,7 +57,7 @@ class initUtil {
       await Setting({
         themeOption: "default",
         isFirst: "yes",
-        version: 1.1,
+        version: 1.2,
       }).save();
     }
 

@@ -35,19 +35,15 @@ export function handleFetchByPeriod(catergory) {
     );
     console.log(metadata);
     let id = metadata.data[0] !== undefined ? metadata.data[0].number : 14;
+    let data = await $axios(`/stats`);
+    let periodData = data.data;
     for (let i = id - 14; i <= id; i++) {
-      $axios.defaults.headers.common["X-token"] = localStorage.getItem("jwt");
-      let metadata = await $axios(`/stats?number=${i}`);
-      let totalSales =
-        metadata.data[0] !== undefined ? metadata.data[0].totalSales : [0];
-      let totalVisits =
-        metadata.data[0] !== undefined ? metadata.data[0].totalVisits : [0];
-      let totalOrders =
-        metadata.data[0] !== undefined ? metadata.data[0].totalOrders : [0];
-      let date =
-        metadata.data[0] !== undefined
-          ? `${metadata.data[0].month}-${metadata.data[0].day}`
-          : "00-00";
+      let totalSales = periodData[i] ? periodData[i].totalSales : [0];
+      let totalVisits = periodData[i] ? periodData[i].totalVisits : [0];
+      let totalOrders = periodData[i] ? periodData[i].totalOrders : [0];
+      let date = periodData[i]
+        ? `${periodData[i].month}-${periodData[i].day}`
+        : "00-00";
       period.push(date);
       salesByPeriod.push(parseInt(totalSales));
       visitsByPeriod.push(parseInt(totalVisits));

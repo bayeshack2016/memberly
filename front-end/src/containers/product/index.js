@@ -1,89 +1,74 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   handleFetchProductInfo,
   handleFetchSetting,
 } from "@/redux/actions/product";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import PaymentPage from "@/components/paymentPage";
+import ShoppingPage from "@/components/shoppingPage";
 import MobilePage from "@/components/mobilePage";
 import "./index.css";
 import PaymentDialog from "@/components/paymentDialog";
 import PageLoading from "@/components/pageLoading";
 import { isMobile } from "react-device-detect";
-class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showDialog: false,
-      chooseLevel: null,
-      formData: null,
-      qrUrl: null,
-      orderInfo: null,
-    };
-    this.checkPayment = null;
-  }
-  UNSAFE_componentWillMount() {
+const Product = (props) => {
+  const [showDialog, setShowDialog] = useState(false);
+  const [chooseLevel, setchooseLevel] = useState(null);
+  useEffect(() => {
     let url = document.location.toString();
     let idArr = url.split("/");
     let id = idArr.pop();
-    this.props.handleFetchProductInfo(id);
-    this.props.handleFetchSetting();
-  }
-  handleDialog = (bool, chooseLevel) => {
-    this.setState({ formData: null });
-    this.setState({ showDialog: bool });
-    this.setState({ chooseLevel: chooseLevel });
+    props.handleFetchProductInfo(id);
+    props.handleFetchSetting();
+  }, []);
+  const handleDialog = (bool, chooseLevel) => {
+    setShowDialog(bool);
+    setchooseLevel(chooseLevel);
   };
-
-  render() {
-    this.state.orderInfo && clearInterval(this.checkPayment);
-    const { productInfo, setting } = this.props;
-    // console.log(productInfo, setting, "productInfo, setting");
-    const { chooseLevel } = this.state;
-    if (!setting || !productInfo) {
-      return <PageLoading />;
-    }
-    if (productInfo === 404) {
-      return <Redirect to="/error/404" />;
-    }
-    return (
-      <div className="product-theme-container">
-        {this.state.showDialog ? (
-          <PaymentDialog
-            productInfo={productInfo}
-            chooseLevel={chooseLevel}
-            handleDialog={this.handleDialog}
-            showDialog={this.state.showDialog}
-          />
-        ) : null}
-        {isMobile ? (
-          <MobilePage
-            productInfo={productInfo}
-            handleDialog={this.handleDialog}
-            theme={setting.themeOption}
-          />
-        ) : (
-          <PaymentPage
-            productInfo={productInfo}
-            handleDialog={this.handleDialog}
-            theme={setting.themeOption}
-          />
-        )}
-        <img
-          src="/assets/contact-header.png"
-          alt=""
-          style={{ display: "none" }}
-        />
-        <img
-          src="/assets/contact-footer.png"
-          alt=""
-          style={{ display: "none" }}
-        />
-      </div>
-    );
+  const { productInfo, setting } = props;
+  if (!setting || !productInfo) {
+    return <PageLoading />;
   }
-}
+  if (productInfo === 404) {
+    return <Redirect to="/error/404" />;
+  }
+  return (
+    <div className="product-theme-container">
+      {showDialog ? (
+        <PaymentDialog
+          productInfo={productInfo}
+          chooseLevel={chooseLevel}
+          handleDialog={handleDialog}
+          showDialog={showDialog}
+        />
+      ) : null}
+      {isMobile ? (
+        <MobilePage
+          productInfo={productInfo}
+          handleDialog={handleDialog}
+          theme={setting.themeOption}
+        />
+      ) : (
+        <ShoppingPage
+          productInfo={productInfo}
+          handleDialog={handleDialog}
+          theme={setting.themeOption}
+        />
+      )}
+      <img
+        src="/assets/contact-header.png"
+        alt=""
+        style={{ display: "none" }}
+      />
+      <img
+        src="/assets/contact-footer.png"
+        alt=""
+        style={{ display: "none" }}
+      />
+    </div>
+  );
+};
+
 const mapStateToProps = (state) => {
   return {
     productInfo: state.product.productInfo,

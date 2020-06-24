@@ -3,6 +3,7 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 const alipayf2f = require("alipay-ftof");
 const request = require("request");
+const axios = require("axios");
 const { sendMail } = require("../utils/emailUtil");
 const { handleLimit } = require("../service/handleLimit");
 let orderVerified = false;
@@ -150,58 +151,62 @@ class AlipayCtl {
         let verifiedTimer = setInterval(async () => {
           verifiedNum++;
           console.log(verifiedNum, orderVerified, callbackUrl, "callbackUrl");
-          request(
-            {
-              url: callbackUrl,
-              method: "POST",
-              json: true,
-              headers: {
-                "content-type": "application/json",
-              },
-              body: JSON.stringify(orderInfo),
-            },
-            async (error, response, body) => {
-              if (!error && response.statusCode == 200 && body.verified) {
-                orderVerified = true;
-                await Order.updateOne(
-                  { noInvoice: ctx.request.body.out_trade_no },
-                  { paymentStatus: "已支付" }
-                );
-                const order = await Order.findOne({
-                  noInvoice: ctx.request.body.out_trade_no,
-                });
-                const {
-                  code,
-                  email,
-                  productName,
-                  levelName,
-                  price,
-                  orderId,
-                  date,
-                } = order;
-                sendMail(
-                  code,
-                  email,
-                  productName,
-                  levelName,
-                  price,
-                  orderId,
-                  date
-                );
-              }
-              if (orderVerified || verifiedNum > 5) {
-                console.log("cleared");
-                clearInterval(verifiedTimer);
-              }
-              if (verifiedNum > 5) {
-                await Order.updateOne(
-                  { noInvoice: ctx.request.body.out_trade_no },
-                  { paymentStatus: "订单异常" }
-                );
-                verifiedNum = 0;
-              }
+          axios.post(callbackUrl, orderInfo).then(async (res) => {
+            if (res.data.verified) {
+              orderVerified = true;
+              await Order.updateOne(
+                { noInvoice: ctx.request.body.out_trade_no },
+                { paymentStatus: "已支付" }
+              );
+              const order = await Order.findOne({
+                noInvoice: ctx.request.body.out_trade_no,
+              });
+              const {
+                code,
+                email,
+                productName,
+                levelName,
+                price,
+                orderId,
+                date,
+              } = order;
+              sendMail(
+                code,
+                email,
+                productName,
+                levelName,
+                price,
+                orderId,
+                date
+              );
             }
-          );
+            if (orderVerified || verifiedNum > 5) {
+              console.log("cleared");
+              clearInterval(verifiedTimer);
+            }
+            if (verifiedNum > 5) {
+              await Order.updateOne(
+                { noInvoice: ctx.request.body.out_trade_no },
+                { paymentStatus: "订单异常" }
+              );
+              verifiedNum = 0;
+            }
+          });
+          // request(
+          //   {
+          //     url: callbackUrl,
+          //     method: "POST",
+          //     json: true,
+          //     headers: {
+          //       "content-type": "application/json",
+          //     },
+          //     body: JSON.stringify(orderInfo),
+          //   },
+          //   async (error, response, body) => {
+
+          //     }
+
+          // );
         }, 2000);
         if (orderVerified || verifiedNum > 5) {
           clearInterval(verifiedTimer);

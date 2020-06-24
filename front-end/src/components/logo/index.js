@@ -3,13 +3,9 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import "./index.css";
 import $axios from "../../axios/$axios";
-import { devHost, prodHost } from "../../config";
-const baseURL =
-  process.env.NODE_ENV === "development"
-    ? `${devHost}/uploads/`
-    : `${prodHost}/uploads/`;
+
 const Logo = (props) => {
-  const [url, setUrl] = useState(props.url ? baseURL + props.url : null);
+  const [url, setUrl] = useState(props.url ? props.url : null);
   const [loading, setLoading] = useState(false);
   const handleChange = async (e) => {
     setLoading(true);

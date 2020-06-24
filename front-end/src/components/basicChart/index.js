@@ -1,23 +1,7 @@
 import React, { Component } from "react";
-import { PropTypes } from "prop-types";
 import { debounce } from "@/utils/debounceUtil";
 import { connect } from "react-redux";
 class Chart extends Component {
-  static propTypes = {
-    width: PropTypes.string.isRequired,
-    height: PropTypes.string.isRequired,
-    className: PropTypes.string.isRequired,
-    style: PropTypes.object.isRequired,
-    chartData: PropTypes.object.isRequired,
-  };
-  static defaultProps = {
-    width: "100%",
-    height: "100px",
-    className: "shadow-radius",
-    style: {},
-    chartData: {},
-  };
-
   state = { chart: null };
 
   componentDidMount() {
@@ -80,7 +64,5 @@ const mapStateToProps = (state) => {
     isCollapsed: state.sidebar.isCollapsed,
   };
 };
-const actionCreator = {
-  // handleFetchByYear
-};
+const actionCreator = {};
 export default connect(mapStateToProps, actionCreator)(Chart);

@@ -15,27 +15,38 @@ export function handleFetchByYear(catergory) {
     let visitsByYear = [];
     let ordersByYear = [];
     let date = new Date();
+    let metadata = await $axios.get(`/salesData?year=${date.getFullYear()}`);
+    let yearData = metadata.data;
+    console.log(yearData, "yearData");
     for (let i = 1; i <= 12; i++) {
-      let metadata = await $axios({
-        method: "get",
-        url: `/salesData?year=${date.getFullYear()}&&month=${i}`,
+      let monthData = [];
+      yearData.forEach((item) => {
+        if (item.month === i) {
+          monthData.push(item);
+        }
       });
       let sales = 0;
-      metadata.data.forEach((item) => {
-        sales += parseFloat(item.sales);
-      });
       let visits = 0;
-      metadata.data.forEach((item) => {
-        visits += parseFloat(item.visits);
-      });
       let orders = 0;
-      metadata.data.forEach((item) => {
-        orders += parseFloat(item.orders);
-      });
+      if (monthData) {
+        monthData.forEach((item) => {
+          sales += parseFloat(item.sales);
+        });
+
+        monthData.forEach((item) => {
+          visits += parseFloat(item.visits);
+        });
+
+        monthData.forEach((item) => {
+          orders += parseFloat(item.orders);
+        });
+      }
+
       salesByYear.push(parseInt(sales));
       visitsByYear.push(parseInt(visits));
       ordersByYear.push(parseInt(orders));
     }
+    // console.log(salesByYear);
     dispatch(handleSalesByYear(salesByYear));
     dispatch(handleVisitsByYear(visitsByYear));
     dispatch(handleOrdersByYear(ordersByYear));

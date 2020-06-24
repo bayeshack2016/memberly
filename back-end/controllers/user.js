@@ -25,7 +25,6 @@ class UserCtl {
     ctx.body = newUser;
   }
   async verifyAnswer(ctx) {
-    console.log(ctx.request.body);
     ctx.verifyParams({
       answer1: { type: "string", required: true },
       answer2: { type: "string", required: true },
@@ -40,22 +39,19 @@ class UserCtl {
     ctx.body = user;
   }
   async createUser(ctx) {
-    // console.log(ctx.request.body);
     ctx.verifyParams({
       email: { type: "string", required: true },
       password: { type: "string", required: true },
       answer1: { type: "string", required: true },
       answer2: { type: "string", required: true },
     });
-    // const { name } = ctx.request.body;
-    // console.log(ctx.request.body);
     let date = new Date();
     const user = await new User({
       ...ctx.request.body,
       password: md5Pwd(ctx.request.body.password),
       date: date.toLocaleDateString(),
     }).save();
-    const setting = (ctx.body = user);
+    ctx.body = user;
   }
   async loginUser(ctx) {
     ctx.verifyParams({
@@ -66,9 +62,7 @@ class UserCtl {
       email: ctx.request.body.email.trim(),
       password: md5Pwd(ctx.request.body.password.trim()),
     });
-    console.log(user);
     if (!user) {
-      // console.log("hello");
       ctx.throw(401, "用户名或密码错误");
     }
     const { _id, email } = user;

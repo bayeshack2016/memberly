@@ -1,90 +1,86 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardHeader from "@/components/dashboardHeader";
 import DashboardChart from "@/components/dashboardChart";
 import PageLoading from "../../components/pageLoading";
-import { connect } from "react-redux";
-class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: !(
-        this.props.salesByPeriod &&
-        this.props.visitsByPeriod &&
-        this.props.ordersByPeriod &&
-        this.props.allSales &&
-        this.props.allVisits &&
-        this.props.allOrders &&
-        this.props.salesByYear &&
-        this.props.visitsByYear &&
-        this.props.ordersByYear &&
-        this.props.salesByMonth &&
-        this.props.visitsByMonth &&
-        this.props.ordersByMonth &&
-        this.props.salesByWeek &&
-        this.props.visitsByWeek &&
-        this.props.ordersByWeek &&
-        this.props.period &&
-        this.props.alipay &&
-        this.props.wechatPay &&
-        this.props.paypal &&
-        this.props.email
-      ),
-    };
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({
-      loading: !(
-        nextProps.salesByPeriod &&
-        nextProps.visitsByPeriod &&
-        nextProps.ordersByPeriod &&
-        nextProps.allSales &&
-        nextProps.allVisits &&
-        nextProps.allOrders &&
-        nextProps.salesByYear &&
-        nextProps.visitsByYear &&
-        nextProps.ordersByYear &&
-        nextProps.salesByMonth &&
-        nextProps.visitsByMonth &&
-        nextProps.ordersByMonth &&
-        nextProps.salesByWeek &&
-        nextProps.visitsByWeek &&
-        nextProps.ordersByWeek &&
-        nextProps.period &&
-        nextProps.alipay &&
-        nextProps.wechatPay &&
-        nextProps.paypal &&
-        nextProps.email
-      ),
-    });
-  }
-  componentDidMount() {
-    const echartsUrl = "/lib/echarts.min.js";
-    this.addScript(echartsUrl);
-  }
 
-  addScript = (url) => {
+import { connect } from "react-redux";
+const Dashboard = (props) => {
+  const [loading, setLoading] = useState(
+    !(
+      props.salesByPeriod &&
+      props.visitsByPeriod &&
+      props.ordersByPeriod &&
+      props.allSales &&
+      props.allVisits &&
+      props.allOrders &&
+      props.salesByYear &&
+      props.visitsByYear &&
+      props.ordersByYear &&
+      props.salesByMonth &&
+      props.visitsByMonth &&
+      props.ordersByMonth &&
+      props.salesByWeek &&
+      props.visitsByWeek &&
+      props.ordersByWeek &&
+      props.period &&
+      props.alipay &&
+      props.wechatPay &&
+      props.paypal &&
+      props.email
+    )
+  );
+  const addScript = (url) => {
     const script = document.createElement("script");
     script.src = url;
     script.type = "text/javascript";
     script.async = true;
     document.head.appendChild(script);
   };
-  render() {
-    const { loading } = this.state;
-    return (
-      <div>
-        {loading ? (
-          <PageLoading />
-        ) : (
-          <div className="dahboard-container" style={{ padding: "20px" }}>
-            <DashboardHeader />
-            <DashboardChart />
-          </div>
-        )}
-      </div>
+  useEffect(() => {
+    setLoading(
+      !(
+        props.salesByPeriod &&
+        props.visitsByPeriod &&
+        props.ordersByPeriod &&
+        props.allSales &&
+        props.allVisits &&
+        props.allOrders &&
+        props.salesByYear &&
+        props.visitsByYear &&
+        props.ordersByYear &&
+        props.salesByMonth &&
+        props.visitsByMonth &&
+        props.ordersByMonth &&
+        props.salesByWeek &&
+        props.visitsByWeek &&
+        props.ordersByWeek &&
+        props.period &&
+        props.alipay &&
+        props.wechatPay &&
+        props.paypal &&
+        props.email
+      )
     );
-  }
-}
+  }, [props]);
+  useEffect(() => {
+    const echartsUrl = "/lib/echarts.min.js";
+    addScript(echartsUrl);
+  }, []);
+
+  return (
+    <div>
+      {loading ? (
+        <PageLoading />
+      ) : (
+        <div className="dahboard-container" style={{ padding: "20px" }}>
+          <DashboardHeader />
+          <DashboardChart />
+        </div>
+      )}
+    </div>
+  );
+};
+
 const mapStateToProps = (state) => {
   return {
     salesByPeriod: state.periodData.salesByPeriod,
@@ -109,4 +105,5 @@ const mapStateToProps = (state) => {
     email: state.form.email,
   };
 };
-export default connect(mapStateToProps, null)(Dashboard);
+const actionCreator = {};
+export default connect(mapStateToProps, actionCreator)(Dashboard);

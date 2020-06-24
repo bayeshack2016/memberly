@@ -7,6 +7,7 @@ const initState = {
   user: null,
   isVerified: false,
   isShowDialog: false,
+  order: null,
 };
 export const form = (state = initState, action) => {
   switch (action.type) {
@@ -24,6 +25,8 @@ export const form = (state = initState, action) => {
       return { ...state, user: action.payload };
     case "HANDLE_VERIFY":
       return { ...state, isVerified: action.payload };
+    case "HANDLE_ORDER":
+      return { ...state, order: action.payload };
     case "HANDLE_VERIFY_DIALOG":
       return { ...state, isShowDialog: action.payload };
     default:

@@ -4,18 +4,17 @@ class SettingCtl {
     ctx.body = await Setting.findOne();
   }
   async updateSetting(ctx) {
-    // console.log(ctx.request.body);
     ctx.verifyParams({
       themeOption: {
         type: "string",
         enum: ["default", "tech"],
-        required: false
+        required: false,
       },
       isFirst: {
         type: "string",
         enum: ["yes", "no"],
-        required: true
-      }
+        required: false,
+      },
     });
     const setting = await Setting.findByIdAndUpdate(
       ctx.params.id,

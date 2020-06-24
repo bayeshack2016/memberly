@@ -4,9 +4,8 @@ require("dotenv").config();
 
 module.exports = {
   port: 3001,
-  vid: "5eac198c33cb1801abf079ab",
-  key: "46f4f87e5f574ea69eab813f0d0ad703",
   secret: "coodo-pay",
+  smms: "ioTLRUHum8ky6YrVqTb3QY6yxITYcdT0",
   connection:
     process.env.REMOTE_PROD_DB ||
     "mongodb+srv://username:password@coodo-pay.mongodb.net/test?retryWrites=true&w=majority",

@@ -2,12 +2,9 @@ const Product = require("../models/product");
 class ProductCtl {
   async fetchAllProduct(ctx) {
     const allProducts = await Product.find({});
-    // console.log(allProducts, "allProducts");
-    // ctx.body = JSON.stringify(allProducts);
     ctx.body = allProducts;
   }
   async fetchProduct(ctx) {
-    // console.log(ctx.params.id);
     const product = await Product.findOne({
       productId: ctx.params.id,
     });
@@ -32,7 +29,6 @@ class ProductCtl {
       contact: { type: "array", required: true },
       callbackUrl: { type: "string", required: true },
     });
-    // const { name } = ctx.request.body;
     const product = await new Product({
       productName: ctx.request.body.productName,
       productType: ctx.request.body.productType,
@@ -51,7 +47,6 @@ class ProductCtl {
     ctx.body = product;
   }
   async updateProduct(ctx) {
-    // console.log(ctx.request.body);
     ctx.verifyParams({
       productType: { type: "number", enum: [1, 2], required: true },
       productName: { type: "string", required: true },
@@ -71,7 +66,6 @@ class ProductCtl {
       ...ctx.request.body,
       callbackUrl: ctx.request.body.callbackUrl.trim(),
     });
-    // console.log(product, "product");
     ctx.body = product;
   }
   async deleteProduct(ctx) {

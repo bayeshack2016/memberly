@@ -38,6 +38,12 @@ export const handleUser = (data) => {
     payload: data,
   };
 };
+export const handleOrder = (data) => {
+  return {
+    type: "HANDLE_ORDER",
+    payload: data,
+  };
+};
 export const handleVerify = (data) => {
   return {
     type: "HANDLE_VERIFY",
@@ -48,6 +54,13 @@ export const handleVerifyDialog = (data) => {
   return {
     type: "HANDLE_VERIFY_DIALOG",
     payload: data,
+  };
+};
+export const handleFetchOrder = () => {
+  return async (dispatch) => {
+    const metadata = await $axios.get("/order/all");
+    console.log(metadata, "metadata");
+    dispatch(handleOrder(metadata.data));
   };
 };
 export const handleFetchForm = () => {
@@ -61,8 +74,6 @@ export const handleFetchForm = () => {
         $axios(`/user`),
       ])
       .then((responseArr) => {
-        //this will be executed only when all requests are complete
-        // console.log(responseArr);
         dispatch(handleAlipay(responseArr[0].data));
         dispatch(handleWechatPay(responseArr[1].data));
         dispatch(handlePaypal(responseArr[2].data));

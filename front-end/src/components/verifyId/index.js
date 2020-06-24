@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, message, Form, Input } from "antd";
 import { connect } from "react-redux";
 import $axios from "@/axios/$axios";
@@ -15,96 +15,80 @@ const layout = {
 const tailLayout = {
   wrapperCol: { offset: 10, span: 16 },
 };
-class VerifyId extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loading: false };
-  }
-  componentDidMount() {
-    this.props.handleForm(null);
-  }
-  handleVerify = (index) => {
-    this.setState({ visible: true });
-    this.setState({ deleteIndex: index });
+const VerifyId = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    props.handleForm(null);
+  }, []);
+
+  const handleCancel = () => {
+    props.handleVerifyDialog(false);
   };
-  handleCancel = () => {
-    this.props.handleVerifyDialog(false);
-  };
-  onFinish = (values) => {
+  const onFinish = (values) => {
     // console.log(values);
-    this.setState({ loading: true });
+    setLoading(true);
 
     $axios
       .post("/user/verify", values)
       .then(() => {
-        this.props.handleVerify(true);
-        this.props.handleVerifyDialog(false);
-        this.setState({ visible: false });
+        props.handleVerify(true);
+        props.handleVerifyDialog(false);
         message.success("验证成功，请继续之前的操作");
-        this.setState({ loading: false });
+        setLoading(false);
       })
       .catch(() => {
         message.error("验证失败");
-        this.setState({ loading: false });
+        setLoading(false);
       });
   };
-
-  render() {
-    return (
-      <Modal
-        visible={this.props.isShowDialog}
-        title="我们需要验证你的身份"
-        // onOk={this.handleOk}
-        onCancel={this.handleCancel}
-        footer={[
-          <Button key="submit" type="primary" onClick={this.handleCancel}>
-            取消
-          </Button>,
-        ]}
-      >
-        <Form
-          {...layout}
-          onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
+  return (
+    <Modal
+      visible={props.isShowDialog}
+      title="我们需要验证你的身份"
+      // onOk={handleOk}
+      onCancel={handleCancel}
+      footer={[
+        <Button key="submit" type="primary" onClick={handleCancel}>
+          取消
+        </Button>,
+      ]}
+    >
+      <Form {...layout} onFinish={onFinish}>
+        <Form.Item
+          label="问题一"
+          name="answer1"
+          rules={[
+            {
+              required: true,
+              message: "请输入您就读小学的所在城市",
+            },
+          ]}
         >
-          <Form.Item
-            label="问题一"
-            name="answer1"
-            rules={[
-              {
-                required: true,
-                message: "请输入您就读小学的所在城市",
-              },
-            ]}
-          >
-            <Input placeholder="请输入您就读小学的所在城市" />
-          </Form.Item>
-          <Form.Item
-            label="问题二"
-            name="answer2"
-            rules={[
-              {
-                required: true,
-                message: "请输入您最高学历就读学校的所在城市",
-              },
-            ]}
-          >
-            <Input placeholder="请输入您最高学历就读学校的所在城市" />
-          </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={this.state.loading}
-            >
-              验证回答
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  }
-}
+          <Input placeholder="请输入您就读小学的所在城市" />
+        </Form.Item>
+        <Form.Item
+          label="问题二"
+          name="answer2"
+          rules={[
+            {
+              required: true,
+              message: "请输入您最高学历就读学校的所在城市",
+            },
+          ]}
+        >
+          <Input placeholder="请输入您最高学历就读学校的所在城市" />
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            验证回答
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
+
 const mapStateToProps = (state) => {
   return {
     isShowDialog: state.form.isShowDialog,

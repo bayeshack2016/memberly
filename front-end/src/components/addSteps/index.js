@@ -1,33 +1,28 @@
-//添加产品信息
-import React, { Component } from "react";
+//添加商品信息
+import React, { useState } from "react";
 import AddStepOne from "./components/addStepOne";
 import AddStepTwo from "./components/addStepTwo";
 import AddStepThree from "./components/addStepThree";
 import "./index.css";
-class AddSteps extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { formData: null };
-  }
-  getFormValue(values) {
-    this.setState({ formData: values });
-  }
-  render() {
-    return this.props.currentStep === 0 ? (
-      <AddStepOne
-        handleNext={this.props.next}
-        handleFormData={this.getFormValue.bind(this)}
-      />
-    ) : this.props.currentStep === 1 ? (
-      <AddStepTwo
-        handleNext={this.props.next}
-        handlePrev={this.props.prev}
-        formData={this.state.formData}
-      />
-    ) : (
-      <AddStepThree />
-    );
-  }
-}
+const AddSteps = (props) => {
+  const [formData, setFormData] = useState(null);
+  const getFormValue = (values) => {
+    setFormData(values);
+  };
+  return props.currentStep === 0 ? (
+    <AddStepOne
+      handleNext={props.next}
+      handleFormData={getFormValue.bind(this)}
+    />
+  ) : props.currentStep === 1 ? (
+    <AddStepTwo
+      handleNext={props.next}
+      handlePrev={props.prev}
+      formData={formData}
+    />
+  ) : (
+    <AddStepThree />
+  );
+};
 
 export default AddSteps;

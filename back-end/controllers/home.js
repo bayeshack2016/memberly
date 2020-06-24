@@ -1,33 +1,49 @@
 const SalesData = require("../models/salesData");
 const Stats = require("../models/stats");
-const faker = require("faker");
 const Product = require("../models/product");
+const { smms } = require("../config");
+const fs = require("fs");
+const path = require("path");
+const FormData = require("form-data");
+const axios = require("axios");
 class HomeCtl {
   async getSalesData(ctx) {
     const salesData = await SalesData.find(ctx.request.query);
-    console.log(ctx.request.query, salesData, "salesData");
     ctx.body = salesData;
   }
   async getStats(ctx) {
     const stats = await Stats.find(ctx.request.query);
-
     ctx.body = stats;
   }
   async upload(ctx) {
     console.log("shangchuan");
     const file = ctx.request.files.file;
-
-    console.log(file, ctx.request.body.id);
-    const product = await Product.findByIdAndUpdate(ctx.request.body.id, {
-      ...ctx.request.body,
-      logo: file.path.split("\\").reverse()[0],
+    let formData = new FormData();
+    formData.append(
+      "smfile",
+      fs.createReadStream(
+        path.join(
+          __dirname,
+          "../public/uploads",
+          file.path.split("\\").reverse()[0]
+        )
+      )
+    );
+    const formHeaders = formData.getHeaders();
+    const { data } = await axios.post("https://sm.ms/api/v2/upload", formData, {
+      headers: {
+        ...formHeaders,
+        Authorization: smms,
+      },
     });
-    if (!product) {
+    if (!data.data) {
       ctx.throw(404, "上传logo失败");
     }
-    console.log(product, "product");
-    ctx.body = product;
-    // ctx.body = { success: true, path: file.path.split("\\").reverse()[0] };
+    await Product.findByIdAndUpdate(ctx.request.body.id, {
+      ...ctx.request.body,
+      logo: data.data.url,
+    });
+    ctx.body = { success: true };
   }
   async addVisits(ctx, next) {
     let date = new Date();
@@ -36,9 +52,7 @@ class HomeCtl {
       month: date.getMonth() + 1,
       day: date.getDate(),
     });
-    // console.log(stat);
     if (stat) {
-      // console.log(stat.todayVisits);
       let todayVisits = stat.todayVisits;
       todayVisits++;
       await Stats.findByIdAndUpdate(stat._id, { todayVisits: todayVisits });
