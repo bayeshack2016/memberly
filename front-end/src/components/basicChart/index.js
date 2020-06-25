@@ -37,7 +37,6 @@ class Chart extends Component {
         chart: window.echarts.init(this.el, "macarons"),
       },
       () => {
-        // console.log(this.props.chartData);
         this.state.chart.setOption(this.props.chartData, true);
       }
     );

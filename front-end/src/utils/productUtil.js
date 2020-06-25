@@ -1,5 +1,4 @@
 export function restoreFormData(productInfo) {
-  // console.log(productInfo, "productInfo");
   return Object.assign(productInfo, {
     contact:
       typeof productInfo.contact === "string"
@@ -54,7 +53,6 @@ export function restoreFormData(productInfo) {
   });
 }
 export function parseFormData(data, productId) {
-  // console.log(productId, "parse");
   return Object.assign(
     {
       productName: data.productName,
@@ -74,7 +72,6 @@ export function parseFormData(data, productId) {
         data.levelName3 !== undefined ? data.levelName3 : null,
         data.levelName4 !== undefined ? data.levelName4 : null,
       ],
-      // console.log(levelName, "levelName");
       levelPrice: [
         { price: data.levelPrice1.price1, unit: data.levelPrice1.unit1 },
         data.levelPrice2 !== undefined
@@ -87,21 +84,18 @@ export function parseFormData(data, productId) {
           ? { price: data.levelPrice4.price4, unit: data.levelPrice4.unit4 }
           : null,
       ],
-      // console.log(levelPrice, "levelPrice");
       levelDesc: [
         data.levelDesc1.split("\n"),
         data.levelDesc2 !== undefined ? data.levelDesc2.split("\n") : null,
         data.levelDesc3 !== undefined ? data.levelDesc3.split("\n") : null,
         data.levelDesc4 !== undefined ? data.levelDesc4.split("\n") : null,
       ],
-      // console.log(levelDesc, "levelDesc");
       levelLimit: [
         data.levelLimit1,
         data.levelLimit2 !== undefined ? data.levelLimit2 : null,
         data.levelLimit3 !== undefined ? data.levelLimit3 : null,
         data.levelLimit4 !== undefined ? data.levelLimit4 : null,
       ],
-      // console.log(levelLimit, "levelLimit");
       levelNote: [
         data.levelNote1,
         data.levelNote2 !== undefined ? data.levelNote2 : null,

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import DashboardHeader from "@/components/dashboardHeader";
 import DashboardChart from "@/components/dashboardChart";
 import PageLoading from "../../components/pageLoading";
-
+import { handleFetchByWeek } from "@/redux/actions/weekData";
+import { handleFetchByMonth } from "@/redux/actions/monthData";
+import { handleFetchByYear } from "@/redux/actions/yearData";
+import { handleFetchByPeriod } from "@/redux/actions/periodData";
 import { connect } from "react-redux";
 const Dashboard = (props) => {
   const [loading, setLoading] = useState(
@@ -65,6 +68,10 @@ const Dashboard = (props) => {
   useEffect(() => {
     const echartsUrl = "/lib/echarts.min.js";
     addScript(echartsUrl);
+    props.handleFetchByPeriod();
+    props.handleFetchByYear();
+    props.handleFetchByMonth();
+    props.handleFetchByWeek();
   }, []);
 
   return (
@@ -105,5 +112,10 @@ const mapStateToProps = (state) => {
     email: state.form.email,
   };
 };
-const actionCreator = {};
+const actionCreator = {
+  handleFetchByPeriod,
+  handleFetchByYear,
+  handleFetchByMonth,
+  handleFetchByWeek,
+};
 export default connect(mapStateToProps, actionCreator)(Dashboard);

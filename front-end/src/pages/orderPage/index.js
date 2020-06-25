@@ -75,10 +75,8 @@ const columns = [
 ];
 const OrderPage = (props) => {
   const [data, setData] = useState(props.order);
-  const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const filterData = (date = {}) => {
-    setLoading(true);
     let filteredData = [];
     props.order.forEach((item) => {
       if (
@@ -90,7 +88,6 @@ const OrderPage = (props) => {
       }
     });
     setData(filteredData);
-    setLoading(false);
   };
 
   const onSelectedRowKeysChange = (selectedRowKeys) => {
@@ -103,7 +100,6 @@ const OrderPage = (props) => {
         searchResults.push(item);
       }
     });
-    setLoading(false);
     setData(searchResults);
   };
   const handleReset = () => {
@@ -198,7 +194,6 @@ const OrderPage = (props) => {
         <Table
           columns={columns}
           dataSource={data}
-          loading={loading}
           rowKey={(record) => record}
           rowSelection={rowSelection}
           style={{ userSelect: "text" }}

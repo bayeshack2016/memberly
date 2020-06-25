@@ -80,34 +80,12 @@
 密码：123456
 ```
 
-## 目录结构
+[API 文档](https://pay.960960.xyz/swagger)
 
-```
-│
-├─back-end
-│  ├─bin
-│  ├─controllers
-│  ├─logs
-│  ├─middlewares
-│  ├─models
-│  ├─routes
-│  ├─service
-│  └─utils
-│
-├─front-end
-│  ├─config
-│  ├─public
-│  ├─script
-│  └─src
-│    ├─assets
-│    ├─axios
-│    ├─components
-│    ├─containers
-│    ├─pages
-│    ├─redux
-│    ├─router
-│    └─utils
-```
+## 项目架构
+
+<img src="https://i.loli.net/2020/06/25/jyViQe1NBxc5Wwg.png">
+<img src="https://i.loli.net/2020/06/25/dsSNDvmBFb8OyZL.png">
 
 ## 搭建方式
 

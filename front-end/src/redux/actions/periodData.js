@@ -29,25 +29,24 @@ export function handleFetchByPeriod(catergory) {
     let period = [];
     let date = new Date();
     let metadata = await $axios(
-      `/stats?year=${date.getFullYear()}&&month=${
+      `/historyData?year=${date.getFullYear()}&&month=${
         date.getMonth() + 1
       }&&day=${date.getDate()}`
     );
-    console.log(metadata);
     let id = metadata.data[0] !== undefined ? metadata.data[0].number : 14;
-    let data = await $axios(`/stats`);
+    let data = await $axios(`/historyData`);
     let periodData = data.data;
     for (let i = id - 14; i <= id; i++) {
-      let totalSales = periodData[i] ? periodData[i].totalSales : [0];
-      let totalVisits = periodData[i] ? periodData[i].totalVisits : [0];
-      let totalOrders = periodData[i] ? periodData[i].totalOrders : [0];
+      let historySales = periodData[i] ? periodData[i].historySales : [0];
+      let historyVisits = periodData[i] ? periodData[i].historyVisits : [0];
+      let historyOrders = periodData[i] ? periodData[i].historyOrders : [0];
       let date = periodData[i]
         ? `${periodData[i].month}-${periodData[i].day}`
         : "00-00";
       period.push(date);
-      salesByPeriod.push(parseInt(totalSales));
-      visitsByPeriod.push(parseInt(totalVisits));
-      ordersByPeriod.push(parseInt(totalOrders));
+      salesByPeriod.push(parseInt(historySales));
+      visitsByPeriod.push(parseInt(historyVisits));
+      ordersByPeriod.push(parseInt(historyOrders));
     }
     dispatch(handlePeriod(period.splice(1, 14)));
     dispatch(handleSalesByPeriod(salesByPeriod));

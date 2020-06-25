@@ -26,7 +26,6 @@ const VerifyId = (props) => {
     props.handleVerifyDialog(false);
   };
   const onFinish = (values) => {
-    // console.log(values);
     setLoading(true);
 
     $axios

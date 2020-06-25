@@ -9,7 +9,7 @@ const {
   deleteProduct,
   fetchAllProduct,
 } = require("../controllers/product");
-const { addVisits } = require("../controllers/home");
+const { addVisits } = require("../middlewares/addVisits");
 const { secret } = require("../config");
 const auth = jwt({ secret });
 /**

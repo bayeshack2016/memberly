@@ -22,7 +22,6 @@ const ProductPage = (props) => {
       return;
     }
     let { allProducts } = props;
-    // console.log(props.allProducts, index, "products1");
     let { handleFetchAllProduct } = props;
     confirm({
       title: "是否删除此商品",
@@ -77,7 +76,6 @@ const ProductPage = (props) => {
   );
 
   const nullData = {};
-  // console.log(fakeList(9));
   return (
     <div className="product-page-container">
       <div className="product-page-header">{content}</div>

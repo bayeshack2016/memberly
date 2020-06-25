@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AlipayCircleOutlined,
   WechatOutlined,
@@ -25,17 +25,21 @@ const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_1701775_ulwzj52gr7s.js",
 });
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+let checkPayment = null;
 const PaymentDialog = (props) => {
   const [qrUrl, setQrUrl] = useState(null);
   const [formData, setFormData] = useState(null);
   const [orderInfo, setOrderInfo] = useState(null);
   const [questNumber, setQuestNumber] = useState(0);
   const [failed, setFailed] = useState(false);
-  let checkPayment = null;
-  if (orderInfo || questNumber > 20) {
-    clearInterval(checkPayment);
-  }
-  questNumber > 20 && message.error("我们暂时无法处理您的请求，请稍后重试");
+
+  useEffect(() => {
+    if (orderInfo || questNumber > 20) {
+      clearInterval(checkPayment);
+    }
+    questNumber > 20 && message.error("我们暂时无法处理您的请求，请稍后重试");
+  }, [orderInfo, questNumber]);
+
   const { chooseLevel } = props;
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
@@ -64,11 +68,13 @@ const PaymentDialog = (props) => {
       levelName: props.chooseLevel.levelName,
     });
     setQrUrl(metadata.data);
+    let num = 0;
     checkPayment = setInterval(async () => {
       let metadata = await $axios(`/order/fetch/${orderId}`);
       let orderInfo = metadata.data;
-      console.log(orderInfo, "orderInfo");
-      setQuestNumber(questNumber + 1);
+      num++;
+      console.log(num);
+      setQuestNumber(num);
       if (orderInfo.paymentStatus === "已支付") {
         setOrderInfo(orderInfo);
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
@@ -82,6 +88,8 @@ const PaymentDialog = (props) => {
   };
   const closeDialog = () => {
     props.handleDialog(false, null);
+    console.log("closeDialog");
+    clearInterval(checkPayment);
   };
   return (
     <div className="product-payment-container">

@@ -26,7 +26,6 @@ export const Alipay = (props) => {
   const formRef = React.createRef();
   const handleVerify = () => {
     if (props.isVerified) {
-      console.log(formRef);
       formRef.current.setFieldsValue(props.formData);
     } else {
       props.handleVerifyDialog(true);

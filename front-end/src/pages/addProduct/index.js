@@ -78,7 +78,6 @@ const AddProduct = (props) => {
     const product = props.allProducts.filter((item) => {
       return item._id === id;
     });
-    console.log(props.allProducts, product);
     return product[0].productId;
   };
   return (

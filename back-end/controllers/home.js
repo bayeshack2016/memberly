@@ -1,5 +1,5 @@
-const SalesData = require("../models/salesData");
-const Stats = require("../models/stats");
+const TodayData = require("../models/todayData");
+const HistoryData = require("../models/historyData");
 const Product = require("../models/product");
 const { smms } = require("../config");
 const fs = require("fs");
@@ -7,13 +7,13 @@ const path = require("path");
 const FormData = require("form-data");
 const axios = require("axios");
 class HomeCtl {
-  async getSalesData(ctx) {
-    const salesData = await SalesData.find(ctx.request.query);
-    ctx.body = salesData;
+  async getTodayData(ctx) {
+    const todayData = await TodayData.find(ctx.request.query);
+    ctx.body = todayData;
   }
-  async getStats(ctx) {
-    const stats = await Stats.find(ctx.request.query);
-    ctx.body = stats;
+  async getHistoryData(ctx) {
+    const historyData = await HistoryData.find(ctx.request.query);
+    ctx.body = historyData;
   }
   async upload(ctx) {
     console.log("shangchuan");
@@ -44,20 +44,6 @@ class HomeCtl {
       logo: data.data.url,
     });
     ctx.body = { success: true };
-  }
-  async addVisits(ctx, next) {
-    let date = new Date();
-    const stat = await Stats.findOne({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-    });
-    if (stat) {
-      let todayVisits = stat.todayVisits;
-      todayVisits++;
-      await Stats.findByIdAndUpdate(stat._id, { todayVisits: todayVisits });
-    }
-    await next();
   }
 }
 module.exports = new HomeCtl();

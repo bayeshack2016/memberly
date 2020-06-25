@@ -6,12 +6,11 @@ const MobilePage = (props) => {
     const style = document.createElement("link");
     style.href = url;
     style.rel = "stylesheet";
-    style.async = true;
+    // style.async = true;
     document.head.appendChild(style);
   };
   const { productInfo } = props;
   useEffect(() => {
-    console.log(props.theme, " props.theme");
     const cssUrl =
       props.theme === "default"
         ? "/assets/css/default.css"

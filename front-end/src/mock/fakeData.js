@@ -30,7 +30,7 @@ function generateData() {
       week: date.getDay(),
       sales: parseFloat(faker.finance.amount()),
       visits: parseFloat(faker.finance.amount()),
-      orders: parseFloat(faker.finance.amount())
+      orders: parseFloat(faker.finance.amount()),
     });
   }
   for (var i = 0; i < 365; i++) {
@@ -43,10 +43,10 @@ function generateData() {
       month: date.getMonth() + 1,
       day: date.getDate(),
       week: date.getDay(),
-      totalSales: parseFloat(faker.finance.amount()),
-      totalVisits: parseFloat(faker.finance.amount()),
-      totalOrders: parseFloat(faker.finance.amount()),
-      todayVisits: parseFloat(faker.random.number())
+      historySales: parseFloat(faker.finance.amount()),
+      historyVisits: parseFloat(faker.finance.amount()),
+      historyOrders: parseFloat(faker.finance.amount()),
+      todayVisits: parseFloat(faker.random.number()),
     });
   }
   for (var i = 0; i < 365; i++) {
@@ -65,7 +65,7 @@ function generateData() {
       time: date.toLocaleTimeString(),
       price: faker.random.number(),
       email: faker.internet.email(),
-      ip: faker.internet.ip()
+      ip: faker.internet.ip(),
     });
   }
   var productInfo = [
@@ -81,7 +81,7 @@ function generateData() {
         { price: 0, unit: "每年" },
         { price: 9, unit: "每年" },
         { price: 15, unit: "每年" },
-        { price: 29, unit: "终身" }
+        { price: 29, unit: "终身" },
       ],
       levelDesc: [
         ["支持 MP3 格式", "支持 WAV 格式", "支持 WAV 格式"],
@@ -90,7 +90,7 @@ function generateData() {
           "支持 WAV 格式",
           "支持 WAV 格式",
           "支持 APE 格式",
-          "支持 FLAC 格式 "
+          "支持 FLAC 格式 ",
         ],
         [
           "支持 MP3 格式",
@@ -100,7 +100,7 @@ function generateData() {
           "支持 FLAC 格式",
           "多网盘同步",
           "WebDAV 同步",
-          "获取歌词和封面"
+          "获取歌词和封面",
         ],
         [
           "支持 MP3 格式",
@@ -110,14 +110,14 @@ function generateData() {
           "支持 FLAC 格式",
           "多网盘同步",
           "WebDAV 同步",
-          "获取歌词和封面"
-        ]
+          "获取歌词和封面",
+        ],
       ],
       levelLimit: [null, null, null, 600],
       levelNote: [null, null, null, "限时赠送 500G 无损古典乐合集"],
       theme: "default",
-      id: "1"
-    }
+      id: "1",
+    },
   ];
   console.log(JSON.stringify(salesData));
   console.log(JSON.stringify(stats));
@@ -126,7 +126,7 @@ function generateData() {
     salesData: salesData,
     order: order,
     stats: stats,
-    product: productInfo
+    product: productInfo,
   };
 }
 module.exports = generateData;

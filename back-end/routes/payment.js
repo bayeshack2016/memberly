@@ -1,6 +1,5 @@
 const Router = require("koa-router");
 const jwt = require("koa-jwt");
-const { verifyAnswer } = require("../middlewares/verifyAnswer");
 const router = new Router({ prefix: "/api" });
 const {
   fetchAlipay,
@@ -67,8 +66,8 @@ router.post("/alipay/callback", handleAlipayCallback);
  *         description: 成功更新支付宝信息
  */
 router.post("/alipay/:id", auth, updateAlipay);
-router.post("/wechatPay/:id", auth, verifyAnswer, updateWechat);
-router.post("/paypal/:id", auth, verifyAnswer, updatePaypal);
+router.post("/wechatPay/:id", auth, updateWechat);
+router.post("/paypal/:id", auth, updatePaypal);
 /**
  * @swagger
  * /api/alipay:

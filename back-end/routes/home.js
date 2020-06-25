@@ -4,10 +4,10 @@ const { secret } = require("../config");
 const auth = jwt({ secret });
 const router = new Router({ prefix: "/api" });
 
-const { getSalesData, getStats, upload } = require("../controllers/home");
+const { getTodayData, getHistoryData, upload } = require("../controllers/home");
 /**
  * @swagger
- * /api/stats:
+ * /api/historyData:
  *   get:
  *     tags:
  *       - 统计数据
@@ -34,10 +34,10 @@ const { getSalesData, getStats, upload } = require("../controllers/home");
  *       200:
  *         description: 成功获取数据
  */
-router.get("/stats", auth, getStats);
+router.get("/historyData", auth, getHistoryData);
 /**
  * @swagger
- * /api/saleData:
+ * /api/todayData:
  *   get:
  *     tags:
  *       - 统计数据
@@ -64,7 +64,7 @@ router.get("/stats", auth, getStats);
  *       200:
  *         description: 成功获取数据
  */
-router.get("/salesData", auth, getSalesData);
+router.get("/todayData", auth, getTodayData);
 /**
  * @swagger
  * /api/upload:

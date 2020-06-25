@@ -32,7 +32,6 @@ class AlipayCtl {
   }
 
   async fetchAlipayQrcode(ctx) {
-    // console.log("fetchAlipayQrcode");
     const alipay = await Alipay.findOne();
     const alipayConfig = {
       /* 以下信息可以在https://openhome.alipay.com/platform/appManage.htm查到, 不过merchantPrivateKey需要您自己生成 */

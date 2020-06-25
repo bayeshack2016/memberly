@@ -37,7 +37,6 @@ export const handleFetchAllProduct = () => {
     $axios
       .get(`/product/all`)
       .then((res) => {
-        console.log(res.data, "metadata");
         let allProducts = res.data || [];
         dispatch(handleAllProducts(allProducts));
       })

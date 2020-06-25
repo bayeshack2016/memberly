@@ -29,7 +29,6 @@ const MailPage = (props) => {
   };
   const handleVerify = () => {
     if (props.isVerified) {
-      console.log(formRef);
       formRef.current.setFieldsValue(props.email);
     } else {
       props.handleVerifyDialog(true);
@@ -49,7 +48,6 @@ const MailPage = (props) => {
       sm: { span: 8, offset: 0 },
     },
   };
-  console.log(props.isVerified, "is-active");
   return (
     <div className="mail-page-container">
       <VerifyId />

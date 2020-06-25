@@ -11,8 +11,6 @@ const Logo = (props) => {
     setLoading(true);
     e.preventDefault();
     const file = e.target.files[0];
-    console.log(file);
-
     let formData = new FormData();
     formData.append("file", file);
     formData.append("id", props.productId);
@@ -23,13 +21,11 @@ const Logo = (props) => {
         },
       })
       .then((result) => {
-        console.log(result);
         message.success("更换Logo成功");
         setLoading(false);
         setUrl(window.webkitURL.createObjectURL(file));
       })
       .catch((err) => {
-        console.log(err);
         message.error("更换Logo失败");
         setLoading(false);
       });

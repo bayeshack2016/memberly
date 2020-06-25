@@ -3,14 +3,14 @@ const WechatPay = require("../models/wechatPay");
 const Paypal = require("../models/paypal");
 const Email = require("../models/email");
 const Setting = require("../models/setting");
-const Stats = require("../models/stats");
-const SalesData = require("../models/salesData");
+const HistoryData = require("../models/historyData");
+const TodayData = require("../models/todayData");
 const Order = require("../models/order");
 const User = require("../models/user");
 
 class initUtil {
   async initData() {
-    // await Setting.deleteMany({}, () => {
+    // await TodayData.deleteMany({}, () => {
     //   console.log("delete success");
     // });
     const alipay = await Alipay.find();
@@ -52,7 +52,6 @@ class initUtil {
       }).save();
     }
     const setting = await Setting.find();
-    // console.log(setting);
     if (setting.length === 0) {
       await Setting({
         themeOption: "default",
@@ -60,46 +59,27 @@ class initUtil {
         version: 1.2,
       }).save();
     }
-
-    const stats = await Stats.find();
-    if (stats.length === 0) {
+    const historyData = await HistoryData.find();
+    if (historyData.length === 0) {
       let date = new Date();
-      await Stats({
+      new HistoryData({
         date: date.toLocaleDateString(),
         number: 0,
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         day: date.getDate(),
         week: date.getDay(),
-        totalSales: 0,
-        totalVisits: 0,
-        totalOrders: 0,
-        todayVisits: 0,
+        historySales: 0,
+        historyVisits: 0,
+        historyOrders: 0,
       }).save();
     }
-    // let date = new Date();
-    // const stat = await Stats.findOne({ date: date.toLocaleDateString() });
-    // if (!stat) {
-    //   let date = new Date();
-    //   await Stats({
-    //     date: date.toLocaleDateString(),
-    //     number: 0,
-    //     year: date.getFullYear(),
-    //     month: date.getMonth() + 1,
-    //     day: date.getDate(),
-    //     week: date.getDay(),
-    //     totalSales: 0,
-    //     totalVisits: 0,
-    //     totalOrders: 0,
-    //     todayVisits: 0
-    //   }).save();
-    // }
 
-    const salesData = await SalesData.find();
-    if (salesData.length === 0) {
+    const todayData = await TodayData.find();
+    if (todayData.length === 0) {
       let date = new Date();
-      date.setDate(date.getDate() - 1);
-      await SalesData({
+      date.setDate(date.getDate());
+      new TodayData({
         date: date.toLocaleDateString(),
         number: 0,
         year: date.getFullYear(),

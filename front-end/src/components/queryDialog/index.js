@@ -23,7 +23,6 @@ const Query = (props) => {
           showModal();
         })
         .catch((err) => {
-          console.log(err);
           setLoading(false);
           message.warning("未找到订单，请确认查询条件是否正确");
         });
@@ -59,19 +58,16 @@ const Query = (props) => {
   };
 
   const handleCancel = (e) => {
-    console.log(e);
     setDialogVisible(false);
     setOrderInfo(null);
   };
   const handleChange = (key) => {
-    console.log(key, "key");
     setActiveTab(parseInt(key));
   };
   const handleQuery = () => {
     setAllowQuery("allow");
   };
   const onFinish = (values) => {
-    console.log(values);
     setFormData(values);
     handleCheck();
   };

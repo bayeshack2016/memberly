@@ -12,7 +12,6 @@ export function handleOrdersByMonth(ordersByMonth) {
 }
 
 export function handleFetchByMonth() {
-  console.log("handleFetchByMonth");
   return async (dispatch) => {
     let salesByMonth = [];
     let visitsByMonth = [];
@@ -21,12 +20,11 @@ export function handleFetchByMonth() {
     let date = new Date();
     let metadata = await $axios({
       method: "get",
-      url: `/salesData?year=${date.getFullYear()}&&month=${
+      url: `/todayData?year=${date.getFullYear()}&&month=${
         date.getMonth() + 1
       }`,
     });
     let monthData = metadata.data;
-    console.log(metadata, "monthdata");
     for (let i = 1; i <= maxDay; i++) {
       let sales = monthData[i] ? monthData[i].sales : 0;
       let visits = monthData[i] ? monthData[i].visits : 0;
@@ -35,7 +33,6 @@ export function handleFetchByMonth() {
       visitsByMonth.push(parseInt(visits));
       ordersByMonth.push(parseInt(orders));
     }
-    // console.log(salesByMonth, salesByMonth, ordersByMonth);
     dispatch(handleSalesByMonth(salesByMonth));
     dispatch(handleVisitsByMonth(visitsByMonth));
     dispatch(handleOrdersByMonth(ordersByMonth));

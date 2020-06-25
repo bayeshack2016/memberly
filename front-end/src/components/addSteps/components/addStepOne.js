@@ -20,7 +20,6 @@ const AddStepOne = (props) => {
     let url = document.location.toString();
     let idArr = url.split("/");
     let id = idArr[idArr.length - 1];
-    console.log(props.allProducts, id, props.allProducts[id - 1], "id");
     if (!isNaN(parseInt(id))) {
       //解决被调用两次的问题，导致productUitl报错
       formRef.current.setFieldsValue(
@@ -157,7 +156,6 @@ const AddStepOne = (props) => {
       sm: { span: 8 },
     },
   };
-  console.log(formData, "formdata");
   return (
     <div className="shadow-radius" style={{ marginTop: "50px" }}>
       <Form

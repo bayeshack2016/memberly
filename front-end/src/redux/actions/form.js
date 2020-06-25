@@ -59,7 +59,6 @@ export const handleVerifyDialog = (data) => {
 export const handleFetchOrder = () => {
   return async (dispatch) => {
     const metadata = await $axios.get("/order/all");
-    console.log(metadata, "metadata");
     dispatch(handleOrder(metadata.data));
   };
 };

@@ -21,7 +21,7 @@ export const weekAxis = () => {
   }
   return axis;
 };
-export const romanToChinese = num => {
+export const romanToChinese = (num) => {
   let Chinese = "";
   switch (num) {
     case 1:
@@ -50,7 +50,7 @@ export const romanToChinese = num => {
   }
   return Chinese;
 };
-const xAxisOption = range => {
+const xAxisOption = (range) => {
   return [
     {
       type: "category",
@@ -60,12 +60,11 @@ const xAxisOption = range => {
           ? monthAxis()
           : range === "month"
           ? dayAxis()
-          : weekAxis()
-    }
+          : weekAxis(),
+    },
   ];
 };
 const seriesOption = (catergory, range, data) => {
-  // console.log(catergory, data);
   return [
     {
       name:
@@ -84,10 +83,10 @@ const seriesOption = (catergory, range, data) => {
           label: {
             show: false,
             position: "top",
-            formatter: "{c}"
+            formatter: "{c}",
             // formatter: '{b}\n{c}'
-          }
-        }
+          },
+        },
       },
       barWidth:
         range === "week"
@@ -96,8 +95,8 @@ const seriesOption = (catergory, range, data) => {
           ? 15
           : range === "year"
           ? 30
-          : null
-    }
+          : null,
+    },
     // 设置柱的宽度，要是数据太少，柱子太宽不美观~
   ];
 };
@@ -114,7 +113,7 @@ const barChartData = {
   //   left: "center"
   // },
   tooltip: {
-    trigger: "axis"
+    trigger: "axis",
   },
   grid: {
     top: "2%",
@@ -122,7 +121,7 @@ const barChartData = {
     right: "0.5%",
     bottom: "0%",
     containLabel: true,
-    show: false
+    show: false,
   },
   // x轴
   yAxis: [
@@ -130,23 +129,15 @@ const barChartData = {
       type: "value",
       show: true,
       axisLabel: {
-        formatter: "{value}"
-      }
-    }
-  ]
+        formatter: "{value}",
+      },
+    },
+  ],
 };
 export function chartData(catergory, range, data) {
-  // console.log(data);
-  // console.log({
-  //   ...barChartData,
-  //   xAxis: xAxisOption(range),
-  //   series: seriesOption(catergory, data)
-  // });
-
-  // console.log(range, "range");
   return {
     ...barChartData,
     xAxis: xAxisOption(range),
-    series: seriesOption(catergory, range, data)
+    series: seriesOption(catergory, range, data),
   };
 }

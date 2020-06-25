@@ -13,7 +13,6 @@ const AddStepThree = (props) => {
     let idArr = url.split("/");
     let id = idArr[idArr.length - 1];
     host = url.split("#")[0];
-    console.log(host);
     if (!isNaN(parseInt(id))) {
       setMode("edit");
       setId(props.allProducts[id - 1]._id);
@@ -28,7 +27,6 @@ const AddStepThree = (props) => {
     const product = props.allProducts.filter((item) => {
       return item._id === id;
     });
-    console.log(props.allProducts, product);
     return product[0].productId;
   };
   const productLink = `${host}#/product/${
