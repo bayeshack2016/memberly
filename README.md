@@ -56,15 +56,11 @@
 
 ### 后端
 
-- node
-- Koa2 + 相关 npm 包
-- ES6
+- Koa2
+- Mongodb
 - pm2
-- mongoose
-- nodemon
-- nodemailer
-- morgan
 - jsonwebtoken
+- nodemailer
 - ...
 
 ## 预览地址
@@ -73,14 +69,14 @@
 
 [前台产品页](https://pay.960960.xyz/#/product/6)
 
+[API 文档](https://app.swaggerhub.com/apis-docs/troyeguo/CoodoPay/1.2.0)
+
 [后台管理系统](https://pay.960960.xyz)
 
 ```
 账号：coodo@102410.xyz
 密码：123456
 ```
-
-[API 文档](https://pay.960960.xyz/swagger)
 
 ## 项目架构
 

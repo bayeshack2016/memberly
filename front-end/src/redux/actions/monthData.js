@@ -25,10 +25,15 @@ export function handleFetchByMonth() {
       }`,
     });
     let monthData = metadata.data;
+    console.log(monthData, maxDay, "monthData");
     for (let i = 1; i <= maxDay; i++) {
-      let sales = monthData[i] ? monthData[i].sales : 0;
-      let visits = monthData[i] ? monthData[i].visits : 0;
-      let orders = monthData[i] ? monthData[i].orders : 0;
+      let data = monthData.filter((item) => {
+        return item.day === i;
+      });
+      console.log(data);
+      let sales = data.length !== 0 ? data[0].sales : 0;
+      let visits = data.length !== 0 ? data[0].visits : 0;
+      let orders = data.length !== 0 ? data[0].orders : 0;
       salesByMonth.push(parseInt(sales));
       visitsByMonth.push(parseInt(visits));
       ordersByMonth.push(parseInt(orders));

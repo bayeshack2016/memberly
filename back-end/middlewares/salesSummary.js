@@ -11,7 +11,7 @@ const salesSummary = async (ctx, next) => {
     day: date.getDate(),
   });
   if (todayData) {
-    let { sales, visits, orders } = todayData;
+    let { sales, orders } = todayData;
     sales += ctx.request.body.price;
     orders++;
     await TodayData.findByIdAndUpdate(todayData._id, {
@@ -23,15 +23,14 @@ const salesSummary = async (ctx, next) => {
       month: date.getMonth() + 1,
       day: date.getDate(),
     });
-
+    // console.log(historyData);
     if (historyData) {
-      let { historySales, historyVisits, historyOrders } = historyData;
-      historySales += sales;
-      historyVisits += visits;
-      historyOrders += orders;
+      let { historySales, historyOrders } = historyData;
+      historySales += ctx.request.body.price;
+      historyOrders++;
+      // console.log(historyOrders);
       await HistoryData.findByIdAndUpdate(historyData._id, {
         historySales,
-        historyVisits,
         historyOrders,
       });
     }

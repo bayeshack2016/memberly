@@ -25,6 +25,8 @@ export function handleFetchByWeek(catergory) {
     let id = metadata.data[0] ? metadata.data[0].number : 0;
     let data = await $axios.get(`/todayData`);
     let weekData = data.data;
+    // console.log(weekData, "weekData");
+
     for (let i = id - ((date.getDay() + 6) % 7); i <= id; i++) {
       let sales = weekData[i] ? weekData[i].sales : 0;
       let visits = weekData[i] ? weekData[i].visits : 0;

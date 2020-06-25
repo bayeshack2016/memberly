@@ -36,6 +36,7 @@ export function handleFetchByPeriod(catergory) {
     let id = metadata.data[0] !== undefined ? metadata.data[0].number : 14;
     let data = await $axios(`/historyData`);
     let periodData = data.data;
+    // console.log(periodData, "periodData");
     for (let i = id - 14; i <= id; i++) {
       let historySales = periodData[i] ? periodData[i].historySales : [0];
       let historyVisits = periodData[i] ? periodData[i].historyVisits : [0];
