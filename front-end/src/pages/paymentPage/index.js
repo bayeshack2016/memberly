@@ -11,8 +11,8 @@ const menuMap = {
   wechatPay: "微信支付",
   paypal: "Paypal",
 };
+let main;
 const PaymentPage = (props) => {
-  let main;
   const [mode, setMode] = useState("inline");
   const [selectedKey, setSelectedKey] = useState("alipay");
   useEffect(() => {

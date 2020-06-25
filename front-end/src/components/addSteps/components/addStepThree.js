@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleFetchAllProduct } from "@/redux/actions/product.js";
 const copy = require("copy-text-to-clipboard");
+let host;
 const AddStepThree = (props) => {
-  let host;
   const [mode, setMode] = useState("add");
   const [id, setId] = useState(null);
   useEffect(() => {

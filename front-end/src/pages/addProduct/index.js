@@ -25,9 +25,8 @@ const AddProduct = (props) => {
   const next = () => {
     if (mode === "add") {
       //添加商品时走这条分支
-      const current = current + 1;
-      if (current === 1) {
-        setCurrent(current);
+      if (current === 0) {
+        setCurrent(current + 1);
       } else {
         $axios
           .post(
@@ -41,7 +40,7 @@ const AddProduct = (props) => {
           )
           .then(async (results) => {
             await props.handleFetchAllProduct();
-            setCurrent(current);
+            setCurrent(current + 1);
           })
           .catch((err) => {
             message.error("添加失败");
@@ -50,9 +49,8 @@ const AddProduct = (props) => {
     } else {
       //编辑商品时走这条分支
 
-      const current = current + 1;
-      if (current === 1) {
-        setCurrent(current);
+      if (current === 0) {
+        setCurrent(current + 1);
       } else {
         $axios
           .post(
@@ -61,7 +59,7 @@ const AddProduct = (props) => {
           )
           .then(async (results) => {
             await props.handleFetchAllProduct();
-            setCurrent(current);
+            setCurrent(current + 1);
           })
           .catch((err) => {
             message.error("添加失败");
@@ -71,8 +69,7 @@ const AddProduct = (props) => {
   };
 
   const prev = () => {
-    const current = current - 1;
-    setCurrent(current);
+    setCurrent(current - 1);
   };
   const getProductId = (id) => {
     const product = props.allProducts.filter((item) => {
