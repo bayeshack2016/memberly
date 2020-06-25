@@ -48,7 +48,7 @@
 
 ### 前端
 
-- React
+- React (with hooks)
 - React Router
 - React Redux
 - Ant Design
@@ -84,8 +84,8 @@
 
 ## 项目架构
 
-<img src="https://i.loli.net/2020/06/25/jyViQe1NBxc5Wwg.png">
-<img src="https://i.loli.net/2020/06/25/dsSNDvmBFb8OyZL.png">
+<img src="https://i.loli.net/2020/06/25/IAvzkwqybueSd1p.png">
+<img src="https://i.loli.net/2020/06/25/GpBbfny8JdVN1cr.png">
 
 ## 搭建方式
 
