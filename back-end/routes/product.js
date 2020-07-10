@@ -1,6 +1,5 @@
 const Router = require("koa-router");
 const jwt = require("koa-jwt");
-
 const router = new Router({ prefix: "/api/product" });
 const {
   fetchProduct,
@@ -10,6 +9,8 @@ const {
   fetchAllProduct,
 } = require("../controllers/product");
 const { addVisits } = require("../middlewares/addVisits");
+const { createTodaySales } = require("../middlewares/createTodaySales");
+const { createHistorySales } = require("../middlewares/createHistorySales");
 const { secret } = require("../config");
 const auth = jwt({ secret });
 /**
@@ -41,7 +42,13 @@ router.get("/all", auth, fetchAllProduct);
  *       200:
  *         description: 成功获取单个商品信息
  */
-router.get("/:id", addVisits, fetchProduct);
+router.get(
+  "/:id",
+  createTodaySales,
+  createHistorySales,
+  addVisits,
+  fetchProduct
+);
 /**
  * @swagger
  * /api/product:

@@ -3,8 +3,6 @@ const WechatPay = require("../models/wechatPay");
 const Paypal = require("../models/paypal");
 const Email = require("../models/email");
 const Setting = require("../models/setting");
-const HistoryData = require("../models/historyData");
-const TodayData = require("../models/todayData");
 const Order = require("../models/order");
 const User = require("../models/user");
 
@@ -57,38 +55,6 @@ class initUtil {
         themeOption: "default",
         isFirst: "yes",
         version: 1.2,
-      }).save();
-    }
-    const historyData = await HistoryData.find();
-    if (historyData.length === 0) {
-      let date = new Date();
-      new HistoryData({
-        date: date.toLocaleDateString(),
-        number: 0,
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate(),
-        week: date.getDay(),
-        historySales: 0,
-        historyVisits: 0,
-        historyOrders: 0,
-      }).save();
-    }
-
-    const todayData = await TodayData.find();
-    if (todayData.length === 0) {
-      let date = new Date();
-      date.setDate(date.getDate());
-      new TodayData({
-        date: date.toLocaleDateString(),
-        number: 0,
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate(),
-        week: date.getDay(),
-        sales: 0,
-        orders: 0,
-        visits: 0,
       }).save();
     }
   }

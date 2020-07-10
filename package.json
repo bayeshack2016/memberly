@@ -1,7 +1,0 @@
-{
-  "name": "coodo-pay",
-  "version": "1.2.0",
-  "scripts": {
-    "postinstall": "npm install --prefix back-end"
-  }
-}

@@ -69,8 +69,10 @@ const Query = (props) => {
   };
   const onFinish = (values) => {
     setFormData(values);
-    handleCheck();
   };
+  useEffect(() => {
+    formData && handleCheck();
+  }, [formData]);
   return (
     <div className="query-container">
       {dialogVisible ? (

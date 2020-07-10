@@ -14,7 +14,6 @@ const cors = require("koa2-cors");
 const koaStatic = require("koa-static");
 const { connection } = require("./config");
 const { initData } = require("./utils/initUtil");
-const { DataCron } = require("./utils/cronJobs");
 const compress = require("koa-compress");
 const koaSwagger = require("koa2-swagger-ui");
 const swagger = require("./utils/swagger");
@@ -83,6 +82,5 @@ app.use(
 app.use(parameter(app));
 routing(app);
 
-DataCron();
 initData();
 module.exports = app;

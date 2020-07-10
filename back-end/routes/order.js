@@ -1,6 +1,6 @@
 const Router = require("koa-router");
 const jwt = require("koa-jwt");
-const { salesSummary } = require("../middlewares/salesSummary");
+const { addSales } = require("../middlewares/addSales");
 
 const router = new Router({ prefix: "/api/order" });
 const {
@@ -145,13 +145,7 @@ router.get("/fetch/:id", fetchOrder);
  *       200:
  *         description: 成功创建订单
  */
-router.post(
-  "/",
-  ipBasedRatelimit,
-  salesSummary,
-  createOrder,
-  fetchAlipayQrcode
-);
+router.post("/", ipBasedRatelimit, addSales, createOrder, fetchAlipayQrcode);
 /**
  * @swagger
  * /api/order/verify:
