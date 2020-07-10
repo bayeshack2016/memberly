@@ -13,8 +13,8 @@
 
 ## 项目预览
 
-<img src="https://i.loli.net/2020/05/31/OAYDaXHiRV7w6j2.png">
-<img src="https://i.loli.net/2020/05/31/pYhrvI7nQRKlsau.png">
+<img src="https://i.loli.net/2020/07/10/REk7atKoiUgFYcu.png">
+<img src="https://i.loli.net/2020/07/10/QTenSpYczAMV6s8.png">
 
 ## 开发背景
 
