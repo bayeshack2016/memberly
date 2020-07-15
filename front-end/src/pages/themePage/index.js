@@ -46,6 +46,13 @@ const ThemePage = (props) => {
           href: "",
           subDescription: "城镇中有那么多的酒馆，她却偏偏走进了我的酒馆",
         },
+        {
+          id: "nostalgic",
+          title: "复古主题",
+          cover: "/assets/nostalgic.svg",
+          href: "",
+          subDescription: "人生就像一盒巧克力，你永远不知道下一颗是什么味道。",
+        },
       ]}
       renderItem={(item, index) => (
         <List.Item>

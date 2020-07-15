@@ -59,32 +59,50 @@ const PaymentDialog = (props) => {
     let orderId = Date.now().toString() + Math.floor(Math.random() * 9999) + 1;
     setFormData(values);
 
-    let metadata = await $axios.post("/order", {
-      ...values,
-      price: props.chooseLevel.levelPrice.price,
-      productId: props.productInfo.productId,
-      orderId: orderId,
-      productName: props.productInfo.productName,
-      levelName: props.chooseLevel.levelName,
-    });
-    setQrUrl(metadata.data);
-    let num = 0;
-    checkPayment = setInterval(async () => {
-      let metadata = await $axios(`/order/fetch/${orderId}`);
-      let orderInfo = metadata.data;
-      num++;
-      console.log(num);
-      setQuestNumber(num);
-      if (orderInfo.paymentStatus === "已支付") {
-        setOrderInfo(orderInfo);
-        localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
-      }
-      if (orderInfo.paymentStatus === "订单异常") {
-        setOrderInfo(orderInfo);
-        setFailed(true);
-        localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
-      }
-    }, 2000);
+    await $axios
+      .post("/order", {
+        ...values,
+        price: props.chooseLevel.levelPrice.price,
+        productId: props.productInfo.productId,
+        orderId: orderId,
+        productName: props.productInfo.productName,
+        productType: props.productInfo.productType,
+        levelName: props.chooseLevel.levelName,
+      })
+      .then((res) => {
+        console.log(res, "dhasgh");
+        setQrUrl(res.data);
+        let num = 0;
+        checkPayment = setInterval(async () => {
+          let metadata = await $axios(`/order/fetch/${orderId}`);
+          let orderInfo = metadata.data;
+          num++;
+          console.log(num);
+          setQuestNumber(num);
+          if (orderInfo.paymentStatus === "已支付") {
+            setOrderInfo(orderInfo);
+            localStorage.setItem(
+              "orderInfo",
+              encrypt(JSON.stringify(orderInfo))
+            );
+          }
+          if (orderInfo.paymentStatus === "订单异常") {
+            setOrderInfo(orderInfo);
+            setFailed(true);
+            localStorage.setItem(
+              "orderInfo",
+              encrypt(JSON.stringify(orderInfo))
+            );
+          }
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log(error.response, "err");
+        if (error.response.status === 404) {
+          message.error(error.response.data.message);
+          setFormData(null);
+        }
+      });
   };
   const closeDialog = () => {
     props.handleDialog(false, null);

@@ -19,9 +19,13 @@ const HeaderBar = (props) => {
   const [messageNumber, setMessageNumber] = useState(null);
   const [orders, setOrders] = useState(null);
   useEffect(() => {
+    if (!props.order) {
+      return;
+    }
     let date = new Date();
     let monthOrder = [];
-    props.order.forEach((item) => {
+
+    props.order.reverse().forEach((item) => {
       if (
         item.year === date.getFullYear() &&
         item.month === date.getMonth() + 1
@@ -30,10 +34,11 @@ const HeaderBar = (props) => {
       }
     });
     setOrders(monthOrder);
-    let ordersNumber = localStorage.getItem("ordersNumber") || 0;
+    let ordersNumber =
+      date.getDay() === 1 ? 0 : localStorage.getItem("ordersNumber") || 0;
     let length = monthOrder.length;
     setMessageNumber(length - ordersNumber);
-  }, []);
+  }, [props.order]);
 
   const showConfirm = () => {
     confirm({
@@ -86,9 +91,12 @@ const HeaderBar = (props) => {
 
       <LogoutOutlined onClick={showConfirm} />
       <div className="header-number" onClick={handleMessage}>
-        <a href="#" className="header-number-icon">
-          <Badge count={messageNumber}></Badge>
-        </a>
+        {props.order ? (
+          <a href="#" className="header-number-icon">
+            <Badge count={messageNumber}></Badge>
+          </a>
+        ) : null}
+
         <BellOutlined />
       </div>
       {showMessage ? (

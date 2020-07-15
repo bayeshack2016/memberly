@@ -1,23 +1,21 @@
 const HistoryData = require("../models/historyData");
-const createHistorySales = async (ctx, next) => {
-  let date = new Date();
+const createHistoryData = async (ctx, next) => {
+  await next();
+  setTimeout(async () => {
+    let date = new Date();
   let historyData = await HistoryData.findOne({
     year: date.getFullYear(),
     month: date.getMonth() + 1,
     day: date.getDate(),
   });
-  // console.log(historyData);
+
   if (historyData) {
-    await next();
+    return;
   } else {
-    date = new Date();
-    date.setDate(date.getDate() - 1);
     //获取总销售额，总访问量，总订单量，昨日销售数据的编号
-    let lastHistoryData = await HistoryData.findOne({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-    });
+    let lastHistoryData = await HistoryData.findOne()
+      .sort({ field: "asc", _id: -1 })
+      .limit(1);
     let historySales,
       historyVisits,
       historyOrders,
@@ -28,7 +26,6 @@ const createHistorySales = async (ctx, next) => {
       historyOrders = lastHistoryData.historyOrders;
       number = lastHistoryData.number + 1;
     }
-    date = new Date();
     historyData = await new HistoryData({
       date: date.toLocaleDateString(),
       number: number || 0,
@@ -41,9 +38,10 @@ const createHistorySales = async (ctx, next) => {
       historyOrders: historyOrders || 0,
     }).save();
     // console.log(historyData);
-    await next();
   }
+  });
+  
 };
 module.exports = {
-  createHistorySales,
+  createHistoryData,
 };

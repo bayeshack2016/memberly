@@ -25,8 +25,8 @@ const Logo = (props) => {
         setLoading(false);
         setUrl(window.webkitURL.createObjectURL(file));
       })
-      .catch((err) => {
-        message.error("更换Logo失败");
+      .catch((error) => {
+        message.error(error.response.data.message);
         setLoading(false);
       });
   };

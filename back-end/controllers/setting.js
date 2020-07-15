@@ -7,7 +7,7 @@ class SettingCtl {
     ctx.verifyParams({
       themeOption: {
         type: "string",
-        enum: ["default", "tech"],
+        enum: ["default", "tech", "nostalgic"],
         required: false,
       },
       isFirst: {

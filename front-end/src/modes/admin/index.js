@@ -31,10 +31,8 @@ const App = (props) => {
     props.handleFetchOrder();
   }, [loading]);
   useEffect(() => {
-    setLoading(
-      !(props.allProducts && props.setting && props.user && props.order)
-    );
-  }, [props.allProducts, props.setting, props.user, props.order]);
+    setLoading(!(props.allProducts && props.setting && props.user));
+  }, [props.allProducts, props.setting, props.user]);
   const renderFetchMask = () => {
     return (
       <div className="fetching-data-mask">

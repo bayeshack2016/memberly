@@ -32,7 +32,7 @@ const ProductPage = (props) => {
       cancelText: "取消",
       onOk() {
         return $axios
-          .delete(`/product/delete/${allProducts[index - 1]._id}`)
+          .post(`/product/delete/${allProducts[index - 1]._id}`)
           .then((results) => {
             message.success("删除成功");
             handleFetchAllProduct();

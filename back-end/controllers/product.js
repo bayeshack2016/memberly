@@ -9,7 +9,7 @@ class ProductCtl {
       productId: ctx.params.id,
     });
     if (!product || product.onSale === "no") {
-      ctx.throw(404, "未找到产品信息");
+      ctx.throw(404, "未找到商品信息信息");
     }
     ctx.body = product;
   }
@@ -71,7 +71,7 @@ class ProductCtl {
   async deleteProduct(ctx) {
     const product = await Product.findByIdAndRemove(ctx.params.id);
     if (!product) {
-      ctx.throw(404);
+      ctx.throw(404, "删除商品失败");
     }
     ctx.status = 204;
   }

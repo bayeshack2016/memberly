@@ -26,7 +26,7 @@ $axios.interceptors.request.use(
   },
   function (error) {
     // 对请求错误做些什么
-    message.error(error);
+    message.error(error.response.data.message);
     return Promise.reject(error);
   }
 );

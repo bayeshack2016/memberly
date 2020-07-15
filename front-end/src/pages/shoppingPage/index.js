@@ -10,10 +10,8 @@ const ShoppingPage = (props) => {
   const [showContact, setShowContact] = useState(false);
   const [showQuery, setShowQuery] = useState(false);
   useEffect(() => {
-    const cssUrl =
-      props.theme === "default"
-        ? "/assets/css/default.css"
-        : "/assets/css/tech.css";
+    const cssUrl = `/assets/css/${props.theme}.css`;
+
     addStyle(cssUrl);
   }, []);
   const addStyle = (url) => {
@@ -36,7 +34,10 @@ const ShoppingPage = (props) => {
       return (
         <li key={index}>
           <span>{item}</span>
-          <CheckOutlined style={{ float: "right", lineHeight: "30px" }} />
+          <CheckOutlined
+            class="level-desc-check"
+            style={{ float: "right", lineHeight: "30px" }}
+          />
         </li>
       );
     });
@@ -134,11 +135,7 @@ const ShoppingPage = (props) => {
           className="contact-container-mask"
           style={showContact || showQuery ? {} : { display: "none" }}
         ></div>
-        <img
-          src={`/assets/${props.theme === "default" ? "default" : "tech"}.svg`}
-          alt=""
-          className="default-bg"
-        />
+        <img src={`/assets/${props.theme}.svg`} alt="" className="default-bg" />
         <div className="default-header">
           {productInfo.logo ? (
             <img

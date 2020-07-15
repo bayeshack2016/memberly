@@ -27,34 +27,23 @@ export function handleFetchByPeriod(catergory) {
     let visitsByPeriod = [];
     let ordersByPeriod = [];
     let period = [];
-    let date = new Date();
-    let metadata = await $axios(
-      `/historyData?year=${date.getFullYear()}&&month=${
-        date.getMonth() + 1
-      }&&day=${date.getDate()}`
-    );
-    let id = metadata.data[0] !== undefined ? metadata.data[0].number : 14;
     let data = await $axios(`/historyData`);
-    let periodData = data.data;
-    // console.log(periodData, "periodData");
-    for (let i = id - 14; i <= id; i++) {
-      let historySales = periodData[i] ? periodData[i].historySales : [0];
-      let historyVisits = periodData[i] ? periodData[i].historyVisits : [0];
-      let historyOrders = periodData[i] ? periodData[i].historyOrders : [0];
-      let date = periodData[i]
-        ? `${periodData[i].month}-${periodData[i].day}`
-        : "00-00";
-      period.push(date);
-      salesByPeriod.push(parseInt(historySales));
-      visitsByPeriod.push(parseInt(historyVisits));
-      ordersByPeriod.push(parseInt(historyOrders));
+    let periodData = data.data.splice(
+      data.data.length > 15 ? data.data.length - 15 : 0
+    );
+    console.log(periodData, "periodData");
+    for (let i = 0; i < periodData.length; i++) {
+      period.push(`${periodData[i].month}-${periodData[i].day}`);
+      salesByPeriod.push(parseInt(periodData[i].historySales));
+      visitsByPeriod.push(parseInt(periodData[i].historyVisits));
+      ordersByPeriod.push(parseInt(periodData[i].historyOrders));
     }
-    dispatch(handlePeriod(period.splice(1, 14)));
+    dispatch(handlePeriod(period.splice(1, period.length)));
     dispatch(handleSalesByPeriod(salesByPeriod));
     dispatch(handleVisitsByPeriod(visitsByPeriod));
     dispatch(handleOrdersByPeriod(ordersByPeriod));
-    dispatch(handleAllSales(salesByPeriod[14] || "00"));
-    dispatch(handleAllVisits(visitsByPeriod[14] || "00"));
-    dispatch(handleAllOrders(ordersByPeriod[14] || "00"));
+    dispatch(handleAllSales(salesByPeriod[14]));
+    dispatch(handleAllVisits(visitsByPeriod[14]));
+    dispatch(handleAllOrders(ordersByPeriod[14]));
   };
 }

@@ -36,8 +36,8 @@ const VerifyId = (props) => {
         message.success("验证成功，请继续之前的操作");
         setLoading(false);
       })
-      .catch(() => {
-        message.error("验证失败");
+      .catch((error) => {
+        message.error(error.response.data.message);
         setLoading(false);
       });
   };

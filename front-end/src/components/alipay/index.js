@@ -48,9 +48,9 @@ export const Alipay = (props) => {
         setLoading(false);
         props.handleFetchForm();
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false);
-        message.error("验证失败");
+        message.error(error.response.data.message);
       });
   };
   return (

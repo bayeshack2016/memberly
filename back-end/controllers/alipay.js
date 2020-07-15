@@ -2,12 +2,9 @@ const Alipay = require("../models/alipay");
 const Order = require("../models/order");
 const Product = require("../models/product");
 const alipayf2f = require("alipay-ftof");
-const request = require("request");
 const axios = require("axios");
 const { sendMail } = require("../utils/emailUtil");
 const { handleLimit } = require("../service/handleLimit");
-let orderVerified = false;
-let verifiedNum = 0;
 class AlipayCtl {
   async updateAlipay(ctx) {
     ctx.verifyParams({
@@ -71,7 +68,7 @@ class AlipayCtl {
       timeExpress: 5, // 可选 支付超时, 默认为5分钟
     });
     if (!result) {
-      ctx.throw(404, "获取支付信息失败");
+      ctx.throw(404, "拉取支付信息失败");
     }
     await Order.updateOne(
       { orderId: ctx.request.body.orderId },
@@ -116,7 +113,7 @@ class AlipayCtl {
 
     var signStatus = alipay_f2f.verifyCallback(ctx.request.body);
     if (signStatus === false) {
-      return ctx.throw("回调签名验证未通过");
+      return ctx.throw(404, "回调签名验证未通过");
     }
 
     /* 订单状态 */
@@ -145,72 +142,36 @@ class AlipayCtl {
       } = order;
       console.log(order);
       sendMail(code, email, productName, levelName, price, orderId, date);
-    } else {
-      setTimeout(() => {
-        let verifiedTimer = setInterval(async () => {
-          verifiedNum++;
-          console.log(verifiedNum, orderVerified, callbackUrl, "callbackUrl");
-          axios.post(callbackUrl, orderInfo).then(async (res) => {
-            if (res.data.verified) {
-              orderVerified = true;
-              await Order.updateOne(
-                { noInvoice: ctx.request.body.out_trade_no },
-                { paymentStatus: "已支付" }
-              );
-              const order = await Order.findOne({
-                noInvoice: ctx.request.body.out_trade_no,
-              });
-              const {
-                code,
-                email,
-                productName,
-                levelName,
-                price,
-                orderId,
-                date,
-              } = order;
-              sendMail(
-                code,
-                email,
-                productName,
-                levelName,
-                price,
-                orderId,
-                date
-              );
-            }
-            if (orderVerified || verifiedNum > 5) {
-              console.log("cleared");
-              clearInterval(verifiedTimer);
-            }
-            if (verifiedNum > 5) {
-              await Order.updateOne(
-                { noInvoice: ctx.request.body.out_trade_no },
-                { paymentStatus: "订单异常" }
-              );
-              verifiedNum = 0;
-            }
+    }
+    if (productType === 2) {
+      axios.post(callbackUrl, orderInfo).then(async (res) => {
+        if (res.data.verified) {
+          await Order.updateOne(
+            { noInvoice: ctx.request.body.out_trade_no },
+            { paymentStatus: "已支付" }
+          );
+          const order = await Order.findOne({
+            noInvoice: ctx.request.body.out_trade_no,
           });
-          // request(
-          //   {
-          //     url: callbackUrl,
-          //     method: "POST",
-          //     json: true,
-          //     headers: {
-          //       "content-type": "application/json",
-          //     },
-          //     body: JSON.stringify(orderInfo),
-          //   },
-          //   async (error, response, body) => {
-
-          //     }
-
-          // );
-        }, 2000);
-        if (orderVerified || verifiedNum > 5) {
-          clearInterval(verifiedTimer);
+          const {
+            code,
+            email,
+            productName,
+            levelName,
+            price,
+            orderId,
+            date,
+          } = order;
+          sendMail(code, email, productName, levelName, price, orderId, date);
         }
-      }, 2000);
+
+        if (res.data.verified === false) {
+          await Order.updateOne(
+            { noInvoice: ctx.request.body.out_trade_no },
+            { paymentStatus: "订单异常" }
+          );
+        }
+      });
     }
 
     handleLimit(ctx.request.body.out_trade_no);

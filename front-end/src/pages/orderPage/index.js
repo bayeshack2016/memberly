@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button, Input, DatePicker } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -75,7 +75,14 @@ const columns = [
 ];
 const OrderPage = (props) => {
   const [data, setData] = useState(props.order);
+  const [loading, setLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  useEffect(() => {
+    if (props.order) {
+      setLoading(false);
+      setData(props.order);
+    }
+  }, [props.order]);
   const filterData = (date = {}) => {
     let filteredData = [];
     props.order.forEach((item) => {
@@ -198,6 +205,7 @@ const OrderPage = (props) => {
           rowSelection={rowSelection}
           style={{ userSelect: "text" }}
           scroll={{ x: 800 }}
+          loading={loading}
         />
       </div>
     </div>

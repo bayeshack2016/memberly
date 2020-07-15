@@ -20,8 +20,8 @@ const Login = (props) => {
           message.success("修改成功，请使用新密码登录");
           setLoading(false);
         })
-        .catch((err) => {
-          message.error("安全问题验证失败");
+        .catch((error) => {
+          message.error(error.response.data.message);
           setLoading(false);
         });
     } else {

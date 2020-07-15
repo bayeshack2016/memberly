@@ -11,10 +11,7 @@ const MobilePage = (props) => {
   };
   const { productInfo } = props;
   useEffect(() => {
-    const cssUrl =
-      props.theme === "default"
-        ? "/assets/css/default.css"
-        : "/assets/css/tech.css";
+    const cssUrl = `/assets/css/${props.theme}.css`;
     addStyle(cssUrl);
   }, []);
   return (
@@ -22,11 +19,7 @@ const MobilePage = (props) => {
       className="mobile-page-container"
       style={{ height: window.screen.height }}
     >
-      <img
-        src={`/assets/${props.theme === "default" ? "default" : "tech"}.svg`}
-        alt=""
-        className="mobile-bg"
-      />
+      <img src={`/assets/${props.theme}.svg`} alt="" className="mobile-bg" />
 
       <div className="mobile-warning">
         <div

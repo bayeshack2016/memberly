@@ -31,8 +31,10 @@ const DashboardHeader = (props) => {
     });
     return sum;
   };
+  console.log(props.salesByPeriod);
   let saleSum1 = props.salesByPeriod[14] - props.salesByPeriod[7];
   let saleSum2 = props.salesByPeriod[7] - props.salesByPeriod[0];
+  console.log(saleSum1, saleSum2);
   return (
     <Row justify="center" gutter={24} type="flex">
       <Col {...topColResponsiveProps}>
@@ -59,12 +61,14 @@ const DashboardHeader = (props) => {
             title="日同比"
             className="header-day-stats"
             value={
-              parseInt(
-                (props.salesByPeriod[14] +
-                  props.salesByPeriod[12] -
-                  2 * props.salesByPeriod[13]) /
-                  (props.salesByPeriod[13] - props.salesByPeriod[12])
-              ) * 100 || 0
+              props.salesByPeriod[13] - props.salesByPeriod[12] === 0
+                ? 100
+                : parseInt(
+                    (props.salesByPeriod[14] +
+                      props.salesByPeriod[12] -
+                      2 * props.salesByPeriod[13]) /
+                      (props.salesByPeriod[13] - props.salesByPeriod[12])
+                  ) * 100 || 0
             }
             valueStyle={
               (props.salesByPeriod[14] - props.salesByPeriod[13]) /

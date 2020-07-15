@@ -47,10 +47,6 @@ const AddStepOne = (props) => {
     props.handleNext();
     setFormData(values);
   };
-  // let form = props.formData ? props.formData : formData;
-  // if (props.formData) {
-  //   setFormData(props.formData);
-  // }
 
   const renderLevelDesc = () => {
     let arr = [];
@@ -180,7 +176,7 @@ const AddStepOne = (props) => {
           </Radio.Group>
         </Form.Item>
         <a
-          href="http://www.baidu.com"
+          href="https://github.com/troyeguo/coodo-pay#开发理念"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -238,16 +234,16 @@ const AddStepOne = (props) => {
         {renderLevelDesc()}
         {productType === 1 ? null : (
           <Form.Item
-            label="支付回调地址"
+            label="订单回调地址"
             name="callbackUrl"
             rules={[
               {
                 required: productType === 1 ? false : true,
-                message: "请输入支付回调地址",
+                message: "请输入订单回调地址",
               },
             ]}
           >
-            <Input placeholder="请输入支付回调地址" />
+            <Input placeholder="请输入订单回调地址" />
           </Form.Item>
         )}
 
