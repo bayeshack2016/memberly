@@ -8,7 +8,7 @@ const User = require("../models/user");
 
 class initUtil {
   async initData() {
-    // await TodayData.deleteMany({}, () => {
+    // await Setting.deleteMany({}, () => {
     //   console.log("delete success");
     // });
     const alipay = await Alipay.find();
@@ -54,7 +54,7 @@ class initUtil {
       await Setting({
         themeOption: "default",
         isFirst: "yes",
-        version: 1.2,
+        version: 1.3,
       }).save();
     }
   }

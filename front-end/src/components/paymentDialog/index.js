@@ -97,11 +97,8 @@ const PaymentDialog = (props) => {
         }, 2000);
       })
       .catch((error) => {
-        console.log(error.response, "err");
-        if (error.response.status === 404) {
-          message.error(error.response.data.message);
-          setFormData(null);
-        }
+        message.error(error.response.data.message);
+        setFormData(null);
       });
   };
   const closeDialog = () => {

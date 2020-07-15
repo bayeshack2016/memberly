@@ -76,6 +76,20 @@ class AlipayCtl {
         noInvoice: result.out_trade_no,
       }
     );
+    // const order = await Order.findOne({ orderId: ctx.request.body.orderId });
+    // console.log(ctx.request.body.orderId, order);
+    // const { code, email, productName, levelName, price, orderId, date } = order;
+    // console.log(
+    //   code,
+    //   email,
+    //   productName,
+    //   levelName,
+    //   price,
+    //   orderId,
+    //   date,
+    //   "hello"
+    // );
+    // sendMail(code, email, productName, levelName, price, orderId, date);
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
   async handleAlipayCallback(ctx) {

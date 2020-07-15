@@ -13,14 +13,22 @@ class OrderCtl {
     ctx.body = order;
   }
   async queryOrder(ctx) {
-    if (ctx.request.query.password) {
-      var order = await Order.findOne({
+    const queryParams = JSON.parse(JSON.stringify(ctx.request.query));
+    console.log(queryParams.orderId, "test");
+    let order;
+    if (queryParams.password) {
+      order = await Order.findOne({
         email: ctx.request.query.email,
         password: md5Pwd(ctx.request.query.password),
-      });
+      })
+        .sort({ field: "asc", _id: -1 })
+        .limit(1);
     } else {
-      var order = await Order.findOne(ctx.request.query);
+      order = await Order.findOne({ orderId: queryParams.orderId })
+        .sort({ field: "asc", _id: -1 })
+        .limit(1);
     }
+    console.log(order, "order");
     if (!order) {
       ctx.throw(404, "未找到您的订单信息");
       ctx.body = null;
@@ -28,7 +36,9 @@ class OrderCtl {
     ctx.body = order;
   }
   async fetchOrder(ctx) {
-    const order = await Order.findOne({ orderId: ctx.params.id });
+    const order = await Order.findOne({ orderId: ctx.params.id })
+      .sort({ field: "asc", _id: -1 })
+      .limit(1);
     if (!order) {
       ctx.throw(404, "未找到您的订单信息");
     }

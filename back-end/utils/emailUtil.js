@@ -17,7 +17,16 @@ class emailUtil {
         pass: mailPassword,
       },
     });
-
+    console.log(
+      code,
+      email,
+      productName,
+      levelName,
+      price,
+      orderId,
+      date,
+      "email"
+    );
     let mailOptions = {
       from: `${sendName} <${mailAddress}>`, // sender address
       to: `${email}`, // list of receivers

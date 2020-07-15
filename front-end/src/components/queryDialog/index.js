@@ -20,7 +20,7 @@ const Query = (props) => {
         .then((result) => {
           setOrderInfo(result.data);
           setLoading(false);
-          showModal();
+          showQueryModal();
         })
         .catch((err) => {
           setLoading(false);
@@ -32,7 +32,7 @@ const Query = (props) => {
       )
         .then((result) => {
           setOrderInfo(result.data);
-          showModal();
+          showQueryModal();
           setLoading(false);
         })
         .catch((err) => {
@@ -41,7 +41,11 @@ const Query = (props) => {
         });
     }
   };
-  const showModal = () => {
+  const showQueryModal = () => {
+    setDialogVisible(true);
+    setAllowQuery("forbid");
+  };
+  const showLocalModal = () => {
     if (localStorage.getItem("orderInfo")) {
       setOrderInfo(JSON.parse(decrypt(localStorage.getItem("orderInfo"))));
     } else {
@@ -109,7 +113,7 @@ const Query = (props) => {
         <TabPane tab="本机查询" key="1" className="query-by-local">
           <Button
             type="primary"
-            onClick={showModal}
+            onClick={showLocalModal}
             size="medium"
             loading={loading}
           >
