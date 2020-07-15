@@ -24,9 +24,9 @@ const MobilePage = (props) => {
       <div className="mobile-warning">
         <div
           style={
-            props.theme === "default"
-              ? { color: "rgba(72, 72, 72, 1)" }
-              : { color: "white" }
+            props.theme === "tech"
+              ? { color: "white" }
+              : { color: "rgba(72, 72, 72, 1)" }
           }
         >
           <div style={{ fontSize: 30, margin: 20, fontWeight: 500 }}>
