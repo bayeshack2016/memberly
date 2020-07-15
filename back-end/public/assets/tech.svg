@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="824" viewBox="0 0 1280 824">
   <defs>
+    <clipPath id="clip-path">
+      <rect id="矩形_94" data-name="矩形 94" width="464" height="748" transform="translate(816)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
     <clipPath id="clip-Web_1280_5">
       <rect width="1280" height="824"/>
     </clipPath>
@@ -7,5 +10,8 @@
   <g id="Web_1280_5" data-name="Web 1280 – 5" clip-path="url(#clip-Web_1280_5)">
     <rect width="1280" height="824" fill="#3485ff"/>
     <path id="路径_256" data-name="路径 256" d="M3008.627,914s-25.193-1.776-37.458,61.427,28.746,102.488,12.724,189.421-99.08,146.72-132.329,199.976-90.8,167.522-65.274,261.1,146.1,111.448,146.1,111.448h983.74V914Z" transform="translate(-2635.883 -914)" fill="#2660b8"/>
+    <g id="蒙版组_5" data-name="蒙版组 5" clip-path="url(#clip-path)">
+      <image id="_243350f4-4407-47cf-bb33-56f771118bd7" data-name="243350f4-4407-47cf-bb33-56f771118bd7" width="540" height="878" transform="translate(816 -204)" xlink:href="https://i.loli.net/2020/07/15/KpuEw2MryCSkXU1.png"/>
+    </g>
   </g>
 </svg>
