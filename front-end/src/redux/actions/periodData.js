@@ -31,7 +31,6 @@ export function handleFetchByPeriod(catergory) {
     let periodData = data.data.splice(
       data.data.length > 15 ? data.data.length - 15 : 0
     );
-    console.log(periodData, "periodData");
     for (let i = 0; i < periodData.length; i++) {
       period.push(`${periodData[i].month}-${periodData[i].day}`);
       salesByPeriod.push(parseInt(periodData[i].historySales));
@@ -42,8 +41,8 @@ export function handleFetchByPeriod(catergory) {
     dispatch(handleSalesByPeriod(salesByPeriod));
     dispatch(handleVisitsByPeriod(visitsByPeriod));
     dispatch(handleOrdersByPeriod(ordersByPeriod));
-    dispatch(handleAllSales(salesByPeriod[14]));
-    dispatch(handleAllVisits(visitsByPeriod[14]));
-    dispatch(handleAllOrders(ordersByPeriod[14]));
+    dispatch(handleAllSales(salesByPeriod[salesByPeriod.length - 1] || "0"));
+    dispatch(handleAllVisits(visitsByPeriod[visitsByPeriod.length - 1] || "0"));
+    dispatch(handleAllOrders(ordersByPeriod[ordersByPeriod.length - 1] || "0"));
   };
 }

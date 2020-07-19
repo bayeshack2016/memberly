@@ -13,12 +13,8 @@ const createTodayData = async (ctx, next) => {
       return;
     } else {
       //获取总销售额，总访问量，总订单量，昨日销售数据的编号
-      let yesterdayData = await TodayData.findOne()
-        .sort({ field: "asc", _id: -1 })
-        .limit(1);
       todayData = await new TodayData({
         date: date.toLocaleDateString(),
-        number: yesterdayData.number + 1 || 0,
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         day: date.getDate(),
@@ -27,7 +23,7 @@ const createTodayData = async (ctx, next) => {
         orders: 0,
         visits: 0,
       }).save();
-      // console.log(todayData);
+      console.log(todayData, "todayData");
     }
   });
 };

@@ -10,11 +10,12 @@ const addVisits = async (ctx, next) => {
       month: date.getMonth() + 1,
       day: date.getDate(),
     });
-
-    let { visits } = todayData;
-    visits++;
+    console.log(todayData);
+    let todayVisits = todayData ? todayData.visits : 0;
+    todayVisits++;
+    console.log(todayVisits);
     await TodayData.findByIdAndUpdate(todayData._id, {
-      visits,
+      visits: todayVisits,
     });
     const historyData = await HistoryData.findOne({
       year: date.getFullYear(),
@@ -23,7 +24,7 @@ const addVisits = async (ctx, next) => {
     });
     // console.log(historyData);
 
-    let { historyVisits } = historyData;
+    let historyVisits = historyData ? historyData.historyVisits : 0;
     historyVisits++;
     await HistoryData.findByIdAndUpdate(historyData._id, {
       historyVisits,

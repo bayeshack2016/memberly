@@ -1,4 +1,5 @@
 import $axios from "@/axios/$axios";
+import moment from "moment";
 
 export function handleSalesByWeek(salesByWeek) {
   return { type: "HANDLE_SALES_BY_WEEK", payload: salesByWeek };
@@ -12,31 +13,42 @@ export function handleOrdersByWeek(ordersByWeek) {
 
 export function handleFetchByWeek(catergory) {
   return async (dispatch) => {
-    let salesByWeek = [];
-    let visitsByWeek = [];
-    let ordersByWeek = [];
+    let salesByMonth = [];
+    let visitsByMonth = [];
+    let ordersByMonth = [];
+    let maxDay = moment().daysInMonth();
     let date = new Date();
+    let week = (date.getDay() + 6) % 7;
+    let day = date.getDate();
+
     let metadata = await $axios({
       method: "get",
       url: `/todayData?year=${date.getFullYear()}&&month=${
         date.getMonth() + 1
-      }&&day=${date.getDate()}`,
+      }`,
     });
-    let id = metadata.data[0] ? metadata.data[0].number : 0;
-    let data = await $axios.get(`/todayData`);
-    let weekData = data.data;
-    console.log(weekData, "weekData");
-
-    for (let i = id - ((date.getDay() + 6) % 7); i <= id; i++) {
-      let sales = weekData[i] ? weekData[i].sales : 0;
-      let visits = weekData[i] ? weekData[i].visits : 0;
-      let orders = weekData[i] ? weekData[i].orders : 0;
-      salesByWeek.push(parseInt(sales));
-      visitsByWeek.push(parseInt(visits));
-      ordersByWeek.push(parseInt(orders));
+    let monthData = metadata.data;
+    for (let i = 1; i <= maxDay; i++) {
+      let data = monthData.filter((item) => {
+        return item.day === i;
+      });
+      // console.log(data);
+      let sales = data.length !== 0 ? data[0].sales : 0;
+      let visits = data.length !== 0 ? data[0].visits : 0;
+      let orders = data.length !== 0 ? data[0].orders : 0;
+      salesByMonth.push(parseInt(sales));
+      visitsByMonth.push(parseInt(visits));
+      ordersByMonth.push(parseInt(orders));
     }
-    dispatch(handleSalesByWeek(salesByWeek));
-    dispatch(handleVisitsByWeek(visitsByWeek));
-    dispatch(handleOrdersByWeek(ordersByWeek));
+    console.log(
+      visitsByMonth,
+      day - week,
+      day,
+      visitsByMonth.slice(day - week, day),
+      "visitsByMonth.slice(-week - 1)"
+    );
+    dispatch(handleSalesByWeek(salesByMonth.slice(day - week - 1, day)));
+    dispatch(handleVisitsByWeek(visitsByMonth.slice(day - week - 1, day)));
+    dispatch(handleOrdersByWeek(ordersByMonth.slice(day - week - 1, day)));
   };
 }

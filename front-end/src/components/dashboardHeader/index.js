@@ -31,7 +31,6 @@ const DashboardHeader = (props) => {
     });
     return sum;
   };
-  console.log(props.salesByPeriod);
   let saleSum1 = props.salesByPeriod[14] - props.salesByPeriod[7];
   let saleSum2 = props.salesByPeriod[7] - props.salesByPeriod[0];
   console.log(saleSum1, saleSum2);
@@ -92,7 +91,8 @@ const DashboardHeader = (props) => {
           <p className="card-footer">
             今日销售额{" "}
             {`￥${numeral(
-              props.salesByPeriod[14] - props.salesByPeriod[13] || 0
+              props.salesByPeriod[props.salesByPeriod.length - 1] -
+                (props.salesByPeriod[props.salesByPeriod.length - 2] || 0) || 0
             ).format("0,0")}`}
           </p>
         </Card>
@@ -116,7 +116,9 @@ const DashboardHeader = (props) => {
           <p className="card-footer">
             今日访问量{" "}
             {`${numeral(
-              props.visitsByPeriod[14] - props.visitsByPeriod[13] || 0
+              props.visitsByPeriod[props.visitsByPeriod.length - 1] -
+                (props.visitsByPeriod[props.visitsByPeriod.length - 2] || 0) ||
+                0
             ).format("0,0")}`}
           </p>
         </Card>
@@ -141,7 +143,9 @@ const DashboardHeader = (props) => {
           <p className="card-footer">
             今日订单数{" "}
             {`${numeral(
-              props.ordersByPeriod[14] - props.ordersByPeriod[13] || 0
+              props.ordersByPeriod[props.ordersByPeriod.length - 1] -
+                (props.ordersByPeriod[props.ordersByPeriod.length - 2] || 0) ||
+                0
             ).format("0,0")}`}
           </p>
         </Card>

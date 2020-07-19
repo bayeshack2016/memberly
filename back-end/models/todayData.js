@@ -5,7 +5,6 @@ const { Schema, model } = mongoose;
 const todayDataSchema = new Schema({
   __v: { type: "number", select: false },
   date: { type: "string", required: true },
-  number: { type: "number", required: true },
   year: { type: "number", required: true },
   month: { type: "number", required: true },
   day: { type: "number", required: true },
