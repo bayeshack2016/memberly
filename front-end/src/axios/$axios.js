@@ -15,13 +15,8 @@ const $axios = axios.create({
 //请求拦截
 $axios.interceptors.request.use(
   function (config) {
-    // 在发送请求之前做些什么
-    // 通过reudx的store拿到拿到全局状态树的token ，添加到请求报文，后台会根据该报文返回status
-    // 此处应根据具体业务写token
-    // const token = store.getState().user.token || localStorage.getItem('token');
     const token = localStorage.getItem("jwt");
     config.headers = { Authorization: `Bearer ${token}` };
-
     return config;
   },
   function (error) {

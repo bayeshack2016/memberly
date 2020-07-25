@@ -35,7 +35,7 @@ const ShoppingPage = (props) => {
         <li key={index}>
           <span>{item}</span>
           <CheckOutlined
-            class="level-desc-check"
+            className="level-desc-check"
             style={{ float: "right", lineHeight: "30px" }}
           />
         </li>

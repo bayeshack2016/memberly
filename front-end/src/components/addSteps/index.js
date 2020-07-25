@@ -9,7 +9,7 @@ const AddSteps = (props) => {
   const getFormValue = (values) => {
     setFormData(values);
   };
-  console.log(props.currentStep);
+
   return props.currentStep === 0 ? (
     <AddStepOne
       handleNext={props.next}

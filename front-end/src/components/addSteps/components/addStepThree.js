@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleFetchAllProduct } from "@/redux/actions/product.js";
 const copy = require("copy-text-to-clipboard");
-let host;
+
 const AddStepThree = (props) => {
   const [mode, setMode] = useState("add");
   const [id, setId] = useState(null);
@@ -12,12 +12,11 @@ const AddStepThree = (props) => {
     let url = document.location.toString();
     let idArr = url.split("/");
     let id = idArr[idArr.length - 1];
-    host = url.split("#")[0];
     if (!isNaN(parseInt(id))) {
       setMode("edit");
       setId(props.allProducts[id - 1]._id);
     }
-  });
+  }, []);
 
   const handleCopy = (link) => {
     copy(link);
@@ -29,7 +28,9 @@ const AddStepThree = (props) => {
     });
     return product[0].productId;
   };
-  const productLink = `${host}#/product/${
+  const productLink = `${window.location.protocol}//${
+    window.location.host
+  }#/product/${
     mode === "edit"
       ? getProductId(id)
       : props.allProducts[props.allProducts.length - 1].productId + 1
@@ -62,7 +63,14 @@ const AddStepThree = (props) => {
   const extra = (
     <div>
       <Link to="/productList">
-        <Button type="primary">返回商品列表</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            props.handleFetchAllProduct();
+          }}
+        >
+          返回商品列表
+        </Button>
       </Link>
     </div>
   );
@@ -89,4 +97,5 @@ const mapStateToProps = (state) => {
 const actionCreator = {
   handleFetchAllProduct,
 };
+
 export default connect(mapStateToProps, actionCreator)(AddStepThree);

@@ -70,14 +70,12 @@ const PaymentDialog = (props) => {
         levelName: props.chooseLevel.levelName,
       })
       .then((res) => {
-        console.log(res, "dhasgh");
         setQrUrl(res.data);
         let num = 0;
         checkPayment = setInterval(async () => {
           let metadata = await $axios(`/order/fetch/${orderId}`);
           let orderInfo = metadata.data;
           num++;
-          console.log(num);
           setQuestNumber(num);
           if (orderInfo.paymentStatus === "已支付") {
             setOrderInfo(orderInfo);
@@ -103,7 +101,6 @@ const PaymentDialog = (props) => {
   };
   const closeDialog = () => {
     props.handleDialog(false, null);
-    console.log("closeDialog");
     clearInterval(checkPayment);
   };
   return (

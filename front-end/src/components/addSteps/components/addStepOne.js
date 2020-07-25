@@ -29,7 +29,7 @@ const AddStepOne = (props) => {
       setLevels(props.allProducts[id - 1].memberLevel);
       setProductType(props.allProducts[id - 1].productType);
     }
-  }, [formRef, props.allProducts]);
+  }, []);
   const onLevelChange = (value) => {
     setLevels(parseInt(value));
   };
@@ -238,6 +238,7 @@ const AddStepOne = (props) => {
             name="callbackUrl"
             rules={[
               {
+                type: "url",
                 required: productType === 1 ? false : true,
                 message: "请输入订单回调地址",
               },

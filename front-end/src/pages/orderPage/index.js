@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Input, DatePicker } from "antd";
+import { Table, Button, Input, DatePicker, Badge } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
 const dateFormat = "YYYY-MM-DD";
@@ -28,18 +28,30 @@ const columns = [
     key: "paymentStatus",
     dataIndex: "paymentStatus",
     width: 100,
+    render: (paymentStatus) =>
+      paymentStatus === "已支付" ? (
+        <Badge status="success" text={paymentStatus} />
+      ) : (
+        <Badge status="warning" text={paymentStatus} />
+      ),
   },
   {
     title: "会员码",
     key: "code",
     dataIndex: "code",
-    width: 200,
+    width: 220,
   },
   {
     title: "激活状态",
     key: "activation",
     dataIndex: "activation",
-    width: 100,
+    width: 140,
+    render: (activation) =>
+      activation === "已激活" ? (
+        <Badge status="success" text={activation} />
+      ) : (
+        <Badge status="warning" text={activation} />
+      ),
   },
   {
     title: "创建日期",
@@ -53,23 +65,20 @@ const columns = [
     dataIndex: "price",
     key: "price",
     width: 100,
+    render: (price) => <span>{price}元</span>,
   },
   {
     title: "支付方式",
     dataIndex: "payment",
     key: "payment",
     width: 100,
+    render: (payment) =>
+      payment === "alipay" ? <span>支付宝</span> : <span>其他</span>,
   },
   {
     title: "邮箱",
     dataIndex: "email",
     key: "email",
-    width: 200,
-  },
-  {
-    title: "IP地址",
-    dataIndex: "ip",
-    key: "ip",
     width: 200,
   },
 ];

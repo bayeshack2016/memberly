@@ -17,7 +17,6 @@ export function handleFetchByYear(catergory) {
     let date = new Date();
     let metadata = await $axios.get(`/todayData?year=${date.getFullYear()}`);
     let yearData = metadata.data;
-    // console.log(yearData, "yearData");
     for (let i = 1; i <= 12; i++) {
       let monthData = [];
       yearData.forEach((item) => {

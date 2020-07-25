@@ -10,7 +10,6 @@ const DashboardChart = (props) => {
   const selectDate = (type) => {
     setCurrentRange(type);
   };
-  // console.log(props.salesByMonth, "month");
   return (
     <Card
       bordered={false}

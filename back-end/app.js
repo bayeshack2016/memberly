@@ -63,7 +63,7 @@ app.use(
       process.env.NODE_ENV === "production" ? { ...rest } : { stack, ...rest },
   })
 );
-var dirPath = path.join(__dirname, "/public/uploads");
+const dirPath = path.join(__dirname, "/public/uploads");
 if (!fs.existsSync(dirPath)) {
   fs.mkdirSync(dirPath);
   console.log("文件夹创建成功");

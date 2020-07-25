@@ -33,7 +33,6 @@ const DashboardHeader = (props) => {
   };
   let saleSum1 = props.salesByPeriod[14] - props.salesByPeriod[7];
   let saleSum2 = props.salesByPeriod[7] - props.salesByPeriod[0];
-  console.log(saleSum1, saleSum2);
   return (
     <Row justify="center" gutter={24} type="flex">
       <Col {...topColResponsiveProps}>

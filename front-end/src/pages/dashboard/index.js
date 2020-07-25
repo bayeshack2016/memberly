@@ -40,7 +40,6 @@ const Dashboard = (props) => {
     document.head.appendChild(script);
   };
   useEffect(() => {
-    console.log(props.allSales, props.allVisits, props.allOrders);
     setLoading(
       !(
         props.salesByPeriod &&

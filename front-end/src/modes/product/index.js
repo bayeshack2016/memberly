@@ -6,7 +6,7 @@ import {
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import ShoppingPage from "@/pages/shoppingPage";
-import MobilePage from "@/components/mobilePage";
+import MobilePage from "@/pages/mobilePage";
 import "./index.css";
 import PaymentDialog from "@/components/paymentDialog";
 import PageLoading from "@/components/pageLoading";

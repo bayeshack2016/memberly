@@ -32,7 +32,6 @@ export function handleFetchByWeek(catergory) {
       let data = monthData.filter((item) => {
         return item.day === i;
       });
-      // console.log(data);
       let sales = data.length !== 0 ? data[0].sales : 0;
       let visits = data.length !== 0 ? data[0].visits : 0;
       let orders = data.length !== 0 ? data[0].orders : 0;
@@ -40,13 +39,7 @@ export function handleFetchByWeek(catergory) {
       visitsByMonth.push(parseInt(visits));
       ordersByMonth.push(parseInt(orders));
     }
-    console.log(
-      visitsByMonth,
-      day - week,
-      day,
-      visitsByMonth.slice(day - week, day),
-      "visitsByMonth.slice(-week - 1)"
-    );
+
     dispatch(handleSalesByWeek(salesByMonth.slice(day - week - 1, day)));
     dispatch(handleVisitsByWeek(visitsByMonth.slice(day - week - 1, day)));
     dispatch(handleOrdersByWeek(ordersByMonth.slice(day - week - 1, day)));

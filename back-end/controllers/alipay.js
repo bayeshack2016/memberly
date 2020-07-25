@@ -76,20 +76,6 @@ class AlipayCtl {
         noInvoice: result.out_trade_no,
       }
     );
-    // const order = await Order.findOne({ orderId: ctx.request.body.orderId });
-    // console.log(ctx.request.body.orderId, order);
-    // const { code, email, productName, levelName, price, orderId, date } = order;
-    // console.log(
-    //   code,
-    //   email,
-    //   productName,
-    //   levelName,
-    //   price,
-    //   orderId,
-    //   date,
-    //   "hello"
-    // );
-    // sendMail(code, email, productName, levelName, price, orderId, date);
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
   async handleAlipayCallback(ctx) {
@@ -159,7 +145,7 @@ class AlipayCtl {
     }
     if (productType === 2) {
       axios.post(callbackUrl, orderInfo).then(async (res) => {
-        if (res.data.verified) {
+        if (res.data.orderVerified) {
           await Order.updateOne(
             { noInvoice: ctx.request.body.out_trade_no },
             { paymentStatus: "已支付" }
@@ -179,7 +165,7 @@ class AlipayCtl {
           sendMail(code, email, productName, levelName, price, orderId, date);
         }
 
-        if (res.data.verified === false) {
+        if (res.data.orderVerified === false) {
           await Order.updateOne(
             { noInvoice: ctx.request.body.out_trade_no },
             { paymentStatus: "订单异常" }

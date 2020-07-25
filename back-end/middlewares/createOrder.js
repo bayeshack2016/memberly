@@ -29,7 +29,6 @@ const createOrder = async (ctx, next) => {
     week: date.getDay(),
     price: ctx.request.body.price,
     email: ctx.request.body.email,
-    ip: ctx.request.ip,
     password: md5Pwd(ctx.request.body.password),
     payment: ctx.request.body.payment,
     productId: ctx.request.body.productId,

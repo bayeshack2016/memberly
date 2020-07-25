@@ -8,11 +8,13 @@ import "./index.css";
 import { connect } from "react-redux";
 import { handleFetchAllProduct } from "@/redux/actions/product";
 import { parseFormData } from "../../utils/productUtil";
+
 const { Step } = Steps;
 const AddProduct = (props) => {
   const [current, setCurrent] = useState(0);
   const [mode, setMode] = useState("add");
   const [id, setId] = useState(null);
+
   useEffect(() => {
     let url = document.location.toString();
     let idArr = url.split("/");
@@ -38,8 +40,7 @@ const AddProduct = (props) => {
                 : 1
             )
           )
-          .then(async (results) => {
-            await props.handleFetchAllProduct();
+          .then((results) => {
             setCurrent(current + 1);
           })
           .catch((err) => {
@@ -48,7 +49,6 @@ const AddProduct = (props) => {
       }
     } else {
       //编辑商品时走这条分支
-
       if (current === 0) {
         setCurrent(current + 1);
       } else {
@@ -57,8 +57,7 @@ const AddProduct = (props) => {
             `/product/update/${id}`,
             parseFormData(props.formData, getProductId(id))
           )
-          .then(async (results) => {
-            await props.handleFetchAllProduct();
+          .then((results) => {
             setCurrent(current + 1);
           })
           .catch((err) => {
@@ -80,7 +79,12 @@ const AddProduct = (props) => {
   return (
     <div className="product-add-page">
       <Link to="/productList">
-        <span className="product-add-return">
+        <span
+          className="product-add-return"
+          onClick={() => {
+            props.handleFetchAllProduct();
+          }}
+        >
           <ArrowLeftOutlined />
           &nbsp; 返回商品列表
         </span>

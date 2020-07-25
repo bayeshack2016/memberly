@@ -5,7 +5,7 @@ import { handleUserInfo } from "@/redux/actions/login";
 import "./index.css";
 import $axios from "@/axios/$axios";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import MobilePage from "../../components/mobilePage";
+import MobilePage from "@/pages/mobilePage";
 import { isMobile } from "react-device-detect";
 const FormItem = Form.Item;
 const Login = (props) => {
