@@ -23,7 +23,68 @@ class AlipayCtl {
     });
     ctx.body = alipay;
   }
+  async handleRefund(ctx) {
+    const order = await Order.findOne({ orderId: ctx.request.body.orderId });
+    var refund = {
+      /* 退款编号 可选 用于分批退款 */
+      refundNo: Date.now(),
+      /* 退款金额 如果refundNo为空 refundAmount必须为订单全款 */
+      refundAmount: order.price,
+    };
+    const alipay = await Alipay.findOne();
+    const alipayConfig = {
+      /* 以下信息可以在https://openhome.alipay.com/platform/appManage.htm查到, 不过merchantPrivateKey需要您自己生成 */
 
+      /* 应用AppID */
+      appid: alipay.appId,
+
+      /* 通知URL 接受支付宝异步通知需要用到  */
+      notifyUrl: alipay.notifyUrl + "/api/alipay/callback",
+
+      /* 公钥 和 私钥 的填写方式 */
+      testPrivateKey:
+        "-----BEGIN RSA PRIVATE KEY-----\n" +
+        "公钥或私钥内容..." +
+        "\n-----END RSA PRIVATE KEY-----",
+
+      /* 应用RSA私钥 请勿忘记 -----BEGIN RSA PRIVATE KEY----- 与 -----END RSA PRIVATE KEY-----  */
+      merchantPrivateKey:
+        "-----BEGIN RSA PRIVATE KEY-----\n" +
+        alipay.secretKey +
+        "\n-----END RSA PRIVATE KEY-----",
+      /* 支付宝公钥 如果为注释掉会使用沙盒公钥 请勿忘记 -----BEGIN PUBLIC KEY----- 与 -----END PUBLIC KEY----- */
+      alipayPublicKey:
+        "-----BEGIN PUBLIC KEY-----\n" +
+        alipay.publicKey +
+        "\n-----END PUBLIC KEY-----",
+
+      /* 支付宝支付网关 如果为注释掉会使用沙盒网关 */
+      gatewayUrl: "https://openapi.alipay.com/gateway.do",
+    };
+    var alipay_f2f = new alipayf2f(alipayConfig);
+    console.log(order.noInvoice, refund, "order.tradeNo");
+    // ctx.body = "success";
+    await alipay_f2f
+      .refund(order.noInvoice, refund)
+      .then(async (result) => {
+        if (result.code === "10000") {
+          console.log(result, "result");
+          await Order.updateOne(
+            { orderId: ctx.request.body.orderId },
+            {
+              paymentStatus: "已退款",
+            }
+          );
+          ctx.body = "success";
+        } else {
+          ctx.throw(404, "退款失败");
+        }
+      })
+      .catch((err) => {
+        console.log(err, "err");
+        ctx.throw(404, "退款失败");
+      });
+  }
   async fetchAlipay(ctx) {
     ctx.body = await Alipay.findOne();
   }
@@ -79,6 +140,11 @@ class AlipayCtl {
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
   async handleAlipayCallback(ctx) {
+    const { paymentStatus } = await Order.findOne({
+      noInvoice: ctx.request.body.out_trade_no,
+    });
+    if (paymentStatus === "已支付") {
+    }
     const alipay = await Alipay.findOne();
     const alipayConfig = {
       /* 以下信息可以在https://openhome.alipay.com/platform/appManage.htm查到, 不过merchantPrivateKey需要您自己生成 */
@@ -142,6 +208,7 @@ class AlipayCtl {
       } = order;
       console.log(order);
       sendMail(code, email, productName, levelName, price, orderId, date);
+      ctx.body = "success";
     }
     if (productType === 2) {
       axios.post(callbackUrl, orderInfo).then(async (res) => {
@@ -163,6 +230,7 @@ class AlipayCtl {
             date,
           } = order;
           sendMail(code, email, productName, levelName, price, orderId, date);
+          ctx.body = "success";
         }
 
         if (res.data.orderVerified === false) {
@@ -178,9 +246,9 @@ class AlipayCtl {
 
     // 支付宝回调通知有多种状态您可以点击已下链接查看支付宝全部通知状态
     // https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.aZMdK2&treeId=193&articleId=103296&docType=1#s1
-    if (invoiceStatus !== "TRADE_SUCCESS") {
-      return ctx.body("success");
-    }
+    // if (invoiceStatus !== "TRADE_SUCCESS") {
+    //   return (ctx.body = "success");
+    // }
     /* 一切都验证好后就能更新数据库里数据说用户已经付钱啦 */
   }
 }

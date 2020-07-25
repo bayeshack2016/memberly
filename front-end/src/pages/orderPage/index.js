@@ -1,90 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Input, DatePicker, Badge } from "antd";
+import { Table, Button, Input, DatePicker, Badge, message } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
+import $axios from "@/axios/$axios";
+import { handleFetchOrder } from "@/redux/actions/form";
 const dateFormat = "YYYY-MM-DD";
 const { Search } = Input;
-const columns = [
-  {
-    title: "订单号",
-    dataIndex: "orderId",
-    key: "orderId",
-    width: 180,
-  },
-  {
-    title: "商品名称",
-    key: "productName",
-    dataIndex: "productName",
-    width: 100,
-  },
-  {
-    title: "商品等级",
-    key: "levelName",
-    dataIndex: "levelName",
-    width: 100,
-  },
-  {
-    title: "支付状态",
-    key: "paymentStatus",
-    dataIndex: "paymentStatus",
-    width: 100,
-    render: (paymentStatus) =>
-      paymentStatus === "已支付" ? (
-        <Badge status="success" text={paymentStatus} />
-      ) : (
-        <Badge status="warning" text={paymentStatus} />
-      ),
-  },
-  {
-    title: "会员码",
-    key: "code",
-    dataIndex: "code",
-    width: 220,
-  },
-  {
-    title: "激活状态",
-    key: "activation",
-    dataIndex: "activation",
-    width: 140,
-    render: (activation) =>
-      activation === "已激活" ? (
-        <Badge status="success" text={activation} />
-      ) : (
-        <Badge status="warning" text={activation} />
-      ),
-  },
-  {
-    title: "创建日期",
-    dataIndex: "date",
-    key: "date",
-    width: 100,
-  },
 
-  {
-    title: "价格",
-    dataIndex: "price",
-    key: "price",
-    width: 100,
-    render: (price) => <span>{price}元</span>,
-  },
-  {
-    title: "支付方式",
-    dataIndex: "payment",
-    key: "payment",
-    width: 100,
-    render: (payment) =>
-      payment === "alipay" ? <span>支付宝</span> : <span>其他</span>,
-  },
-  {
-    title: "邮箱",
-    dataIndex: "email",
-    key: "email",
-    width: 200,
-  },
-];
 const OrderPage = (props) => {
   const [data, setData] = useState(props.order);
   const [loading, setLoading] = useState(true);
+  const [refundLoading, setRefundLoading] = useState(false);
+  const [refundIndex, setRefundIndex] = useState(-1);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   useEffect(() => {
     if (props.order) {
@@ -131,10 +58,128 @@ const OrderPage = (props) => {
         day: date._d.getDate(),
       });
   };
+  const handleRefund = async (orderId, index) => {
+    setRefundLoading(true);
+    setRefundIndex(index);
+    $axios
+      .post("/refund", { orderId })
+      .then((res) => {
+        setRefundLoading(false);
+        message.success("退款成功");
+        props.handleFetchOrder();
+        setRefundIndex(-1);
+      })
+      .catch((err) => {
+        setRefundLoading(false);
+        setRefundIndex(-1);
+        console.log(err);
+        message.error("退款失败");
+      });
+  };
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectedRowKeysChange,
   };
+  const columns = [
+    {
+      title: "退款操作",
+      dataIndex: "orderId",
+      key: "orderId",
+      width: 100,
+      render: (text, record, index) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            handleRefund(record.orderId, index);
+          }}
+          size="small"
+          loading={refundIndex === index && refundLoading}
+          disabled={record.paymentStatus !== "已支付"}
+        >
+          退款
+        </Button>
+      ),
+    },
+    {
+      title: "订单号",
+      dataIndex: "orderId",
+      key: "orderId",
+      width: 180,
+    },
+
+    {
+      title: "商品名称",
+      key: "productName",
+      dataIndex: "productName",
+      width: 100,
+    },
+    {
+      title: "商品等级",
+      key: "levelName",
+      dataIndex: "levelName",
+      width: 100,
+    },
+    {
+      title: "支付状态",
+      key: "paymentStatus",
+      dataIndex: "paymentStatus",
+      width: 100,
+      render: (paymentStatus) =>
+        paymentStatus === "已支付" ? (
+          <Badge status="success" text={paymentStatus} />
+        ) : paymentStatus === "已退款" ? (
+          <Badge status="error" text={paymentStatus} />
+        ) : (
+          <Badge status="warning" text={paymentStatus} />
+        ),
+    },
+    {
+      title: "会员码",
+      key: "code",
+      dataIndex: "code",
+      width: 220,
+    },
+    {
+      title: "激活状态",
+      key: "activation",
+      dataIndex: "activation",
+      width: 140,
+      render: (activation) =>
+        activation === "已激活" ? (
+          <Badge status="success" text={activation} />
+        ) : (
+          <Badge status="warning" text={activation} />
+        ),
+    },
+    {
+      title: "创建日期",
+      dataIndex: "date",
+      key: "date",
+      width: 100,
+    },
+
+    {
+      title: "价格",
+      dataIndex: "price",
+      key: "price",
+      width: 100,
+      render: (price) => <span>{price}元</span>,
+    },
+    {
+      title: "支付方式",
+      dataIndex: "payment",
+      key: "payment",
+      width: 100,
+      render: (payment) =>
+        payment === "alipay" ? <span>支付宝</span> : <span>其他</span>,
+    },
+    {
+      title: "邮箱",
+      dataIndex: "email",
+      key: "email",
+      width: 200,
+    },
+  ];
   const date = new Date();
   return (
     <div className="shadow-radius">
@@ -225,5 +270,5 @@ const mapStateToProps = (state) => {
     order: state.form.order,
   };
 };
-const actionCreator = {};
+const actionCreator = { handleFetchOrder };
 export default connect(mapStateToProps, actionCreator)(OrderPage);

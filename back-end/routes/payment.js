@@ -5,6 +5,7 @@ const {
   fetchAlipay,
   updateAlipay,
   handleAlipayCallback,
+  handleRefund,
 } = require("../controllers/alipay");
 const {
   updateWechat,
@@ -82,5 +83,6 @@ router.post("/paypal/:id", auth, updatePaypal);
 router.get("/alipay", auth, fetchAlipay);
 router.get("/wechatPay", auth, fetchWechatPay);
 router.get("/paypal", auth, fetchPaypal);
+router.post("/refund", auth, handleRefund);
 
 module.exports = router;
