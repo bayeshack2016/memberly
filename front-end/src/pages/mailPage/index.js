@@ -1,56 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Menu } from "antd";
 import "./index.css";
 import { connect } from "react-redux";
-import $axios from "@/axios/$axios";
-import { handleFetchForm, handleVerifyDialog } from "@/redux/actions/form";
-import VerifyId from "../../components/verifyId";
+import QQMail from "../../components/qqMail";
+import NeteaseMail from "../../components/neteaseMail";
+import Gmail from "../../components/gmail";
+const { Item } = Menu;
+const menuMap = {
+  qqMail: "QQ 邮箱",
+  neteaseMail: "163 邮箱",
+  gmail: "Gmail 邮箱",
+};
+let main;
 const MailPage = (props) => {
-  const [loading, setLoading] = useState(false);
-  let formRef = React.createRef();
-  const onFinish = (values) => {
-    setLoading(true);
-    if (!props.isVerified) {
-      props.handleVerifyDialog(true);
-      setLoading(false);
+  const [mode, setMode] = useState("inline");
+  const [selectedKey, setSelectedKey] = useState("qqMail");
+  useEffect(() => {
+    window.addEventListener("resize", resize);
+    resize();
+    return window.removeEventListener("resize", resize);
+  });
+  const getMenu = () => {
+    return Object.keys(menuMap).map((item) => (
+      <Item key={item}>{menuMap[item]}</Item>
+    ));
+  };
+
+  const selectKey = (key) => {
+    setSelectedKey(key);
+  };
+
+  const resize = () => {
+    if (!main) {
       return;
     }
-    $axios
-      .post(`/email/${props.email._id}`, values)
-      .then(() => {
-        message.success("保存成功");
-        props.handleFetchForm();
-        setLoading(false);
-      })
-      .catch(() => {
-        message.error("验证失败");
-        setLoading(false);
-      });
+
+    requestAnimationFrame(() => {
+      if (!main) {
+        return;
+      }
+
+      let mode = "inline";
+      const { offsetWidth } = main;
+
+      if (main.offsetWidth < 641 && offsetWidth > 400) {
+        mode = "horizontal";
+      }
+
+      if (window.innerWidth < 768 && offsetWidth > 400) {
+        mode = "horizontal";
+      }
+
+      setMode(mode);
+    });
   };
-  const handleVerify = () => {
-    if (props.isVerified) {
-      formRef.current.setFieldsValue(props.email);
-    } else {
-      props.handleVerifyDialog(true);
+  const renderChildren = () => {
+    switch (selectedKey) {
+      case "qqMail":
+        return <QQMail formData={props.qqMail} />;
+
+      case "neteaseMail":
+        return <NeteaseMail formData={props.neteaseMail} />;
+
+      case "gmail":
+        return <Gmail formData={props.gmail} />;
+
+      default:
+        break;
     }
-  };
-  const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-      xs: { span: 24, offset: 2 },
-      sm: { span: 16, offset: 5 },
-    },
-  };
-  const formItemLayout = {
-    labelCol: {
-      sm: { span: 4 },
-    },
-    wrapperCol: {
-      sm: { span: 8, offset: 0 },
-    },
+
+    return null;
   };
   return (
-    <div className="mail-page-container">
-      <VerifyId />
+    <div className="shadow-radius">
       <div
         className="order-page-header"
         style={{
@@ -64,94 +86,21 @@ const MailPage = (props) => {
           当用户完成下单，会通过邮件的方式向用户发送订单信息，在这里填写您用于发送订单的邮箱
         </p>
       </div>
-      <div
-        style={{
-          backgroundColor: "white",
-          margin: "20px 20px 0 20px",
-          padding: "20px",
-        }}
-        className="mail-page-setting"
-      >
-        <div className="mail-page-message">
-          <p className="mail-message-title">注意事项： </p>
-          <p>
-            目前发送邮件功能仅支持使用QQ邮箱发送，
-            <br />
-            <br />
-            QQ邮箱授权码获取方式可以参考如下链接
-            <br />
-            <br />
-            <a
-              href="https://service.mail.qq.com/cgi-bin/help?subtype=1&&no=1001256&&id=28"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              点我前往
-            </a>
-          </p>
+      <div className={"main"}>
+        <div className={"leftMenu"}>
+          <Menu
+            mode={mode}
+            selectedKeys={[selectedKey]}
+            onClick={({ key }) => selectKey(key)}
+            className="payment-page"
+            style={{
+              marginTop: "10px",
+            }}
+          >
+            {getMenu()}
+          </Menu>
         </div>
-        <Form
-          {...formItemLayout}
-          ref={formRef}
-          name="control-ref"
-          onFinish={onFinish}
-          initialValues={props.isVerified && props.email ? props.email : null}
-          style={{ marginTop: "40px" }}
-        >
-          <Form.Item
-            label="QQ邮箱地址"
-            name="mailAddress"
-            rules={[
-              {
-                required: true,
-                message: "请输入QQ邮箱地址",
-              },
-            ]}
-          >
-            <Input placeholder="请输入QQ邮箱地址" />
-          </Form.Item>
-          <Form.Item
-            label="QQ邮箱授权码"
-            name="mailPassword"
-            rules={[
-              {
-                required: true,
-                message: "请输入QQ邮箱授权码",
-              },
-            ]}
-          >
-            <Input placeholder="请输入QQ邮箱授权码" />
-          </Form.Item>
-          <Form.Item
-            label="发件人昵称"
-            name="sendName"
-            rules={[
-              {
-                required: true,
-                message: "请输入发件人昵称",
-              },
-            ]}
-          >
-            <Input placeholder="请输入发件人昵称" />
-          </Form.Item>
-
-          <Form.Item {...formItemLayoutWithOutLabel}>
-            <Button
-              onClick={handleVerify}
-              // disabled={props.isVerified}
-            >
-              显示表单数据
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              style={{ marginLeft: "10px" }}
-            >
-              保存
-            </Button>
-          </Form.Item>
-        </Form>
+        <div className={"right"}>{renderChildren()}</div>
       </div>
     </div>
   );
@@ -163,8 +112,5 @@ const mapStateToProps = (state) => {
     isVerified: state.form.isVerified,
   };
 };
-const actionCreator = {
-  handleFetchForm,
-  handleVerifyDialog,
-};
+const actionCreator = {};
 export default connect(mapStateToProps, actionCreator)(MailPage);

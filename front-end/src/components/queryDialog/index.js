@@ -24,7 +24,7 @@ const Query = (props) => {
         })
         .catch((err) => {
           setLoading(false);
-          message.warning("未找到订单，请确认查询条件是否正确");
+          message.warning("未找到订单或订单未支付");
         });
     } else {
       $axios(
@@ -36,7 +36,8 @@ const Query = (props) => {
           setLoading(false);
         })
         .catch((err) => {
-          message.warning("未找到订单，请确认查询条件是否正确");
+          console.log(err, err.response);
+          message.warning("未找到订单或订单未支付");
           setLoading(false);
         });
     }

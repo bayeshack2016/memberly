@@ -37,8 +37,6 @@
 .default-header-info {
   float: left;
   font-size: 18px;
-  /* color: rgba(72, 72, 72, 1); */
-  /* opacity: 0.61; */
   margin-left: 14px;
   margin-top: 33px;
 }
@@ -61,6 +59,7 @@
   margin-right: 49px;
   margin-top: 32px;
   cursor: pointer;
+  z-index: 10;
 }
 
 .default-choose-title {
@@ -83,20 +82,15 @@
 
 .default-level-container {
   float: left;
-  width: 240px;
+  min-width: 240px;
   height: 500px;
-  /* background: rgba(222, 228, 240, 1); */
-  /* box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.3); */
   border-radius: 12px;
-  /* color: white; */
   position: relative;
+  margin: 0 20px;
 }
 
 .default-remain {
-  /* position: absolute; */
-  /* margin-left: 180px; */
   position: relative;
-  /* padding: 10px; */
 }
 
 .default-remain-bg {

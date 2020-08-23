@@ -182,8 +182,6 @@ class AlipayCtl {
       return ctx.throw(404, "回调签名验证未通过");
     }
 
-    /* 订单状态 */
-    var invoiceStatus = ctx.request.body.trade_status;
     const orderInfo = await Order.findOne({
       noInvoice: ctx.request.body.out_trade_no,
     });
@@ -208,6 +206,7 @@ class AlipayCtl {
       } = order;
       console.log(order);
       sendMail(code, email, productName, levelName, price, orderId, date);
+      handleLimit(ctx.request.body.out_trade_no);
       ctx.body = "success";
     }
     if (productType === 2) {
@@ -230,6 +229,7 @@ class AlipayCtl {
             date,
           } = order;
           sendMail(code, email, productName, levelName, price, orderId, date);
+          handleLimit(ctx.request.body.out_trade_no);
           ctx.body = "success";
         }
 
@@ -241,15 +241,6 @@ class AlipayCtl {
         }
       });
     }
-
-    handleLimit(ctx.request.body.out_trade_no);
-
-    // 支付宝回调通知有多种状态您可以点击已下链接查看支付宝全部通知状态
-    // https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.aZMdK2&treeId=193&articleId=103296&docType=1#s1
-    // if (invoiceStatus !== "TRADE_SUCCESS") {
-    //   return (ctx.body = "success");
-    // }
-    /* 一切都验证好后就能更新数据库里数据说用户已经付钱啦 */
   }
 }
 module.exports = new AlipayCtl();

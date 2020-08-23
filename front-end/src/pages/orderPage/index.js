@@ -111,7 +111,7 @@ const OrderPage = (props) => {
       title: "商品名称",
       key: "productName",
       dataIndex: "productName",
-      width: 100,
+      width: 150,
     },
     {
       title: "商品等级",
@@ -123,7 +123,7 @@ const OrderPage = (props) => {
       title: "支付状态",
       key: "paymentStatus",
       dataIndex: "paymentStatus",
-      width: 100,
+      width: 120,
       render: (paymentStatus) =>
         paymentStatus === "已支付" ? (
           <Badge status="success" text={paymentStatus} />
@@ -177,7 +177,7 @@ const OrderPage = (props) => {
       title: "邮箱",
       dataIndex: "email",
       key: "email",
-      width: 200,
+      width: 300,
     },
   ];
   const date = new Date();

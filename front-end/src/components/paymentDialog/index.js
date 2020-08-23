@@ -7,6 +7,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import { encrypt } from "../../utils/crypto";
+import { isMobile } from "react-device-detect";
 import QRCode from "qrcode.react";
 import $axios from "@/axios/$axios";
 import {
@@ -34,25 +35,24 @@ const PaymentDialog = (props) => {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    if (orderInfo || questNumber > 20) {
+    if (orderInfo || questNumber > 59) {
       clearInterval(checkPayment);
     }
-    questNumber > 20 && message.error("我们暂时无法处理您的请求，请稍后重试");
+    questNumber > 59 && message.error("我们暂时无法处理您的请求，请稍后重试");
   }, [orderInfo, questNumber]);
 
   const { chooseLevel } = props;
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
       xs: { span: 24, offset: 12 },
-      sm: { span: 20, offset: 4 },
     },
   };
   const formItemLayout = {
     labelCol: {
-      sm: { span: 24 },
+      sm: { span: 6 },
     },
     wrapperCol: {
-      sm: { span: 24 },
+      sm: { span: 16, offset: 1 },
     },
   };
   const onFinish = async (values) => {
@@ -92,7 +92,7 @@ const PaymentDialog = (props) => {
               encrypt(JSON.stringify(orderInfo))
             );
           }
-        }, 2000);
+        }, 1000);
       })
       .catch((error) => {
         message.error(error.response.data.message);
@@ -159,128 +159,132 @@ const PaymentDialog = (props) => {
           />
         )
       ) : (
-        <Row justify="center">
-          <Col>
-            <Row justify="center" style={{ marginTop: "20px" }}>
-              <span className="product-payment-member">
-                购买{chooseLevel.levelName}会员
-              </span>
-              <span className="product-payment-price">
-                {chooseLevel.levelPrice.price}元
-              </span>
-            </Row>
-            <Row>
-              <Col className="product-payment-prefix">
-                <div>邮箱</div>
-                <div>密码</div>
-
-                <div>支付方式</div>
-              </Col>
-              <Col>
-                <Form {...formItemLayout} onFinish={onFinish}>
-                  <Form.Item
-                    // label="查询邮箱"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: "请输入邮箱",
-                      },
-                    ]}
-                    style={{ width: "200px" }}
-                  >
-                    <Input
-                      placeholder={
-                        props.productInfo.productType === 1
-                          ? `用于接收${props.productInfo.productName}会员码`
-                          : `请输入您的${props.productInfo.productName}账号`
-                      }
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="password"
-                    // label="查询密码"
-                    rules={[
-                      {
-                        required: true,
-                        message: "请输入密码",
-                      },
-                    ]}
-                    style={{ width: "200px" }}
-                  >
-                    <Input
-                      placeholder={
-                        props.productInfo.productType === 1
-                          ? `用于查询${props.productInfo.productName}会员码`
-                          : `请输入您的${props.productInfo.productName}密码`
-                      }
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    // label="支付方式"
-                    name="payment"
-                    rules={[
-                      {
-                        required: true,
-                        message: "请选择支付方式",
-                      },
-                    ]}
-                  >
-                    <Radio.Group defaultValue="alipay">
-                      <Radio value="alipay">
-                        <AlipayCircleOutlined className="product-ailpay-icon" />
-                      </Radio>
-                      <Radio value="wechatPay" disabled>
-                        <WechatOutlined className="product-wechat-icon" />
-                      </Radio>
-                      <Radio value="paypal" disabled>
-                        <IconFont
-                          type="icon-paypal"
-                          className="product-paypal-icon"
-                        />
-                      </Radio>
-                    </Radio.Group>
-                  </Form.Item>
-
-                  <Form.Item {...formItemLayoutWithOutLabel}>
-                    <Button
-                      className="product-payment-next-button"
-                      type="primary"
-                      htmlType="submit"
+        <Row justify="center" >
+          {isMobile && formData ? null : (
+            <Col>
+              <Row justify="center" style={{ marginTop: "20px" }}>
+                <span className="product-payment-member">
+                  购买{chooseLevel.levelName}会员
+                </span>
+                <span className="product-payment-price">
+                  {chooseLevel.levelPrice.price}元
+                </span>
+              </Row>
+              <Row>
+                <Col>
+                  <Form {...formItemLayout} onFinish={onFinish}>
+                    <Form.Item
+                      label="查询邮箱"
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: "请输入邮箱",
+                        },
+                      ]}
                     >
-                      下一步
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </Col>
-            </Row>
-          </Col>
+                      <Input
+                        placeholder={
+                          props.productInfo.productType === 1
+                            ? `用于接收${props.productInfo.productName}会员码`
+                            : `请输入您的${props.productInfo.productName}账号`
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="password"
+                      label="查询密码"
+                      rules={[
+                        {
+                          required: true,
+                          message: "请输入密码",
+                        },
+                      ]}
+                    >
+                      <Input
+                        placeholder={
+                          props.productInfo.productType === 1
+                            ? `用于查询${props.productInfo.productName}会员码`
+                            : `请输入您的${props.productInfo.productName}密码`
+                        }
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="支付方式"
+                      name="payment"
+                      rules={[
+                        {
+                          required: true,
+                          message: "请选择支付方式",
+                        },
+                      ]}
+                    >
+                      <Radio.Group defaultValue="alipay">
+                        <Radio value="alipay">
+                          <AlipayCircleOutlined className="product-ailpay-icon" />
+                        </Radio>
+                        <Radio value="wechatPay" disabled>
+                          <WechatOutlined className="product-wechat-icon" />
+                        </Radio>
+                        <Radio value="paypal" disabled>
+                          <IconFont
+                            type="icon-paypal"
+                            className="product-paypal-icon"
+                          />
+                        </Radio>
+                      </Radio.Group>
+                    </Form.Item>
+
+                    <Form.Item>
+                      <Button
+                        className="product-payment-next-button"
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        下一步
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </Col>
+              </Row>
+            </Col>
+          )}
           {formData && (
             <Col>
               {formData.payment !== "paypal" ? (
                 <div className="product-payment-qrcode-container">
-                  {qrUrl ? (
-                    <a href={qrUrl} target="_blank" rel="noopener noreferrer">
-                      <QRCode
-                        value={qrUrl} //value参数为生成二维码的链接
-                        size={150} //二维码的宽高尺寸
-                        fgColor="#000000" //二维码的颜色
-                        className="product-payment-qrcode"
+                  <div className="product-payment-qrcode">
+                    {qrUrl ? (
+                      <a href={qrUrl} target="_blank" rel="noopener noreferrer">
+                        <QRCode
+                          value={qrUrl} //value参数为生成二维码的链接
+                          size={150} //二维码的宽高尺寸
+                          fgColor="#000000" //二维码的颜色
+                          className="product-payment-qrcode-image"
+                        />
+                      </a>
+                    ) : (
+                      <Spin
+                        indicator={antIcon}
+                        tip="二维码生成中..."
+                        className="product-payment-qrcode-spin"
                       />
-                    </a>
-                  ) : (
-                    <Spin
-                      indicator={antIcon}
-                      tip="二维码生成中..."
-                      className="product-payment-qrcode-spin"
-                    />
-                  )}
+                    )}
+                  </div>
 
                   <div className="product-payment-qrcode-text">
-                    {formData.payment === "alipay" ? "使用支付宝" : "使用微信"}{" "}
-                    扫一扫
+                    {isMobile
+                      ? "点击二维码跳转支付"
+                      : formData.payment === "alipay"
+                      ? "使用支付宝 扫一扫"
+                      : "使用微信 扫一扫"}
                   </div>
+                  {qrUrl ? (
+                    <div className="payment-countdown">{`支付倒计时：${
+                      60 - questNumber
+                    }s`}</div>
+                  ) : null}
                 </div>
               ) : (
                 <div className="product-payment-paypal">

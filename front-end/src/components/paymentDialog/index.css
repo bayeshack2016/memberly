@@ -1,13 +1,13 @@
 .product-payment-container {
   width: 640px;
-  height: 400px;
+  height: 420px;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.16);
   opacity: 1;
   z-index: 15;
   position: absolute;
-  top: calc(50% - 209px);
-  left: calc(50% - 326px);
+  top: calc(50% - 210px);
+  left: calc(50% - 320px);
   animation: popup 0.1s ease-in-out 0s 1;
 }
 .product-payment-title {
@@ -71,34 +71,33 @@
   height: 150px;
 }
 .product-payment-qrcode-container {
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
   animation: popup 0.1s ease-in-out 0s 1;
   width: 200px;
+  margin-left: 20px;
 }
 .product-payment-qrcode {
-  /* width: 150px; */
-  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 40px;
 }
+
 .product-payment-qrcode-text {
   font-size: 18px;
-
   line-height: 34px;
   color: rgba(52, 52, 52, 1);
   opacity: 1;
   text-align: center;
-  position: absolute;
+  margin-top: 20px;
   width: 100%;
   text-align: center;
-  bottom: 50px;
-  left: 25px;
 }
 .product-payment-qrcode-spin {
-  position: relative;
-  left: 80px;
-  top: 100px;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .product-payment-close {
   position: absolute;
@@ -121,6 +120,7 @@
   border: none;
   position: relative;
   top: 10px;
+  margin-left: 100px;
 }
 .product-payment-results-detail {
   text-align: left;
@@ -141,5 +141,55 @@
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+.payment-countdown {
+  font-size: 16px;
+  line-height: 34px;
+  color: #1890ff;
+  opacity: 1;
+  text-align: center;
+  width: 100%;
+  text-align: center;
+}
+@media screen and (max-width: 780px) {
+  .product-payment-container {
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+    overflow-y: scroll;
+  }
+  .product-payment-message {
+    margin-left: 5%;
+    width: 95%;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .ant-form-item {
+    margin-bottom: 10px !important;
+  }
+  .product-payment-next-button {
+    margin: 10px 0px;
+  }
+  .product-payment-qrcode {
+    margin-top: 60px;
+  }
+  .product-payment-qrcode-container {
+    margin-left: 0px;
+  }
+  .ant-form-item-control-input-content {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .ant-form-item-label {
+    padding: 0px !important;
+  }
+  .product-payment-results-detail {
+    margin-left: 0%;
+    line-height: 25px;
+  }
+  .ant-form-horizontal {
+    padding: 20px !important;
   }
 }

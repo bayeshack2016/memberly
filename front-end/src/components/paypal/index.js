@@ -4,7 +4,7 @@ import { createFromIconfontCN } from "@ant-design/icons";
 import "./index.css";
 import $axios from "@/axios/$axios";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1693087_csjervhanqr.js",
+  scriptUrl: "//at.alicdn.com/t/font_1701775_6zx0gzvx0bl.js",
 });
 const Paypal = (props) => {
   const [loading, setLoading] = useState(false);

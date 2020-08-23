@@ -29,7 +29,7 @@ class OrderCtl {
         .limit(1);
     }
     console.log(order, "order");
-    if (!order) {
+    if (!order || order.paymentStatus === "未知") {
       ctx.throw(404, "未找到您的订单信息");
       ctx.body = null;
     }

@@ -35,7 +35,7 @@ const HeaderBar = (props) => {
     });
     setOrders(monthOrder);
     let ordersNumber =
-      date.getDay() === 1 ? 0 : localStorage.getItem("ordersNumber") || 0;
+      date.getDate() === 1 ? 0 : localStorage.getItem("ordersNumber") || 0;
     let length = monthOrder.length;
     setMessageNumber(length - ordersNumber);
   }, [props.order]);
@@ -92,9 +92,9 @@ const HeaderBar = (props) => {
       <LogoutOutlined onClick={showConfirm} />
       <div className="header-number" onClick={handleMessage}>
         {props.order ? (
-          <a href="#" className="header-number-icon">
+          <span className="header-number-icon">
             <Badge count={messageNumber}></Badge>
-          </a>
+          </span>
         ) : null}
 
         <BellOutlined />

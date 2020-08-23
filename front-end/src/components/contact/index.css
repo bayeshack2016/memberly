@@ -22,6 +22,7 @@
   animation: popup 0.2s ease-in-out 0s 1;
   user-select: text;
 }
+
 .contact-header {
   position: absolute;
   left: 0px;
@@ -46,8 +47,38 @@
   position: relative;
   font-size: 20px;
   color: rgba(75, 75, 75, 1);
-  width: 100%;
   line-height: 40px;
   text-align: center;
   z-index: 50;
+}
+@media screen and (max-width: 780px) {
+  .contact-container {
+    width: 80%;
+    height: 60%;
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    border-radius: 50px 50px 50px 50px;
+  }
+  .contact-header {
+    display: none;
+  }
+
+  .contact-footer {
+    width: 40%;
+  }
+  .contact-talk {
+    font-size: 25px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    line-height: 40px;
+  }
+  .contact-info {
+    position: static;
+    line-height: 30px;
+    word-break: break-all;
+    width: 90%;
+    padding-left: 10%;
+  }
 }
