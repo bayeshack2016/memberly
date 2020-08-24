@@ -38,3 +38,16 @@
 .default-footer {
   color: white;
 }
+.mobile-header-name {
+  color: white;
+}
+.mobile-header-info {
+  color: white;
+}
+.mobile-page-contact {
+  color: white;
+}
+.mobile-page-copyright {
+  color: white;
+  opacity: 0.6;
+}

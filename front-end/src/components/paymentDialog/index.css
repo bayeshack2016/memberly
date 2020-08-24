@@ -190,6 +190,6 @@
     line-height: 25px;
   }
   .ant-form-horizontal {
-    padding: 20px !important;
+    padding: 0 20px 20px !important;
   }
 }

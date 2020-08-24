@@ -15,6 +15,11 @@ class SettingCtl {
         enum: ["yes", "no"],
         required: false,
       },
+      defaultMail: {
+        type: "string",
+        enum: ["qq", "163", "gmail"],
+        required: false,
+      },
     });
     const setting = await Setting.findByIdAndUpdate(
       ctx.params.id,

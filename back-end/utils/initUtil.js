@@ -6,7 +6,7 @@ const Setting = require("../models/setting");
 
 class initUtil {
   async initData() {
-    // await Setting.deleteMany({}, () => {
+    // await Email.deleteMany({}, () => {
     //   console.log("delete success");
     // });
     const alipay = await Alipay.find();
@@ -42,6 +42,19 @@ class initUtil {
     const email = await Email.find();
     if (email.length === 0) {
       await Email({
+        mailName: "qq",
+        mailAddress: " ",
+        mailPassword: " ",
+        sendName: " ",
+      }).save();
+      await Email({
+        mailName: "163",
+        mailAddress: " ",
+        mailPassword: " ",
+        sendName: " ",
+      }).save();
+      await Email({
+        mailName: "gmail",
         mailAddress: " ",
         mailPassword: " ",
         sendName: " ",
@@ -53,6 +66,7 @@ class initUtil {
         themeOption: "default",
         isFirst: "yes",
         version: 1.4,
+        defaultMail: " ",
       }).save();
     }
   }

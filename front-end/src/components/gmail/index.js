@@ -7,7 +7,7 @@ import { handleFetchForm, handleVerifyDialog } from "@/redux/actions/form";
 import VerifyId from "../../components/verifyId";
 import { createFromIconfontCN } from "@ant-design/icons";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1701775_6zx0gzvx0bl.js",
+  scriptUrl: "//at.alicdn.com/t/font_1701775_5ffvr7n7qh8.js",
 });
 const GmailMail = (props) => {
   const [loading, setLoading] = useState(false);
@@ -69,14 +69,13 @@ const GmailMail = (props) => {
         <div className="mail-page-message">
           <p className="mail-message-title">注意事项： </p>
           <p>
-            目前发送邮件功能仅支持使用Gmail邮箱发送，
             <br />
             <br />
-            Gmail邮箱授权码获取方式可以参考如下链接
+            Gmail邮箱开启授权方式可以参考如下链接
             <br />
             <br />
             <a
-              href="https://service.mail.qq.com/cgi-bin/help?subtype=1&&no=1001256&&id=28"
+              href="https://codeburst.io/sending-an-email-using-nodemailer-gmail-7cfa0712a799"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -105,16 +104,16 @@ const GmailMail = (props) => {
             <Input placeholder="请输入Gmail邮箱地址" />
           </Form.Item>
           <Form.Item
-            label="Gmail邮箱授权码"
+            label="Gmail邮箱密码"
             name="mailPassword"
             rules={[
               {
                 required: true,
-                message: "请输入Gmail邮箱授权码",
+                message: "请输入Gmail邮箱密码",
               },
             ]}
           >
-            <Input placeholder="请输入Gmail邮箱授权码" />
+            <Input placeholder="请输入Gmail邮箱密码" />
           </Form.Item>
           <Form.Item
             label="发件人昵称"

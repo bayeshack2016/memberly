@@ -198,7 +198,9 @@ const AccountPage = (props) => {
           {getMenu()}
         </Menu>
       </div>
-      <div className={"right"}>{renderChildren()}</div>
+      <div className="right" style={{ marginLeft: "50px" }}>
+        {renderChildren()}
+      </div>
     </div>
   );
 };

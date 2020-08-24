@@ -7,17 +7,22 @@ const settingSchema = new Schema({
   themeOption: {
     type: "string",
     enum: ["default", "tech"],
-    required: true
+    required: true,
   },
   isFirst: {
     type: "string",
     enum: ["yes", "no"],
-    required: true
+    required: true,
   },
   version: {
     type: "number",
-    required: true
-  }
+    required: true,
+  },
+  defaultMail: {
+    type: "string",
+    enum: ["qq", "163", "gmail", " "],
+    required: true,
+  },
 });
 
 module.exports = model("Setting", settingSchema);

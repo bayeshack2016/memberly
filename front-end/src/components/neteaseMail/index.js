@@ -7,11 +7,11 @@ import { handleFetchForm, handleVerifyDialog } from "@/redux/actions/form";
 import VerifyId from "../../components/verifyId";
 import { createFromIconfontCN } from "@ant-design/icons";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1701775_6zx0gzvx0bl.js",
+  scriptUrl: "//at.alicdn.com/t/font_1701775_5ffvr7n7qh8.js",
 });
 const NeteaseMail = (props) => {
   const [loading, setLoading] = useState(false);
-
+  const email = props.email.filter((item) => item.mailName === "qq")[0];
   let formRef = React.createRef();
   const onFinish = (values) => {
     setLoading(true);
@@ -21,7 +21,7 @@ const NeteaseMail = (props) => {
       return;
     }
     $axios
-      .post(`/email/${props.email._id}`, values)
+      .post(`/email/${email._id}`, values)
       .then(() => {
         message.success("保存成功");
         props.handleFetchForm();
@@ -34,7 +34,7 @@ const NeteaseMail = (props) => {
   };
   const handleVerify = () => {
     if (props.isVerified) {
-      formRef.current.setFieldsValue(props.email);
+      formRef.current.setFieldsValue(email);
     } else {
       props.handleVerifyDialog(true);
     }
@@ -58,7 +58,7 @@ const NeteaseMail = (props) => {
       <VerifyId />
       <Row justify="center" style={{ marginTop: "20px" }}>
         <IconFont type="icon-wangyi" className="paypal-icon" />
-        <p className="paypal-title">添加 Gmail邮箱</p>
+        <p className="paypal-title">添加 163邮箱</p>
       </Row>
       <div
         style={{
@@ -69,14 +69,13 @@ const NeteaseMail = (props) => {
         <div className="mail-page-message">
           <p className="mail-message-title">注意事项： </p>
           <p>
-            目前发送邮件功能仅支持使用QQ邮箱发送，
             <br />
             <br />
-            QQ邮箱授权码获取方式可以参考如下链接
+            163邮箱授权码获取方式可以参考如下链接
             <br />
             <br />
             <a
-              href="https://service.mail.qq.com/cgi-bin/help?subtype=1&&no=1001256&&id=28"
+              href="http://help.mail.163.com/faqDetail.do?code=d7a5dc8471cd0c0e8b4b8f4f8e49998b374173cfe9171305fa1ce630d7f67ac2cda80145a1742516"
               target="_blank"
               rel="noopener noreferrer"
             >

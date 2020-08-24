@@ -166,7 +166,7 @@ const DashboardHeader = (props) => {
             props.wechatPay.secretKey === " " &&
             props.alipay.secretKey === " "
               ? "暂未配置支付信息"
-              : props.email.mailPassword === " "
+              : props.setting.defaultMail === " "
               ? "暂未配置邮箱信息"
               : "一切都已配置完成"}
           </p>
@@ -200,6 +200,7 @@ const mapStateToProps = (state) => {
     wechatPay: state.form.wechatPay,
     paypal: state.form.paypal,
     email: state.form.email,
+    setting: state.product.setting,
   };
 };
 

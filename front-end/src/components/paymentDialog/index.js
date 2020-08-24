@@ -95,7 +95,7 @@ const PaymentDialog = (props) => {
         }, 1000);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        message.error(error.response.data && error.response.data.message);
         setFormData(null);
       });
   };
@@ -159,7 +159,7 @@ const PaymentDialog = (props) => {
           />
         )
       ) : (
-        <Row justify="center" >
+        <Row justify="center">
           {isMobile && formData ? null : (
             <Col>
               <Row justify="center" style={{ marginTop: "20px" }}>

@@ -46,7 +46,12 @@ const MobilePage = (props) => {
       {showContact ? <Contact productInfo={productInfo} /> : null}
       {showQuery ? <Query /> : null}
       <div className="mobile-page-header">
-        <h1 className="mobile-header-name">{productInfo.productName}</h1>
+        <div className="mobile-header-logo-container">
+          {productInfo.logo ? (
+            <img src={productInfo.logo} alt="" className="mobile-header-logo" />
+          ) : null}
+          <span className="mobile-header-name">{productInfo.productName}</span>
+        </div>
         <p className="mobile-header-info">{productInfo.productInfo}</p>
       </div>
       <div className="mobile-page-body-container">

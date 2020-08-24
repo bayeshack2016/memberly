@@ -137,6 +137,11 @@ class AlipayCtl {
         noInvoice: result.out_trade_no,
       }
     );
+    // const order = await Order.findOne({
+    //   noInvoice: result.out_trade_no,
+    // });
+    // const { code, email, productName, levelName, price, orderId, date } = order;
+    // sendMail(code, email, productName, levelName, price, orderId, date);
     ctx.body = result.qr_code; // 支付宝返回的结果
   }
   async handleAlipayCallback(ctx) {

@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import "./index.css";
 import { connect } from "react-redux";
-import QQMail from "../../components/qqMail";
-import NeteaseMail from "../../components/neteaseMail";
-import Gmail from "../../components/gmail";
+import Mail from "../../components/mail";
 const { Item } = Menu;
 const menuMap = {
   qqMail: "QQ 邮箱",
   neteaseMail: "163 邮箱",
-  gmail: "Gmail 邮箱",
 };
 let main;
 const MailPage = (props) => {
@@ -57,13 +54,37 @@ const MailPage = (props) => {
   const renderChildren = () => {
     switch (selectedKey) {
       case "qqMail":
-        return <QQMail formData={props.qqMail} />;
+        return (
+          <Mail
+            mailName="qq"
+            mailTitle="QQ"
+            iconName="icon-QQyouxiango"
+            mailLink="https://service.mail.qq.com/cgi-bin/help?subtype=1&&no=1001256&&id=28"
+            email={props.email.filter((item) => item.mailName === "qq")[0]}
+          />
+        );
 
       case "neteaseMail":
-        return <NeteaseMail formData={props.neteaseMail} />;
+        return (
+          <Mail
+            mailName="163"
+            mailTitle="163"
+            iconName="icon-wangyi"
+            mailLink="http://help.mail.163.com/faqDetail.do?code=d7a5dc8471cd0c0e8b4b8f4f8e49998b374173cfe9171305fa1ce630d7f67ac2cda80145a1742516"
+            email={props.email.filter((item) => item.mailName === "163")[0]}
+          />
+        );
 
       case "gmail":
-        return <Gmail formData={props.gmail} />;
+        return (
+          <Mail
+            mailName="gmail"
+            mailTitle="Gmail"
+            iconName="icon-Gmail"
+            mailLink="https://codeburst.io/sending-an-email-using-nodemailer-gmail-7cfa0712a799"
+            email={props.email.filter((item) => item.mailName === "gmail")[0]}
+          />
+        );
 
       default:
         break;
