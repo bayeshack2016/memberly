@@ -6,9 +6,9 @@ const Setting = require("../models/setting");
 
 class initUtil {
   async initData() {
-    // await Email.deleteMany({}, () => {
-    //   console.log("delete success");
-    // });
+    await Setting.deleteMany({}, () => {
+      console.log("delete success");
+    });
     const alipay = await Alipay.find();
     if (alipay.length === 0) {
       await Alipay({
@@ -63,7 +63,7 @@ class initUtil {
       await Setting({
         themeOption: "default",
         isFirst: "yes",
-        version: 1.5,
+        version: 1.6,
         defaultMail: " ",
       }).save();
     }
