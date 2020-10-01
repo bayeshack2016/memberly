@@ -3,19 +3,19 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 const alipayf2f = require("alipay-ftof");
 const axios = require("axios");
+const app = require("../app");
+const io = app.getSocketIo();
 const { sendMail } = require("../utils/emailUtil");
 const { handleLimit } = require("../service/handleLimit");
 class AlipayCtl {
   async updateAlipay(ctx) {
     ctx.verifyParams({
-      paymentName: { type: "string", required: true },
       appId: { type: "string", required: true },
       publicKey: { type: "string", required: true },
       secretKey: { type: "string", required: true },
       notifyUrl: { type: "string", required: true },
     });
     const alipay = await Alipay.findByIdAndUpdate(ctx.params.id, {
-      paymentName: ctx.request.body.paymentName.trim(),
       appId: ctx.request.body.appId.trim(),
       publicKey: ctx.request.body.publicKey.trim(),
       secretKey: ctx.request.body.secretKey.trim(),
@@ -23,7 +23,7 @@ class AlipayCtl {
     });
     ctx.body = alipay;
   }
-  async handleRefund(ctx) {
+  async handleAliPayRefund(ctx) {
     const order = await Order.findOne({ orderId: ctx.request.body.orderId });
     var refund = {
       /* 退款编号 可选 用于分批退款 */
@@ -197,6 +197,9 @@ class AlipayCtl {
         { noInvoice: ctx.request.body.out_trade_no },
         { paymentStatus: "已支付" }
       );
+
+      io.emit("payment checked", "已支付");
+
       const order = await Order.findOne({
         noInvoice: ctx.request.body.out_trade_no,
       });
@@ -221,6 +224,8 @@ class AlipayCtl {
             { noInvoice: ctx.request.body.out_trade_no },
             { paymentStatus: "已支付" }
           );
+          io.emit("payment checked", "支付成功");
+
           const order = await Order.findOne({
             noInvoice: ctx.request.body.out_trade_no,
           });
@@ -234,7 +239,7 @@ class AlipayCtl {
             date,
           } = order;
           sendMail(code, email, productName, levelName, price, orderId, date);
-          handleLimit(ctx.request.body.out_trade_no);
+          handleLimit(orderId);
           ctx.body = "success";
         }
 
@@ -243,6 +248,7 @@ class AlipayCtl {
             { noInvoice: ctx.request.body.out_trade_no },
             { paymentStatus: "订单异常" }
           );
+          io.emit("payment checked", "订单异常");
         }
       });
     }

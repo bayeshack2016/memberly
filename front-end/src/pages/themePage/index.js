@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, List, message } from "antd";
 import "./index.css";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import $axios from "@/axios/$axios";
-import { CheckOutlined } from "@ant-design/icons";
+import PageHeader from "../../components/pageHeader";
+
+import { CheckOutlined, LoadingOutlined } from "@ant-design/icons";
 const ThemePage = (props) => {
-  const handleApply = (theme) => {
+  const [loading, setLoading] = useState(false);
+  const [themeIndex, setThemeIndex] = useState(-1);
+  const handleApply = (theme, index) => {
+    setLoading(true);
+    setThemeIndex(index);
     $axios
       .post(`/setting/${props.setting._id}`, {
         ...props.setting,
         themeOption: theme,
       })
       .then(() => {
+        setLoading(false);
+        setThemeIndex(-1);
         message.success("应用成功，快去商品页查看效果吧");
       })
       .catch(() => {
+        setLoading(false);
+        setThemeIndex(-1);
+
         message.error("应用失败，请稍后重试");
       });
   };
@@ -53,6 +64,13 @@ const ThemePage = (props) => {
           href: "",
           subDescription: "人生就像一盒巧克力，你永远不知道下一颗是什么味道。",
         },
+        {
+          id: "blur",
+          title: "毛玻璃主题",
+          cover: "/assets/blur.svg",
+          href: "",
+          subDescription: "我把你的衬衫放进我的衬衫里，以为这样就可以保护你了",
+        },
       ]}
       renderItem={(item, index) => (
         <List.Item>
@@ -70,10 +88,14 @@ const ThemePage = (props) => {
               <div
                 key="apply"
                 onClick={() => {
-                  handleApply(item.id);
+                  handleApply(item.id, index);
                 }}
               >
-                <CheckOutlined />
+                {loading && index === themeIndex ? (
+                  <LoadingOutlined />
+                ) : (
+                  <CheckOutlined />
+                )}
                 &nbsp; 应用主题
               </div>,
             ]}
@@ -86,9 +108,12 @@ const ThemePage = (props) => {
   );
 
   return (
-    <div className={"coverCardList"} style={{ margin: "20px" }}>
-      <div className={"cardList"} style={{ margin: "20px 0px" }}>
-        {cardList}
+    <div className="product-page-container" style={{ position: "relative" }}>
+      <PageHeader title="主题设置" desc="在这里选择商品页的主题" />
+      <div className={"coverCardList"} style={{ margin: "20px" }}>
+        <div className={"cardList"} style={{ margin: "20px 0px" }}>
+          {cardList}
+        </div>
       </div>
     </div>
   );

@@ -36,7 +36,6 @@ const Query = (props) => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err, err.response);
           message.warning("未找到订单或订单未支付");
           setLoading(false);
         });
@@ -179,6 +178,7 @@ const Query = (props) => {
               name="password"
               // label="查询密码"
               rules={[
+                { min: 8, message: "密码长度不能小于8位" },
                 {
                   required: true,
                   message: "请输入查询密码",

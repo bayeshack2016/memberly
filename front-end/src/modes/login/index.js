@@ -71,13 +71,29 @@ const Login = (props) => {
         <div className="login-form">
           <Form
             className="login-form"
-            initialValues={{
-              remember: true,
-            }}
+            initialValues={
+              document.URL === "https://pay.960960.xyz/#/login"
+                ? {
+                    email: "admin@960960.xyz",
+                    password: "12345678",
+                    remember: true,
+                  }
+                : { remember: true }
+            }
             onFinish={onFinish}
           >
             {isForget ? (
               <div>
+                <FormItem
+                  name="email"
+                  rules={[{ required: true, message: "请输入邮箱！" }]}
+                >
+                  <Input
+                    placeholder="邮箱"
+                    className="login-input"
+                    prefix={<UserOutlined />}
+                  />
+                </FormItem>
                 <FormItem
                   name="answer1"
                   rules={[
@@ -107,9 +123,11 @@ const Login = (props) => {
                     className="login-input"
                   />
                 </FormItem>
+
                 <FormItem
                   name="password"
                   rules={[
+                    { min: 8, message: "密码长度不能小于8位" },
                     {
                       required: true,
                       message: "请输入新密码",
@@ -133,25 +151,26 @@ const Login = (props) => {
                     placeholder="邮箱"
                     className="login-input"
                     prefix={<UserOutlined />}
-                    value="coodo@102410.xyz"
                   />
                 </FormItem>
                 <FormItem
                   name="password"
-                  rules={[{ required: true, message: "请输入密码！" }]}
+                  rules={[
+                    { min: 8, message: "密码长度不能小于8位" },
+                    { required: true, message: "请输入密码！" },
+                  ]}
                   style={{ marginBottom: "20px" }}
                 >
                   <Input.Password
                     placeholder="密码"
                     prefix={<LockOutlined />}
                     className="login-input"
-                    value="123456"
                   />
                 </FormItem>
                 <Row justify="space-between">
                   <Col style={{ height: "50px" }}>
                     <Form.Item name="remember" valuePropName="checked">
-                      <Checkbox>Remember me</Checkbox>
+                      <Checkbox>记住密码</Checkbox>
                     </Form.Item>
                   </Col>
                   <Col
@@ -200,7 +219,12 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+  return {
+    user: state.form.user,
+    setting: state.product.setting,
+  };
+};
 const actionCreator = {
   handleUserInfo,
 };

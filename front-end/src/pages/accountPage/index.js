@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu, Form, Input, Button, Descriptions, message, Modal } from "antd";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import PageHeader from "../../components/pageHeader";
 import $axios from "@/axios/$axios";
 const { Item } = Menu;
 const formItemLayoutWithOutLabel = {
@@ -20,7 +21,8 @@ const formItemLayout = {
 };
 const menuMap = {
   info: "账户信息",
-  changeInfo: "更改账户",
+  changeEmail: "更改邮箱",
+  changePassword: "更改密码",
   // notification: "New Message Notification"
 };
 const AccountPage = (props) => {
@@ -104,7 +106,7 @@ const AccountPage = (props) => {
       </Descriptions>
     );
   };
-  const renderChangeInfo = () => {
+  const renderChangeEmail = () => {
     return (
       <Form
         {...formItemLayout}
@@ -113,7 +115,7 @@ const AccountPage = (props) => {
         style={{ marginTop: "40px" }}
       >
         <Form.Item
-          label="邮箱"
+          label="新邮箱"
           name="email"
           rules={[
             {
@@ -124,21 +126,9 @@ const AccountPage = (props) => {
         >
           <Input placeholder="请输入邮箱" />
         </Form.Item>
-        <Form.Item
-          label="密码"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "请输入密码",
-            },
-          ]}
-        >
-          <Input.Password placeholder="请输入密码" />
-        </Form.Item>
 
         <Form.Item
-          label="您就读小学的所在城市"
+          label="安全问题1"
           name="answer1"
           rules={[
             {
@@ -150,7 +140,61 @@ const AccountPage = (props) => {
           <Input placeholder="请输入您就读小学的所在城市" />
         </Form.Item>
         <Form.Item
-          label="您最高学历就读学校的所在城市"
+          label="安全问题2"
+          name="answer2"
+          rules={[
+            {
+              required: true,
+              message: "请输入您最高学历就读学校的所在城市",
+            },
+          ]}
+        >
+          <Input placeholder="请输入您最高学历就读学校的所在城市" />
+        </Form.Item>
+        <Form.Item {...formItemLayoutWithOutLabel}>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            保存
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  };
+  const renderChangePassword = () => {
+    return (
+      <Form
+        {...formItemLayout}
+        onFinish={onFinish}
+        initialValues={props.formData ? props.formData : null}
+        style={{ marginTop: "40px" }}
+      >
+        <Form.Item
+          label="新密码"
+          name="password"
+          rules={[
+            { min: 8, message: "密码长度不能小于8位" },
+            {
+              required: true,
+              message: "请输入密码",
+            },
+          ]}
+        >
+          <Input.Password placeholder="请输入密码" />
+        </Form.Item>
+
+        <Form.Item
+          label="安全问题1"
+          name="answer1"
+          rules={[
+            {
+              required: true,
+              message: "请输入您就读小学的所在城市",
+            },
+          ]}
+        >
+          <Input placeholder="请输入您就读小学的所在城市" />
+        </Form.Item>
+        <Form.Item
+          label="安全问题2"
           name="answer2"
           rules={[
             {
@@ -175,8 +219,10 @@ const AccountPage = (props) => {
       case "info":
         return renderAccountInfo();
 
-      case "changeInfo":
-        return renderChangeInfo();
+      case "changeEmail":
+        return renderChangeEmail();
+      case "changePassword":
+        return renderChangePassword();
       default:
         break;
     }
@@ -184,22 +230,28 @@ const AccountPage = (props) => {
     return null;
   };
   return (
-    <div className="main" style={{ height: "100%" }}>
-      <div className={"leftMenu"}>
-        <Menu
-          mode="inline"
-          selectedKeys={[selectedKey]}
-          onClick={({ key }) => selectKey(key)}
-          className="payment-page"
-          style={{
-            marginTop: "10px",
-          }}
-        >
-          {getMenu()}
-        </Menu>
-      </div>
-      <div className="right" style={{ marginLeft: "50px" }}>
-        {renderChildren()}
+    <div className="product-page-container" style={{ position: "relative" }}>
+      <PageHeader
+        title="账户信息"
+        desc="在这里修改账户的邮箱、密码，检查更新"
+      />
+      <div className="main" style={{ height: "100%", position: "relative" }}>
+        <div className={"leftMenu"}>
+          <Menu
+            mode="inline"
+            selectedKeys={[selectedKey]}
+            onClick={({ key }) => selectKey(key)}
+            className="payment-page"
+            style={{
+              marginTop: "10px",
+            }}
+          >
+            {getMenu()}
+          </Menu>
+        </div>
+        <div className="right" style={{ marginLeft: "50px" }}>
+          {renderChildren()}
+        </div>
       </div>
     </div>
   );

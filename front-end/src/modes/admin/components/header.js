@@ -34,10 +34,12 @@ const HeaderBar = (props) => {
       }
     });
     setOrders(monthOrder);
+
     let ordersNumber =
-      date.getDate() === 1 ? 0 : localStorage.getItem("ordersNumber") || 0;
-    let length = monthOrder.length;
-    setMessageNumber(length - ordersNumber);
+      monthOrder.length < (parseInt(localStorage.getItem("ordersNumber")) || 0)
+        ? 0
+        : localStorage.getItem("ordersNumber") || 0;
+    setMessageNumber(monthOrder.length - ordersNumber);
   }, [props.order]);
 
   const showConfirm = () => {
@@ -69,9 +71,12 @@ const HeaderBar = (props) => {
     localStorage.setItem("ordersNumber", orders.length);
   };
   const renderMessage = () => {
-    return orders.map((item) => {
-      return `${item.email} 于 ${item.date} ${item.time} 购买 ${item.productName}${item.levelName}，消费${item.price}元`;
-    });
+    return (
+      orders &&
+      orders.map((item) => {
+        return `${item.email} 于 ${item.date} ${item.time} 购买 ${item.productName}${item.levelName}，消费${item.price}元`;
+      })
+    );
   };
   return (
     <Header theme="light">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   AlipayCircleOutlined,
-  WechatOutlined,
   createFromIconfontCN,
   CloseOutlined,
   LoadingOutlined,
@@ -22,25 +21,19 @@ import {
   message,
 } from "antd";
 import "./index.css";
+import socket from "../../utils/socketUtil";
+
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1701775_ulwzj52gr7s.js",
+  scriptUrl: "//at.alicdn.com/t/font_1701775_nrcqx2lm5ri.js",
 });
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-let checkPayment = null;
 const PaymentDialog = (props) => {
-  const [qrUrl, setQrUrl] = useState(null);
+  const [paymentUrl, setPaymentUrl] = useState(null);
   const [formData, setFormData] = useState(null);
   const [orderInfo, setOrderInfo] = useState(null);
-  const [questNumber, setQuestNumber] = useState(0);
+  const [paypalId, setPaypalId] = useState(null);
   const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    if (orderInfo || questNumber > 59) {
-      clearInterval(checkPayment);
-    }
-    questNumber > 59 && message.error("我们暂时无法处理您的请求，请稍后重试");
-  }, [orderInfo, questNumber]);
-
+  const [currencyRate, setCurrencyRate] = useState(false);
   const { chooseLevel } = props;
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
@@ -55,53 +48,107 @@ const PaymentDialog = (props) => {
       sm: { span: 16, offset: 1 },
     },
   };
+  useEffect(() => {
+    fetch("https://api.exchangeratesapi.io/latest?base=USD")
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrencyRate(data.rates.CNY);
+      });
+    $axios.get("/paypal").then((res) => {
+      setPaypalId(res.data.clientId);
+    });
+  }, []);
+  useEffect(() => {
+    if (!paypalId) return;
+    var scriptEle = document.createElement("script");
+    scriptEle.src = `https://www.paypal.com/sdk/js?client-id=${paypalId}&currency=USD`;
+    document.body.appendChild(scriptEle);
+  }, [paypalId]);
   const onFinish = async (values) => {
     let orderId = Date.now().toString() + Math.floor(Math.random() * 9999) + 1;
-    setFormData(values);
-
-    await $axios
-      .post("/order", {
-        ...values,
+    setFormData({ ...values, orderId });
+    socket.on("payment checked", async (paymentStatus) => {
+      let metadata = await $axios(`/order/fetch/${orderId}`);
+      let orderInfo = metadata.data;
+      if (paymentStatus === "已支付") {
+        setOrderInfo(orderInfo);
+        localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
+      }
+      if (paymentStatus === "订单异常") {
+        setOrderInfo(orderInfo);
+        setFailed(true);
+        localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
+      }
+    });
+  };
+  const handleCreateOrder = () => {
+    $axios
+      .post(`/order/${formData.payment === "alipay" ? "alipay" : "paypal"}`, {
+        ...formData,
         price: props.chooseLevel.levelPrice.price,
         productId: props.productInfo.productId,
-        orderId: orderId,
         productName: props.productInfo.productName,
         productType: props.productInfo.productType,
         levelName: props.chooseLevel.levelName,
       })
       .then((res) => {
-        setQrUrl(res.data);
-        let num = 0;
-        checkPayment = setInterval(async () => {
-          let metadata = await $axios(`/order/fetch/${orderId}`);
-          let orderInfo = metadata.data;
-          num++;
-          setQuestNumber(num);
-          if (orderInfo.paymentStatus === "已支付") {
-            setOrderInfo(orderInfo);
-            localStorage.setItem(
-              "orderInfo",
-              encrypt(JSON.stringify(orderInfo))
-            );
-          }
-          if (orderInfo.paymentStatus === "订单异常") {
-            setOrderInfo(orderInfo);
-            setFailed(true);
-            localStorage.setItem(
-              "orderInfo",
-              encrypt(JSON.stringify(orderInfo))
-            );
-          }
-        }, 1000);
+        setPaymentUrl(res.data);
       })
       .catch((error) => {
         message.error(error.response.data && error.response.data.message);
         setFormData(null);
       });
   };
+  useEffect(() => {
+    if (!formData) return;
+    if (formData.payment === "alipay") {
+      handleCreateOrder();
+    } else {
+      window.paypal
+        .Buttons({
+          // Set up the transaction
+          createOrder: function (data, actions) {
+            handleCreateOrder();
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: (
+                      props.chooseLevel.levelPrice.price / currencyRate
+                    ).toFixed(2),
+                  },
+                },
+              ],
+            });
+          },
+
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+              // Show a success message to the buyer
+              message.success("确认订单信息中，请稍候");
+              $axios
+                .post(`/paypal/callback`, {
+                  orderId: formData.orderId,
+                  captureId: details.purchase_units[0].payments.captures[0].id,
+                })
+                .then((res) => {})
+                .catch((error) => {
+                  message.error("交易失败");
+                });
+            });
+          },
+          style: {
+            color: "blue",
+            shape: "pill",
+            label: "pay",
+            height: 40,
+          },
+        })
+        .render("#paypal-button-container");
+    }
+  }, [formData]);
   const closeDialog = () => {
     props.handleDialog(false, null);
-    clearInterval(checkPayment);
   };
   return (
     <div className="product-payment-container">
@@ -178,6 +225,10 @@ const PaymentDialog = (props) => {
                       name="email"
                       rules={[
                         {
+                          type: "email",
+                          message: "请输入正确的邮箱格式",
+                        },
+                        {
                           required: true,
                           message: "请输入邮箱",
                         },
@@ -195,6 +246,7 @@ const PaymentDialog = (props) => {
                       name="password"
                       label="查询密码"
                       rules={[
+                        { min: 8, message: "密码长度不能小于8位" },
                         {
                           required: true,
                           message: "请输入密码",
@@ -223,15 +275,18 @@ const PaymentDialog = (props) => {
                       <Radio.Group defaultValue="alipay">
                         <Radio value="alipay">
                           <AlipayCircleOutlined className="product-ailpay-icon" />
+                          <span className="alipay-text">支付宝</span>
                         </Radio>
-                        <Radio value="wechatPay" disabled>
-                          <WechatOutlined className="product-wechat-icon" />
-                        </Radio>
-                        <Radio value="paypal" disabled>
+
+                        <Radio
+                          value="paypal"
+                          disabled={paypalId ? false : true}
+                        >
                           <IconFont
                             type="icon-paypal"
                             className="product-paypal-icon"
                           />
+                          <span className="paypal-text">PayPal</span>
                         </Radio>
                       </Radio.Group>
                     </Form.Item>
@@ -252,13 +307,17 @@ const PaymentDialog = (props) => {
           )}
           {formData && (
             <Col>
-              {formData.payment !== "paypal" ? (
+              {formData.payment === "alipay" ? (
                 <div className="product-payment-qrcode-container">
                   <div className="product-payment-qrcode">
-                    {qrUrl ? (
-                      <a href={qrUrl} target="_blank" rel="noopener noreferrer">
+                    {paymentUrl ? (
+                      <a
+                        href={paymentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <QRCode
-                          value={qrUrl} //value参数为生成二维码的链接
+                          value={paymentUrl} //value参数为生成二维码的链接
                           size={150} //二维码的宽高尺寸
                           fgColor="#000000" //二维码的颜色
                           className="product-payment-qrcode-image"
@@ -267,33 +326,19 @@ const PaymentDialog = (props) => {
                     ) : (
                       <Spin
                         indicator={antIcon}
-                        tip="二维码生成中..."
+                        tip="  二维码生成中..."
                         className="product-payment-qrcode-spin"
                       />
                     )}
                   </div>
 
                   <div className="product-payment-qrcode-text">
-                    {isMobile
-                      ? "点击二维码跳转支付"
-                      : formData.payment === "alipay"
-                      ? "使用支付宝 扫一扫"
-                      : "使用微信 扫一扫"}
+                    {isMobile ? "点击二维码跳转支付" : "使用支付宝 扫一扫"}
                   </div>
-                  {qrUrl ? (
-                    <div className="payment-countdown">{`支付倒计时：${
-                      60 - questNumber
-                    }s`}</div>
-                  ) : null}
                 </div>
               ) : (
                 <div className="product-payment-paypal">
-                  <Button
-                    className="product-payment-paypal-button"
-                    type="primary"
-                  >
-                    点此前往 Paypal 支付
-                  </Button>
+                  <div id="paypal-button-container"></div>
                 </div>
               )}
             </Col>

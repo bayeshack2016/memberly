@@ -9,7 +9,7 @@ const Install = (props) => {
   const [currentStep, setCurrentStep] = useState("welcome");
   useEffect(() => {
     props.handleFetchSetting();
-  });
+  }, []);
   const handleCurrent = (currentStep) => {
     setCurrentStep(currentStep);
   };

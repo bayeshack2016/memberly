@@ -22,11 +22,9 @@ class initUtil {
     const paypal = await Paypal.find();
     if (paypal.length === 0) {
       await Paypal({
-        paymentName: "Paypal",
-        clientID: " ",
-        exchangeRate: 7,
-        secretKey: " ",
-        mode: "生产模式",
+        clientId: " ",
+        secret: " ",
+        token: " ",
       }).save();
     }
     const wechatPay = await WechatPay.find();
@@ -65,7 +63,7 @@ class initUtil {
       await Setting({
         themeOption: "default",
         isFirst: "yes",
-        version: 1.4,
+        version: 1.5,
         defaultMail: " ",
       }).save();
     }

@@ -28,21 +28,7 @@ export function handleFetchByPeriod(catergory) {
     let ordersByPeriod = [];
     let period = [];
     let data = await $axios(`/historyData`);
-    let periodData = data.data.splice(
-      data.data.length > 15 ? data.data.length - 15 : 0
-    );
-    let date = new Date();
-    //如果没有今天的数据就把periodData的最后一个数据置为0，
-    if (
-      periodData[periodData.length - 1].year !== date.getFullYear() &&
-      periodData[periodData.length - 1].month !== date.getMonth() + 1 &&
-      periodData[periodData.length - 1].day !== date.getDate()
-    ) {
-      periodData.shift();
-      let temp = { ...periodData[periodData.length - 1] };
-      periodData.push(temp);
-      console.log(periodData);
-    }
+    let periodData = data.data;
     for (let i = 0; i < periodData.length; i++) {
       period.push(`${periodData[i].month}-${periodData[i].day}`);
       salesByPeriod.push(parseInt(periodData[i].historySales));

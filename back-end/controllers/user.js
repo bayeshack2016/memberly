@@ -9,6 +9,7 @@ class UserCtl {
   async forgetUser(ctx) {
     ctx.verifyParams({
       password: { type: "string", required: true },
+      email: { type: "string", required: true },
       answer1: { type: "string", required: true },
       answer2: { type: "string", required: true },
     });
@@ -18,6 +19,9 @@ class UserCtl {
     });
     if (!user) {
       ctx.throw(403, "安全问题验证错误");
+    }
+    if (user.email !== ctx.request.body.email) {
+      ctx.throw(403, "邮箱错误");
     }
     const newUser = await User.findByIdAndUpdate(user._id, {
       password: md5Pwd(ctx.request.body.password),
@@ -63,7 +67,7 @@ class UserCtl {
       password: md5Pwd(ctx.request.body.password.trim()),
     });
     if (!user) {
-      ctx.throw(401, "用户名或密码错误");
+      ctx.throw(403, "用户名或密码错误");
     }
     const { _id, email } = user;
     const jwt = jsonwebtoken.sign({ _id, email }, secret, {
@@ -73,8 +77,8 @@ class UserCtl {
   }
   async updateUser(ctx) {
     ctx.verifyParams({
-      email: { type: "string", required: true },
-      password: { type: "string", required: true },
+      email: { type: "string", required: false },
+      password: { type: "string", required: false },
       answer1: { type: "string", required: true },
       answer2: { type: "string", required: true },
     });
@@ -85,10 +89,15 @@ class UserCtl {
     if (!user) {
       ctx.throw(403, "安全问题验证错误");
     }
-    user = await User.findByIdAndUpdate(ctx.params.id, {
-      email: ctx.request.body.email,
-      password: md5Pwd(ctx.request.body.password),
-    });
+    if (ctx.request.body.password) {
+      user = await User.findByIdAndUpdate(ctx.params.id, {
+        password: ctx.request.body.password,
+      });
+    } else {
+      user = await User.findByIdAndUpdate(ctx.params.id, {
+        email: md5Pwd(ctx.request.body.email),
+      });
+    }
     ctx.body = user;
   }
 }

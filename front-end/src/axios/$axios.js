@@ -41,12 +41,12 @@ $axios.interceptors.response.use(
       //如果401或405则到登录页
       if (status === 401 || status === 405) {
         // history.push("/login");
-        //解决多次提示重新登陆的问题
+        //解决多次提示重新登录的问题
         if (number === 1) {
           return;
         }
         localStorage.removeItem("jwt");
-        message.warning("请重新登陆");
+        message.warning("请重新登录");
         number++;
         window.location.reload();
       }

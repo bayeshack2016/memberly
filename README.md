@@ -34,7 +34,7 @@
 
 🌉 快速上手：无需配置复杂的服务器环境，您只需注册账号和复制粘贴简单的代码即可完成所有流程
 
-🌎 支付宝当面付收款，即时到账，未来计划添加微信支付和 Paypal 支付
+🌎 支持支付宝当面付和 Paypal 支付（PayPal 仅支持美元支付）
 
 💻 专为独立开发者和站长打造，提供从会员支付到会员资格验证的一整套解决方案
 
@@ -58,9 +58,9 @@
 
 - Koa2
 - Mongodb
-- pm2
-- jsonwebtoken
-- nodemailer
+- PM2
+- Json Web Token
+- NodeMailer
 - ...
 
 ## 预览地址
@@ -69,14 +69,7 @@
 
 [前台商品页](https://pay.960960.xyz/#/product/6)
 
-[API 文档](https://app.swaggerhub.com/apis-docs/troyeguo/CoodoPay/1.4.0)
-
 [后台管理系统](https://pay.960960.xyz)
-
-```
-账号：coodo@102410.xyz
-密码：123456
-```
 
 ## 项目架构
 

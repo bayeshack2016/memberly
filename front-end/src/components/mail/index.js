@@ -8,12 +8,11 @@ import { handleFetchSetting } from "@/redux/actions/product";
 import VerifyId from "../verifyId";
 import { createFromIconfontCN } from "@ant-design/icons";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1701775_5ffvr7n7qh8.js",
+  scriptUrl: "//at.alicdn.com/t/font_1701775_nrcqx2lm5ri.js",
 });
 const Mail = (props) => {
   const [loading, setLoading] = useState(false);
   const email = props.email;
-  console.log(props, email, "props,");
   let formRef = React.createRef();
   const onFinish = (values) => {
     setLoading(true);
@@ -35,7 +34,6 @@ const Mail = (props) => {
           message.error("修改默认邮箱失败");
         });
     }
-    console.log(values, "values");
     $axios
       .post(`/email/${email._id}`, { ...values, mailName: props.mailName })
       .then(() => {
@@ -64,15 +62,17 @@ const Mail = (props) => {
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
       xs: { span: 24, offset: 2 },
-      sm: { span: 16, offset: 5 },
+      sm: { span: 16, offset: 8 },
     },
   };
   const formItemLayout = {
     labelCol: {
-      sm: { span: 5 },
+      xs: { span: 5, offset: 0 },
+      sm: { span: 5, offset: 3 },
     },
     wrapperCol: {
-      sm: { span: 8, offset: 0 },
+      xs: { span: 8, offset: 0 },
+      sm: { span: 12, offset: 0 },
     },
   };
   return (
@@ -88,20 +88,6 @@ const Mail = (props) => {
         }}
         className="mail-page-setting"
       >
-        <div className="mail-page-message">
-          <p className="mail-message-title">注意事项： </p>
-          <p>
-            {`目前发送邮件功能仅支持使用${props.mailTitle}邮箱发送，`}
-            <br />
-            <br />
-            {`${props.mailTitle}邮箱授权码获取方式可以参考如下链接`}
-            <br />
-            <br />
-            <a href={props.mailLink} target="_blank" rel="noopener noreferrer">
-              点我前往
-            </a>
-          </p>
-        </div>
         <Form
           {...formItemLayout}
           ref={formRef}

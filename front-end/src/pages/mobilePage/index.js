@@ -25,7 +25,6 @@ const MobilePage = (props) => {
     const cssUrl = `/assets/css/${props.theme}.css`;
     addStyle(cssUrl);
   }, []);
-  console.log(productInfo, "info");
   return (
     <div className="mobile-page-container">
       {showContact || showQuery ? (
@@ -45,7 +44,7 @@ const MobilePage = (props) => {
       ></div>
       {showContact ? <Contact productInfo={productInfo} /> : null}
       {showQuery ? <Query /> : null}
-      <div className="mobile-page-header">
+      <div className="mobile-page-header" style={{ marginTop: 10 }}>
         <div className="mobile-header-logo-container">
           {productInfo.logo ? (
             <img src={productInfo.logo} alt="" className="mobile-header-logo" />
@@ -57,7 +56,9 @@ const MobilePage = (props) => {
       <div className="mobile-page-body-container">
         <div
           className="mobile-page-body"
-          style={{ width: `${productInfo.memberLevel * 280}px` }}
+          style={{
+            width: `calc(50vw - 140px + ${productInfo.memberLevel * 280}px)`,
+          }}
         >
           <ProductInfo
             handleDialog={props.handleDialog}

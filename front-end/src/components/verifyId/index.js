@@ -55,7 +55,7 @@ const VerifyId = (props) => {
     >
       <Form {...layout} onFinish={onFinish}>
         <Form.Item
-          label="问题一"
+          label="安全问题1"
           name="answer1"
           rules={[
             {
@@ -67,7 +67,7 @@ const VerifyId = (props) => {
           <Input placeholder="请输入您就读小学的所在城市" />
         </Form.Item>
         <Form.Item
-          label="问题二"
+          label="安全问题2"
           name="answer2"
           rules={[
             {

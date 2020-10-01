@@ -2,6 +2,7 @@ const Order = require("../models/order");
 const { md5Pwd } = require("../utils/cryptoUtil");
 
 const createOrder = async (ctx, next) => {
+  console.log(ctx.request.body, "ctx.request.body");
   ctx.verifyParams({
     price: { type: "number", required: true },
     email: { type: "string", required: true },

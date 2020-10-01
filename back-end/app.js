@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const app = new Koa();
+const http = require("http");
 const koaBody = require("koa-body");
 const routing = require("./routes");
 const error = require("koa-json-error");
@@ -15,12 +16,25 @@ const koaStatic = require("koa-static");
 const { connection } = require("./config");
 const { initData } = require("./utils/initUtil");
 const compress = require("koa-compress");
-const koaSwagger = require("koa2-swagger-ui");
-const swagger = require("./utils/swagger");
+const uuid = require("uuid/v4");
+const io = require("socket.io");
+
 mongoose.connect(connection, { useNewUrlParser: true }, () => {
   console.log("连接成功");
 });
 mongoose.connection.on("error", console.error);
+let httpServer = http.createServer(app.callback());
+httpServer.listen(8080);
+
+const wsServer = io.listen(httpServer);
+
+wsServer.on("connection", (sock) => {
+  console.log("connected");
+});
+function getSocketIo() {
+  return wsServer;
+}
+module.exports.getSocketIo = getSocketIo;
 app.use(helmet());
 app.use(cors());
 app.use(logger());
@@ -32,15 +46,7 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
-app.use(
-  koaSwagger({
-    routePrefix: "/swagger", // host at /swagger instead of default /docs
-    swaggerOptions: {
-      url: "/swagger.json", // example path to json 其实就是之后swagger-jsdoc生成的文档地址
-    },
-  })
-);
-app.use(swagger.routes(), swagger.allowedMethods());
+
 const ENV = process.env.NODE_ENV;
 if (ENV !== "production") {
   // 开发环境 / 测试环境

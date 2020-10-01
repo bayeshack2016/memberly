@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import { connect } from "react-redux";
-import Alipay from "../../components/alipay";
-import WechatPay from "../../components/wechatPay";
-import Paypal from "../../components/paypal";
+import PaymentMethod from "../../components/paymentMethod";
+import PageHeader from "../../components/pageHeader";
+
 import "./index.css";
 const { Item } = Menu;
 const menuMap = {
   alipay: "支付宝",
-  wechatPay: "微信支付",
   paypal: "Paypal",
 };
 let main;
@@ -59,13 +58,23 @@ const PaymentPage = (props) => {
   const renderChildren = () => {
     switch (selectedKey) {
       case "alipay":
-        return <Alipay formData={props.alipay} />;
-
-      case "wechatPay":
-        return <WechatPay formData={props.wechatPay} />;
-
+        return (
+          <PaymentMethod
+            formData={props.alipay}
+            mode="alipay"
+            name="支付宝"
+            title="添加支付宝当面付"
+          />
+        );
       case "paypal":
-        return <Paypal formData={props.paypal} />;
+        return (
+          <PaymentMethod
+            formData={props.paypal}
+            mode="paypal"
+            name="PayPal"
+            title="添加PayPal"
+          />
+        );
 
       default:
         break;
@@ -74,21 +83,24 @@ const PaymentPage = (props) => {
     return null;
   };
   return (
-    <div className={"main"}>
-      <div className={"leftMenu"}>
-        <Menu
-          mode={mode}
-          selectedKeys={[selectedKey]}
-          onClick={({ key }) => selectKey(key)}
-          className="payment-page"
-          style={{
-            marginTop: "10px",
-          }}
-        >
-          {getMenu()}
-        </Menu>
+    <div className="product-page-container" style={{ position: "relative" }}>
+      <PageHeader title="支付设置" desc="在这里添加你的收款账户" />
+      <div className={"main"}>
+        <div className={"leftMenu"}>
+          <Menu
+            mode={mode}
+            selectedKeys={[selectedKey]}
+            onClick={({ key }) => selectKey(key)}
+            className="payment-page"
+            style={{
+              marginTop: "10px",
+            }}
+          >
+            {getMenu()}
+          </Menu>
+        </div>
+        <div className={"right"}>{renderChildren()}</div>
       </div>
-      <div className={"right"}>{renderChildren()}</div>
     </div>
   );
 };

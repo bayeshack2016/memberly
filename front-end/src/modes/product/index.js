@@ -40,6 +40,7 @@ const Product = (props) => {
           chooseLevel={chooseLevel}
           handleDialog={handleDialog}
           showDialog={showDialog}
+          paypal={props.paypal}
         />
       ) : null}
       {isMobile ? (
@@ -73,6 +74,7 @@ const mapStateToProps = (state) => {
   return {
     productInfo: state.product.productInfo,
     setting: state.product.setting,
+    paypal: state.form.paypal,
   };
 };
 const actionCreator = {

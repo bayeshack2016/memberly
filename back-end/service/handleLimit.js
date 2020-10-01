@@ -2,9 +2,9 @@ const Product = require("../models/product");
 const Order = require("../models/order");
 
 class handleLimit {
-  async handleLimit(out_trade_no) {
+  async handleLimit(orderId) {
     const { productName, levelName } = await Order.findOne({
-      noInvoice: out_trade_no,
+      orderId: orderId,
     });
     const product = await Product.findOne({
       productName,
@@ -13,8 +13,9 @@ class handleLimit {
     let levelLimitArr = product.levelLimit;
     const levelIndex = levelNameArr.indexOf(levelName);
     let levelLimit = levelLimitArr[levelIndex];
+
     if (!levelLimit) {
-      console.error("更改限购数量失败");
+      console.error("无限购");
       return;
     }
     levelLimit--;

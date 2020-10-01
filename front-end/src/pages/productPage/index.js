@@ -8,6 +8,7 @@ import $axios from "@/axios/$axios";
 import { handleFetchAllProduct } from "@/redux/actions/product";
 import { handleForm, handleVerifyDialog } from "../../redux/actions/form";
 import VerifyId from "../../components/verifyId";
+import PageHeader from "../../components/pageHeader";
 import Logo from "../../components/logo";
 const { confirm } = Modal;
 const { Paragraph } = Typography;
@@ -57,28 +58,11 @@ const ProductPage = (props) => {
       props.history.push("/productAdd");
     }
   };
-  const content = (
-    <div className={"pageHeaderContent"} style={{ padding: "20px" }}>
-      <div
-        style={{
-          fontSize: "20px",
-          fontWeight: "500",
-          marginTop: "10px",
-          color: "#595959",
-        }}
-      >
-        商品列表
-      </div>
-      <p style={{ lineHeight: "35px", fontSize: "15px", opacity: "0.8" }}>
-        在这里添加和编辑您希望出售的商品
-      </p>
-    </div>
-  );
 
-  const nullData = {};
   return (
     <div className="product-page-container">
-      <div className="product-page-header">{content}</div>
+      <PageHeader title="商品设置" desc="在这里添加和编辑您的商品" />
+
       <VerifyId />
       <div className={"cardList"} style={{ padding: "20px" }}>
         <List
@@ -90,7 +74,7 @@ const ProductPage = (props) => {
             sm: 1,
             xs: 1,
           }}
-          dataSource={[nullData, ...props.allProducts]}
+          dataSource={[{}, ...props.allProducts]}
           renderItem={(item, index) => {
             if (item && item._id) {
               return (

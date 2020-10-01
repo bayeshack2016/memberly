@@ -22,7 +22,7 @@ const orderSchema = new Schema({
   productName: { type: "string", required: true },
   levelName: { type: "string", required: true },
   productType: { type: "number", enum: [1, 2], required: true },
-  noInvoice: { type: "string", required: true }, //支付宝返回的商户订单号
+  noInvoice: { type: "string", required: true }, 
 });
 
 module.exports = model("Order", orderSchema);

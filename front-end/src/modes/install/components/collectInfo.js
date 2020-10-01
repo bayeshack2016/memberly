@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Steps,
   Button,
@@ -47,18 +47,6 @@ const CollectInfo = (props) => {
   const onFinish = (values) => {
     if (values.password === values.passwordAgain) {
       setFormData({ ...formData, ...values });
-      if (current === 1) {
-        $axios
-          .post("/user", formData)
-          .then(() => {
-            next();
-          })
-          .catch(() => {
-            message.error("出现错误，请稍后再试");
-          });
-      } else {
-        next();
-      }
     } else {
       message.warning("两次输入密码不一致");
     }
@@ -69,6 +57,21 @@ const CollectInfo = (props) => {
   const prev = () => {
     setCurrent(current - 1);
   };
+  useEffect(() => {
+    if (!formData) return;
+    if (current === 1) {
+      $axios
+        .post("/user", formData)
+        .then(() => {
+          next();
+        })
+        .catch(() => {
+          message.error("出现错误，请稍后再试");
+        });
+    } else {
+      next();
+    }
+  }, [formData]);
   const steps = [
     {
       title: "完善个人信息",
@@ -86,7 +89,7 @@ const CollectInfo = (props) => {
             rules={[
               {
                 type: "email",
-                message: "The input is not valid E-mail!",
+                message: "请输入正确的邮箱格式",
               },
               {
                 required: true,
@@ -100,6 +103,7 @@ const CollectInfo = (props) => {
             label="密码"
             name="password"
             rules={[
+              { min: 8, message: "密码长度不能小于8位" },
               {
                 required: true,
                 message: "请输入密码",

@@ -5,6 +5,7 @@ const { smms } = require("../config");
 const fs = require("fs");
 const path = require("path");
 const FormData = require("form-data");
+
 const axios = require("axios");
 class HomeCtl {
   async getTodayData(ctx) {
@@ -12,8 +13,11 @@ class HomeCtl {
     ctx.body = todayData;
   }
   async getHistoryData(ctx) {
-    const historyData = await HistoryData.find(ctx.request.query);
-    ctx.body = historyData;
+    const historyData = await HistoryData.find();
+    const periodData = historyData.splice(
+      historyData.length > 15 ? historyData.length - 15 : 0
+    );
+    ctx.body = periodData;
   }
   async upload(ctx) {
     console.log("shangchuan");

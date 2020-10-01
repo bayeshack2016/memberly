@@ -5,84 +5,30 @@ const {
   fetchAlipay,
   updateAlipay,
   handleAlipayCallback,
-  handleRefund,
+  handleAliPayRefund,
 } = require("../controllers/alipay");
 const {
-  updateWechat,
-  updatePaypal,
-  fetchWechatPay,
   fetchPaypal,
-} = require("../controllers/payment");
+  updatePaypal,
+  handlePaypalCallback,
+  handlePaypalRefund,
+} = require("../controllers/paypal");
+const { updateWechat, fetchWechatPay } = require("../controllers/payment");
 const { secret } = require("../config");
 const auth = jwt({ secret });
-/**
- * @swagger
- * /api/alipay/callback:
- *   post:
- *     tags:
- *       - 支付
- *     description: 支付宝支付成功的回调地址
- *     responses:
- *       200:
- *         description: 完成支付
- */
+
 router.post("/alipay/callback", handleAlipayCallback);
-/**
- * @swagger
- * /api/alipay:
- *   post:
- *     tags:
- *       - 支付
- *     description: 更新支付宝信息
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: paymentName
- *         description: 支付方式名称
- *         in: body
- *         required: true
- *         type: string
- *       - name: appId
- *         description: 支付宝应用id
- *         in: body
- *         required: true
- *         type: string
- *       - name: publicKey
- *         description: 应用公匙
- *         in: body
- *         required: true
- *         type: string
- *       - name: secretKey
- *         description: RSA私匙
- *         in: body
- *         required: true
- *         type: string
- *       - name: notifyUrl
- *         description: 支付宝回调地址
- *         in: body
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: 成功更新支付宝信息
- */
+router.post("/paypal/callback", handlePaypalCallback);
+
 router.post("/alipay/:id", auth, updateAlipay);
 router.post("/wechatPay/:id", auth, updateWechat);
 router.post("/paypal/:id", auth, updatePaypal);
-/**
- * @swagger
- * /api/alipay:
- *   get:
- *     tags:
- *       - 支付
- *     description: 获取支付宝信息
- *     responses:
- *       200:
- *         description: 成功获取支付宝信息
- */
+
 router.get("/alipay", auth, fetchAlipay);
 router.get("/wechatPay", auth, fetchWechatPay);
-router.get("/paypal", auth, fetchPaypal);
-router.post("/refund", auth, handleRefund);
+router.get("/paypal", fetchPaypal);
+
+router.post("/refund/alipay", auth, handleAliPayRefund);
+router.post("/refund/paypal", auth, handlePaypalRefund);
 
 module.exports = router;

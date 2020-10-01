@@ -4,6 +4,8 @@ import moment from "moment";
 import { connect } from "react-redux";
 import $axios from "@/axios/$axios";
 import { handleFetchOrder } from "@/redux/actions/form";
+import PageHeader from "../../components/pageHeader";
+
 const dateFormat = "YYYY-MM-DD";
 const { Search } = Input;
 
@@ -58,11 +60,11 @@ const OrderPage = (props) => {
         day: date._d.getDate(),
       });
   };
-  const handleRefund = async (orderId, index) => {
+  const handleRefund = async (orderId, index, order) => {
     setRefundLoading(true);
     setRefundIndex(index);
     $axios
-      .post("/refund", { orderId })
+      .post(`/refund/${order.payment}`, { orderId })
       .then((res) => {
         setRefundLoading(false);
         message.success("退款成功");
@@ -90,7 +92,7 @@ const OrderPage = (props) => {
         <Button
           type="primary"
           onClick={() => {
-            handleRefund(record.orderId, index);
+            handleRefund(record.orderId, index, record);
           }}
           size="small"
           loading={refundIndex === index && refundLoading}
@@ -171,7 +173,7 @@ const OrderPage = (props) => {
       key: "payment",
       width: 100,
       render: (payment) =>
-        payment === "alipay" ? <span>支付宝</span> : <span>其他</span>,
+        payment === "alipay" ? <span>支付宝</span> : <span>PayPal</span>,
     },
     {
       title: "邮箱",
@@ -183,19 +185,11 @@ const OrderPage = (props) => {
   const date = new Date();
   return (
     <div className="shadow-radius">
-      <div
-        className="order-page-header"
-        style={{
-          backgroundColor: "white",
-          height: "100px",
-          padding: "30px 20px",
-        }}
-      >
-        <div style={{ fontSize: "20px", fontWeight: "500" }}>订单管理</div>
-        <p style={{ lineHeight: "35px", fontSize: "15px", opacity: "0.8" }}>
-          在这里查找，管理以往所有的订单和会员码
-        </p>
-      </div>
+      <PageHeader
+        title="订单管理"
+        desc="在这里查找，管理以往所有的订单和会员码"
+      />
+
       <div
         style={{
           backgroundColor: "white",

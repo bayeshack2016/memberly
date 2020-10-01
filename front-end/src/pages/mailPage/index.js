@@ -3,6 +3,8 @@ import { Menu } from "antd";
 import "./index.css";
 import { connect } from "react-redux";
 import Mail from "../../components/mail";
+import PageHeader from "../../components/pageHeader";
+
 const { Item } = Menu;
 const menuMap = {
   qqMail: "QQ 邮箱",
@@ -94,19 +96,10 @@ const MailPage = (props) => {
   };
   return (
     <div className="shadow-radius">
-      <div
-        className="order-page-header"
-        style={{
-          backgroundColor: "white",
-          height: "100px",
-          padding: "30px 20px",
-        }}
-      >
-        <div style={{ fontSize: "20px", fontWeight: "500" }}>邮箱设置</div>
-        <p style={{ lineHeight: "35px", fontSize: "15px", opacity: "0.8" }}>
-          当用户完成下单，会通过邮件的方式向用户发送订单信息，在这里填写您用于发送订单的邮箱
-        </p>
-      </div>
+      <PageHeader
+        title="邮箱设置"
+        desc="当用户完成下单，会通过邮件的方式向用户发送订单信息，在这里填写您用于发送订单的邮箱"
+      />
       <div className={"main"}>
         <div className={"leftMenu"}>
           <Menu
