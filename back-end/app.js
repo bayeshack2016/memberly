@@ -1,6 +1,7 @@
 const Koa = require("koa");
 const app = new Koa();
-const http = require("http");
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 const koaBody = require("koa-body");
 const routing = require("./routes");
 const error = require("koa-json-error");
@@ -16,23 +17,23 @@ const koaStatic = require("koa-static");
 const { connection } = require("./config");
 const { initData } = require("./utils/initUtil");
 const compress = require("koa-compress");
-const uuid = require("uuid/v4");
-const io = require("socket.io");
+// const uuid = require("uuid/v4");
+// const io = require("socket.io");
 
 mongoose.connect(connection, { useNewUrlParser: true }, () => {
   console.log("连接成功");
 });
 mongoose.connection.on("error", console.error);
-let httpServer = http.createServer(app.callback());
-httpServer.listen(8080);
+// let httpServer = http.createServer(app.callback());
+// httpServer.listen(8080);
 
-const wsServer = io.listen(httpServer);
+// const wsServer = io.listen(httpServer);
 
-wsServer.on("connection", (sock) => {
+io.on("connection", (sock) => {
   console.log("connected");
 });
 function getSocketIo() {
-  return wsServer;
+  return io;
 }
 module.exports.getSocketIo = getSocketIo;
 app.use(helmet());
