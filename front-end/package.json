@@ -81,7 +81,7 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "cross-env NODE_ENV=dev node scripts/start.js",
+    "start": "cross-env NODE_ENV=development node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "mock": "json-server src/mock/fakeData.js"

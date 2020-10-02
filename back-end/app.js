@@ -1,7 +1,6 @@
 const Koa = require("koa");
 const app = new Koa();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const http = require("http");
 const koaBody = require("koa-body");
 const routing = require("./routes");
 const error = require("koa-json-error");
@@ -17,25 +16,28 @@ const koaStatic = require("koa-static");
 const { connection } = require("./config");
 const { initData } = require("./utils/initUtil");
 const compress = require("koa-compress");
-// const uuid = require("uuid/v4");
-// const io = require("socket.io");
+const config = require("./config");
+const port = process.env.PORT || config.port;
+// const server = require("http").createServer(app.callback());
+// const io = require("socket.io")(server);
 
 mongoose.connect(connection, { useNewUrlParser: true }, () => {
   console.log("连接成功");
 });
 mongoose.connection.on("error", console.error);
-// let httpServer = http.createServer(app.callback());
-// httpServer.listen(8080);
-
-// const wsServer = io.listen(httpServer);
-
+const server = http.createServer(app.callback());
+server.listen(port);
+const socketIO = require("socket.io");
+const io = socketIO(server, { transports: ["websocket"] });
 io.on("connection", (sock) => {
   console.log("connected");
 });
+
 function getSocketIo() {
   return io;
 }
 module.exports.getSocketIo = getSocketIo;
+
 app.use(helmet());
 app.use(cors());
 app.use(logger());
@@ -70,13 +72,7 @@ app.use(
       process.env.NODE_ENV === "production" ? { ...rest } : { stack, ...rest },
   })
 );
-const dirPath = path.join(__dirname, "/public/uploads");
-if (!fs.existsSync(dirPath)) {
-  fs.mkdirSync(dirPath);
-  console.log("文件夹创建成功");
-} else {
-  console.log("文件夹已存在");
-}
+
 app.use(
   koaBody({
     multipart: true,
@@ -90,4 +86,5 @@ app.use(parameter(app));
 routing(app);
 
 initData();
+
 module.exports = app;

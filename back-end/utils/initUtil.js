@@ -51,12 +51,6 @@ class initUtil {
         mailPassword: " ",
         sendName: " ",
       }).save();
-      await Email({
-        mailName: "gmail",
-        mailAddress: " ",
-        mailPassword: " ",
-        sendName: " ",
-      }).save();
     }
     const setting = await Setting.find();
     if (setting.length === 0) {

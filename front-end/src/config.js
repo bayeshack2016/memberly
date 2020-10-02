@@ -1,4 +1,4 @@
 module.exports = {
   devHost: "http://localhost:3001",
-  prodHost: "https://coodopay.herokuapp.com",
+  prodHost: "https://pay.960960.xyz",
 };

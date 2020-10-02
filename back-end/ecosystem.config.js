@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "Coodo-Pay",
-      script: "./bin/www",
+      script: "app.js",
       instances: "max",
       env: {
         NODE_ENV: "development",
