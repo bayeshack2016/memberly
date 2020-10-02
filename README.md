@@ -77,7 +77,7 @@
 
 请前往简书，查看详细的图文教程（由于 Heroku 对 websocket 协议的限制，新版本不再支持基于 Heroku 的安装，请参考新教程使用宝塔面板重新安装）
 
-[点我前往](https://www.jianshu.com/p/13e3ed3f7079)
+[点我前往](https://www.jianshu.com/p/d0b92fefcc96)
 
 ## 运行源码
 
