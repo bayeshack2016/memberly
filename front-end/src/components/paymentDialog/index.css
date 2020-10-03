@@ -175,7 +175,7 @@
 @media screen and (max-width: 780px) {
   .product-payment-container {
     width: 80%;
-    height: 80%;
+    height: 95%;
     left: 10%;
     top: 10%;
     overflow-y: scroll;

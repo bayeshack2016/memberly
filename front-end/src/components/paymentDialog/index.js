@@ -104,6 +104,10 @@ const PaymentDialog = (props) => {
     if (formData.payment === "alipay") {
       handleCreateOrder();
     } else {
+      console.log(
+        (props.chooseLevel.levelPrice.price / currencyRate).toFixed(2),
+        "ngng"
+      );
       window.paypal
         .Buttons({
           // Set up the transaction
@@ -113,9 +117,12 @@ const PaymentDialog = (props) => {
               purchase_units: [
                 {
                   amount: {
-                    value: (
-                      props.chooseLevel.levelPrice.price / currencyRate
-                    ).toFixed(2),
+                    value:
+                      props.chooseLevel.levelPrice.price < 0.1
+                        ? "0.01"
+                        : (
+                            props.chooseLevel.levelPrice.price / currencyRate
+                          ).toFixed(2),
                   },
                 },
               ],

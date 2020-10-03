@@ -70,7 +70,14 @@ const AddStepOne = (props) => {
           </Form.Item>
           <Form.Item label={`等级${item}定价`}>
             <Input.Group compact>
-              <Form.Item name={[`levelPrice${item}`, `price${item}`]} noStyle>
+              <Form.Item
+                name={[`levelPrice${item}`, `price${item}`]}
+                noStyle
+                rules={[
+                  { type: "number", message: "请输入数字" },
+                  { required: true, message: `请输入等级${item}定价` },
+                ]}
+              >
                 <InputNumber
                   min={0}
                   step={1}
