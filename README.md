@@ -16,12 +16,17 @@
 
 </div>
 <div align="center">
+  <a href="https://github.com/troyeguo/koodo-reader/releases/latest">
     <img src="https://img.shields.io/github/release/troyeguo/coodo-pay.svg?style=flat-square" alt="">
+  </a>
 
+  <a href="https://github.com/troyeguo/koodo-reader/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/troyeguo/coodo-pay.svg?style=flat-square" alt="">
+  </a>
 
+  <a href="https://github.com/troyeguo/koodo-reader/releases/latest">
     <img alt="node-current badge" src="https://img.shields.io/badge/node-%3E%3D%2010.14-brightgreen">
-
+  </a>
 </div>
 
 ## 项目预览
