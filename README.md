@@ -10,6 +10,19 @@
 <p align="center">
     为独立开发者和站长打造的会员支付解决方案
 </p>
+<div align="center">
+
+[示例网站](https://pay.960960.xyz/#/product/6) | [搭建教程](https://www.jianshu.com/p/d0b92fefcc96)
+
+</div>
+<div align="center">
+    <img src="https://img.shields.io/github/release/troyeguo/coodo-pay.svg?style=flat-square" alt="">
+
+    <img src="https://img.shields.io/github/license/troyeguo/coodo-pay.svg?style=flat-square" alt="">
+
+    <img alt="node-current badge" src="https://img.shields.io/badge/node-%3E%3D%2010.14-brightgreen">
+
+</div>
 
 ## 项目预览
 
