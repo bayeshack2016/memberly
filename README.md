@@ -12,7 +12,7 @@
 </p>
 <div align="center">
 
-[示例网站](https://pay.960960.xyz/#/product/6) | [搭建教程](https://www.jianshu.com/p/d0b92fefcc96)
+[演示网站](https://pay.960960.xyz/#/product/6) | [搭建教程](https://www.jianshu.com/p/d0b92fefcc96)
 
 </div>
 <div align="center">
