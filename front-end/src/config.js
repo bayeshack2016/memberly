@@ -1,4 +1,5 @@
+const currentUrl = document.URL.split("#")[0];
 module.exports = {
   devHost: "http://localhost:3001",
-  prodHost: "https://pay.960960.xyz",
+  prodHost: currentUrl.substring(0, currentUrl.length - 1),
 };

@@ -37,7 +37,11 @@ const App = (props) => {
     return (
       <div className="fetching-data-mask">
         <img src="/assets/default.svg" alt="" className="login-mask-image" />
-        <Row justify="center" className="login-mask-title">
+        <Row
+          justify="center"
+          className="login-mask-title"
+          style={{ fontWeight: "bold" }}
+        >
           Coodo Pay
         </Row>
         <Row justify="center" className="login-mask-subtitle">
