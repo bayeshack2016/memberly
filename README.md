@@ -56,6 +56,23 @@
 
 😘 当然 **Coodo Pay** 还很年轻，难免有一些 bug 和瑕疵，但有你的支持它一定会越来越好 🏃
 
+## 预览地址
+
+[前台商品页](https://pay.960960.xyz/#/product/6)
+
+[后台管理系统](https://pay.960960.xyz)
+
+## 搭建方式
+
+请前往简书，查看详细的图文教程（由于 Heroku 对 websocket 协议的限制，新版本不再支持基于 Heroku 的安装，请参考新教程使用宝塔面板重新安装）
+
+[点我前往](https://www.jianshu.com/p/d0b92fefcc96)
+
+## 项目架构
+
+<img src="https://i.loli.net/2020/06/25/IAvzkwqybueSd1p.png">
+<img src="https://i.loli.net/2020/06/25/GpBbfny8JdVN1cr.png">
+
 ## 技术栈
 
 ### 前端
@@ -75,23 +92,6 @@
 - NodeMailer
 - WebSocket
 - ...
-
-## 预览地址
-
-[前台商品页](https://pay.960960.xyz/#/product/6)
-
-[后台管理系统](https://pay.960960.xyz)
-
-## 项目架构
-
-<img src="https://i.loli.net/2020/06/25/IAvzkwqybueSd1p.png">
-<img src="https://i.loli.net/2020/06/25/GpBbfny8JdVN1cr.png">
-
-## 搭建方式
-
-请前往简书，查看详细的图文教程（由于 Heroku 对 websocket 协议的限制，新版本不再支持基于 Heroku 的安装，请参考新教程使用宝塔面板重新安装）
-
-[点我前往](https://www.jianshu.com/p/d0b92fefcc96)
 
 ## 运行源码
 
