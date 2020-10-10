@@ -79,6 +79,9 @@ const PaymentDialog = (props) => {
         setFailed(true);
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
       }
+      if (paymentStatus === "订单超时") {
+        message.error("查询订单超时，请联系管理员")
+      }
     });
   };
   const handleCreateOrder = () => {
@@ -104,10 +107,6 @@ const PaymentDialog = (props) => {
     if (formData.payment === "alipay") {
       handleCreateOrder();
     } else {
-      console.log(
-        (props.chooseLevel.levelPrice.price / currencyRate).toFixed(2),
-        "ngng"
-      );
       window.paypal
         .Buttons({
           // Set up the transaction
@@ -121,8 +120,8 @@ const PaymentDialog = (props) => {
                       props.chooseLevel.levelPrice.price < 0.1
                         ? "0.01"
                         : (
-                            props.chooseLevel.levelPrice.price / currencyRate
-                          ).toFixed(2),
+                          props.chooseLevel.levelPrice.price / currencyRate
+                        ).toFixed(2),
                   },
                 },
               ],
@@ -138,7 +137,7 @@ const PaymentDialog = (props) => {
                   orderId: formData.orderId,
                   captureId: details.purchase_units[0].payments.captures[0].id,
                 })
-                .then((res) => {})
+                .then((res) => { })
                 .catch((error) => {
                   message.error("交易失败");
                 });
@@ -194,164 +193,164 @@ const PaymentDialog = (props) => {
             className="product-payment-results"
           />
         ) : (
-          <Result
-            status="success"
-            title="购买成功"
-            extra={[
-              <div className="product-payment-results-detail" key={"orderInfo"}>
-                <p>订单号：{orderInfo.orderId}</p>
-                <p>购买日期：{orderInfo.date}</p>
-                <p>
-                  商品信息：{orderInfo.productName}
-                  {orderInfo.levelName}
-                </p>
-                <p>金额：{orderInfo.price}元</p>
-                <p>会员码：{orderInfo.code}</p>
-              </div>,
-            ]}
-            className="product-payment-results"
-          />
-        )
+            <Result
+              status="success"
+              title="购买成功"
+              extra={[
+                <div className="product-payment-results-detail" key={"orderInfo"}>
+                  <p>订单号：{orderInfo.orderId}</p>
+                  <p>购买日期：{orderInfo.date}</p>
+                  <p>
+                    商品信息：{orderInfo.productName}
+                    {orderInfo.levelName}
+                  </p>
+                  <p>金额：{orderInfo.price}元</p>
+                  <p>会员码：{orderInfo.code}</p>
+                </div>,
+              ]}
+              className="product-payment-results"
+            />
+          )
       ) : (
-        <Row justify="center">
-          {isMobile && formData ? null : (
-            <Col>
-              <Row justify="center" style={{ marginTop: "20px" }}>
-                <span className="product-payment-member">
-                  购买{chooseLevel.levelName}会员
+          <Row justify="center">
+            {isMobile && formData ? null : (
+              <Col>
+                <Row justify="center" style={{ marginTop: "20px" }}>
+                  <span className="product-payment-member">
+                    购买{chooseLevel.levelName}会员
                 </span>
-                <span className="product-payment-price">
-                  {chooseLevel.levelPrice.price}元
+                  <span className="product-payment-price">
+                    {chooseLevel.levelPrice.price}元
                 </span>
-              </Row>
-              <Row>
-                <Col>
-                  <Form {...formItemLayout} onFinish={onFinish}>
-                    <Form.Item
-                      label="查询邮箱"
-                      name="email"
-                      rules={[
-                        {
-                          type: "email",
-                          message: "请输入正确的邮箱格式",
-                        },
-                        {
-                          required: true,
-                          message: "请输入邮箱",
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder={
-                          props.productInfo.productType === 1
-                            ? `用于接收${props.productInfo.productName}会员码`
-                            : `请输入您的${props.productInfo.productName}账号`
-                        }
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="password"
-                      label="查询密码"
-                      rules={[
-                        { min: 8, message: "密码长度不能小于8位" },
-                        {
-                          required: true,
-                          message: "请输入密码",
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder={
-                          props.productInfo.productType === 1
-                            ? `用于查询${props.productInfo.productName}会员码`
-                            : `请输入您的${props.productInfo.productName}密码`
-                        }
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="支付方式"
-                      name="payment"
-                      rules={[
-                        {
-                          required: true,
-                          message: "请选择支付方式",
-                        },
-                      ]}
-                    >
-                      <Radio.Group defaultValue="alipay">
-                        <Radio value="alipay">
-                          <AlipayCircleOutlined className="product-ailpay-icon" />
-                          <span className="alipay-text">支付宝</span>
-                        </Radio>
-
-                        <Radio
-                          value="paypal"
-                          disabled={paypalId ? false : true}
-                        >
-                          <IconFont
-                            type="icon-paypal"
-                            className="product-paypal-icon"
-                          />
-                          <span className="paypal-text">PayPal</span>
-                        </Radio>
-                      </Radio.Group>
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Button
-                        className="product-payment-next-button"
-                        type="primary"
-                        htmlType="submit"
+                </Row>
+                <Row>
+                  <Col>
+                    <Form {...formItemLayout} onFinish={onFinish}>
+                      <Form.Item
+                        label="查询邮箱"
+                        name="email"
+                        rules={[
+                          {
+                            type: "email",
+                            message: "请输入正确的邮箱格式",
+                          },
+                          {
+                            required: true,
+                            message: "请输入邮箱",
+                          },
+                        ]}
                       >
-                        下一步
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Col>
-              </Row>
-            </Col>
-          )}
-          {formData && (
-            <Col>
-              {formData.payment === "alipay" ? (
-                <div className="product-payment-qrcode-container">
-                  <div className="product-payment-qrcode">
-                    {paymentUrl ? (
-                      <a
-                        href={paymentUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <QRCode
-                          value={paymentUrl} //value参数为生成二维码的链接
-                          size={150} //二维码的宽高尺寸
-                          fgColor="#000000" //二维码的颜色
-                          className="product-payment-qrcode-image"
+                        <Input
+                          placeholder={
+                            props.productInfo.productType === 1
+                              ? `用于接收${props.productInfo.productName}会员码`
+                              : `请输入您的${props.productInfo.productName}账号`
+                          }
                         />
-                      </a>
-                    ) : (
-                      <Spin
-                        indicator={antIcon}
-                        tip="  二维码生成中..."
-                        className="product-payment-qrcode-spin"
-                      />
-                    )}
-                  </div>
+                      </Form.Item>
+                      <Form.Item
+                        name="password"
+                        label="查询密码"
+                        rules={[
+                          { min: 8, message: "密码长度不能小于8位" },
+                          {
+                            required: true,
+                            message: "请输入密码",
+                          },
+                        ]}
+                      >
+                        <Input
+                          placeholder={
+                            props.productInfo.productType === 1
+                              ? `用于查询${props.productInfo.productName}会员码`
+                              : `请输入您的${props.productInfo.productName}密码`
+                          }
+                        />
+                      </Form.Item>
 
-                  <div className="product-payment-qrcode-text">
-                    {isMobile ? "点击二维码跳转支付" : "使用支付宝 扫一扫"}
+                      <Form.Item
+                        label="支付方式"
+                        name="payment"
+                        rules={[
+                          {
+                            required: true,
+                            message: "请选择支付方式",
+                          },
+                        ]}
+                      >
+                        <Radio.Group defaultValue="alipay">
+                          <Radio value="alipay">
+                            <AlipayCircleOutlined className="product-ailpay-icon" />
+                            <span className="alipay-text">支付宝</span>
+                          </Radio>
+
+                          <Radio
+                            value="paypal"
+                            disabled={paypalId ? false : true}
+                          >
+                            <IconFont
+                              type="icon-paypal"
+                              className="product-paypal-icon"
+                            />
+                            <span className="paypal-text">PayPal</span>
+                          </Radio>
+                        </Radio.Group>
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          className="product-payment-next-button"
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          下一步
+                      </Button>
+                      </Form.Item>
+                    </Form>
+                  </Col>
+                </Row>
+              </Col>
+            )}
+            {formData && (
+              <Col>
+                {formData.payment === "alipay" ? (
+                  <div className="product-payment-qrcode-container">
+                    <div className="product-payment-qrcode">
+                      {paymentUrl ? (
+                        <a
+                          href={paymentUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <QRCode
+                            value={paymentUrl} //value参数为生成二维码的链接
+                            size={150} //二维码的宽高尺寸
+                            fgColor="#000000" //二维码的颜色
+                            className="product-payment-qrcode-image"
+                          />
+                        </a>
+                      ) : (
+                          <Spin
+                            indicator={antIcon}
+                            tip="  二维码生成中..."
+                            className="product-payment-qrcode-spin"
+                          />
+                        )}
+                    </div>
+
+                    <div className="product-payment-qrcode-text">
+                      {isMobile ? "点击二维码跳转支付" : "使用支付宝 扫一扫"}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="product-payment-paypal">
-                  <div id="paypal-button-container"></div>
-                </div>
-              )}
-            </Col>
-          )}
-        </Row>
-      )}
+                ) : (
+                    <div className="product-payment-paypal">
+                      <div id="paypal-button-container"></div>
+                    </div>
+                  )}
+              </Col>
+            )}
+          </Row>
+        )}
     </div>
   );
 };

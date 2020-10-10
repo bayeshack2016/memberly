@@ -143,13 +143,31 @@ class AlipayCtl {
     // const { code, email, productName, levelName, price, orderId, date } = order;
     // sendMail(code, email, productName, levelName, price, orderId, date);
     ctx.body = result.qr_code; // 支付宝返回的结果
+    let count = 0;
+    let timer = setInterval(async () => {
+      const { paymentStatus } = await Order.findOne({
+        orderId: ctx.request.body.orderId,
+      });
+      if (paymentStatus === "已支付") {
+        io.emit("payment checked", "已支付");
+        clearInterval(timer);
+      } else if (paymentStatus === "订单异常") {
+        io.emit("payment checked", "订单异常");
+        clearInterval(timer);
+      } else {
+        count++;
+        if (count > 3 * 60) {
+          clearInterval(timer);
+          io.emit("payment checked", "订单超时")
+        }
+      }
+
+    }, 1000);
   }
   async handleAlipayCallback(ctx) {
-    const { paymentStatus } = await Order.findOne({
-      noInvoice: ctx.request.body.out_trade_no,
-    });
-    if (paymentStatus === "已支付") {
-    }
+
+
+
     const alipay = await Alipay.findOne();
     const alipayConfig = {
       /* 以下信息可以在https://openhome.alipay.com/platform/appManage.htm查到, 不过merchantPrivateKey需要您自己生成 */
@@ -198,7 +216,6 @@ class AlipayCtl {
         { paymentStatus: "已支付" }
       );
 
-      io.emit("payment checked", "已支付");
 
       const order = await Order.findOne({
         noInvoice: ctx.request.body.out_trade_no,
@@ -224,7 +241,6 @@ class AlipayCtl {
             { noInvoice: ctx.request.body.out_trade_no },
             { paymentStatus: "已支付" }
           );
-          io.emit("payment checked", "支付成功");
 
           const order = await Order.findOne({
             noInvoice: ctx.request.body.out_trade_no,
@@ -248,7 +264,6 @@ class AlipayCtl {
             { noInvoice: ctx.request.body.out_trade_no },
             { paymentStatus: "订单异常" }
           );
-          io.emit("payment checked", "订单异常");
         }
       });
     }
