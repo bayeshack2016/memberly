@@ -11,6 +11,7 @@ import { withRouter } from "react-router-dom";
 import { handleUserInfo } from "@/redux/actions/login";
 import { handleCollapse } from "@/redux/actions/sidebar";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { isMobile } from "react-device-detect";
 const { confirm } = Modal;
 const { Header } = Layout;
 const { Meta } = Card;
@@ -18,6 +19,9 @@ const HeaderBar = (props) => {
   const [showMessage, setShowMessage] = useState(false);
   const [messageNumber, setMessageNumber] = useState(null);
   const [orders, setOrders] = useState(null);
+  useEffect(() => {
+    isMobile && props.handleCollapse(true);
+  }, []);
   useEffect(() => {
     if (!props.order) {
       return;
@@ -106,7 +110,7 @@ const HeaderBar = (props) => {
       </div>
       {showMessage ? (
         <Card
-          style={{ width: 300 }}
+          style={isMobile ? { width: 180 } : { width: 300 }}
           actions={[<div onClick={handleClearMessage}>全部标记已读</div>]}
           className="header-message-box"
           onMouseLeave={() => {

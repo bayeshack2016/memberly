@@ -147,7 +147,7 @@ const AddStepOne = (props) => {
 
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
-      xs: { span: 24, offset: 12 },
+      xs: { span: 24, offset: 0 },
       sm: { span: 20, offset: 11 },
     },
   };
@@ -178,8 +178,8 @@ const AddStepOne = (props) => {
           ]}
         >
           <Radio.Group onChange={onTypeChange} value={productType}>
-            <Radio value={1}>会员码商品</Radio>
-            <Radio value={2}>非会员码商品</Radio>
+            <Radio value={1}>兑换码</Radio>
+            <Radio value={2}>非兑换码</Radio>
           </Radio.Group>
         </Form.Item>
         <a
@@ -190,7 +190,7 @@ const AddStepOne = (props) => {
           <div
             style={{ textAlign: "center", marginBottom: 20, marginTop: -20 }}
           >
-            什么是会员码商品和非会员码商品
+            什么是兑换码商品和非兑换码商品
           </div>
         </a>
         <Form.Item

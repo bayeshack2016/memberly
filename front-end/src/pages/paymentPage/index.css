@@ -3,7 +3,6 @@
   min-height: calc(100vh - 160px);
   padding-top: 16px;
   padding-bottom: 16px;
-  margin: 20px;
   overflow: auto;
   background-color: white;
 }
@@ -53,7 +52,8 @@
   height: 50px !important;
   line-height: 50px !important;
   color: rgba(75, 75, 75, 0.6);
-  padding-left: 70px !important;
+  text-align: center;
+  /* padding-left: 70px !important; */
 }
 .payment-page .ant-menu-item-selected {
   color: #1890ff !important;

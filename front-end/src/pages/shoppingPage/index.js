@@ -10,9 +10,10 @@ const ShoppingPage = (props) => {
   const [showQuery, setShowQuery] = useState(false);
   useEffect(() => {
     const cssUrl = `/assets/css/${props.theme}.css`;
-
     addStyle(cssUrl);
+    document.title = productInfo.productName + "   " + productInfo.productInfo;
   }, []);
+
   const addStyle = (url) => {
     const style = document.createElement("link");
     style.href = url;

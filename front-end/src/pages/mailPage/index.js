@@ -4,6 +4,7 @@ import "./index.css";
 import { connect } from "react-redux";
 import Mail from "../../components/mail";
 import PageHeader from "../../components/pageHeader";
+import { isMobile } from "react-device-detect";
 
 const { Item } = Menu;
 const menuMap = {
@@ -96,12 +97,12 @@ const MailPage = (props) => {
   };
   return (
     <div className="shadow-radius">
-      <PageHeader
-        title="邮箱设置"
-        desc="当用户完成下单，会通过邮件的方式向用户发送订单信息，在这里填写您用于发送订单的邮箱"
-      />
-      <div className={"main"}>
-        <div className={"leftMenu"}>
+      <PageHeader title="邮箱设置" desc="在这里填写您用于发送订单的邮箱" />
+      <div
+        className={"main"}
+        style={isMobile ? { margin: "5px" } : { margin: "20px" }}
+      >
+        <div className={"leftMenu"} style={isMobile ? { width: "100%" } : {}}>
           <Menu
             mode={mode}
             selectedKeys={[selectedKey]}
@@ -114,7 +115,9 @@ const MailPage = (props) => {
             {getMenu()}
           </Menu>
         </div>
-        <div className={"right"}>{renderChildren()}</div>
+        <div className={"right"} style={isMobile ? { padding: 0 } : {}}>
+          {renderChildren()}
+        </div>
       </div>
     </div>
   );

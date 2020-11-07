@@ -13,11 +13,13 @@ const layout = {
   wrapperCol: { span: 14 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 10, span: 16 },
+  wrapperCol: {
+    xs: { span: 16, offset: 0 },
+    sm: { span: 16, offset: 10 },
+  },
 };
 const VerifyId = (props) => {
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
   useEffect(() => {
     props.handleForm(null);
   }, []);

@@ -175,9 +175,9 @@
 @media screen and (max-width: 780px) {
   .product-payment-container {
     width: 80%;
-    height: 95%;
+    min-height: 90%;
     left: 10%;
-    top: 10%;
+    top: 5%;
     overflow-y: scroll;
   }
   .product-payment-message {

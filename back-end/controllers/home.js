@@ -26,11 +26,13 @@ class HomeCtl {
     formData.append(
       "smfile",
       fs.createReadStream(
-        path.join(
-          __dirname,
-          "../public/uploads",
-          file.path.split("\\").reverse()[0]
-        )
+        process.NODE_ENV === "dev"
+          ? path.join(
+              __dirname,
+              "../public/uploads",
+              file.path.split("\\").reverse()[0]
+            )
+          : file.path.split("\\").reverse()[0]
       )
     );
     const formHeaders = formData.getHeaders();
@@ -41,7 +43,7 @@ class HomeCtl {
       },
     });
     if (!data.data) {
-      ctx.throw(404, "上传logo失败");
+      ctx.throw(404, "??Logo??");
     }
     await Product.findByIdAndUpdate(ctx.request.body.id, {
       ...ctx.request.body,

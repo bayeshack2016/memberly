@@ -156,18 +156,14 @@ class AlipayCtl {
         clearInterval(timer);
       } else {
         count++;
-        if (count > 3 * 60) {
+        if (count > 3 * 120) {
           clearInterval(timer);
-          io.emit("payment checked", "订单超时")
+          io.emit("payment checked", "订单超时");
         }
       }
-
-    }, 1000);
+    }, 500);
   }
   async handleAlipayCallback(ctx) {
-
-
-
     const alipay = await Alipay.findOne();
     const alipayConfig = {
       /* 以下信息可以在https://openhome.alipay.com/platform/appManage.htm查到, 不过merchantPrivateKey需要您自己生成 */
@@ -215,7 +211,6 @@ class AlipayCtl {
         { noInvoice: ctx.request.body.out_trade_no },
         { paymentStatus: "已支付" }
       );
-
 
       const order = await Order.findOne({
         noInvoice: ctx.request.body.out_trade_no,

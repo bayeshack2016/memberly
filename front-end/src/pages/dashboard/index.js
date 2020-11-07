@@ -7,6 +7,7 @@ import { handleFetchByMonth } from "@/redux/actions/monthData";
 import { handleFetchByYear } from "@/redux/actions/yearData";
 import { handleFetchByPeriod } from "@/redux/actions/periodData";
 import { connect } from "react-redux";
+import { isMobile } from "react-device-detect";
 const Dashboard = (props) => {
   const [loading, setLoading] = useState(
     !(
@@ -61,7 +62,9 @@ const Dashboard = (props) => {
         props.alipay &&
         props.wechatPay &&
         props.paypal &&
-        props.email
+        props.email &&
+        window.echarts &&
+        window.echarts.init
       )
     );
   }, [props]);
@@ -79,7 +82,10 @@ const Dashboard = (props) => {
       {loading ? (
         <PageLoading />
       ) : (
-        <div className="dahboard-container" style={{ padding: "20px" }}>
+        <div
+          className="dahboard-container"
+          style={isMobile ? { padding: "5px" } : { padding: "20px" }}
+        >
           <DashboardHeader />
           <DashboardChart />
         </div>

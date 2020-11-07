@@ -12,14 +12,14 @@
 }
 
 .mobile-page-body {
-  height: 504px;
+  height: 514px;
   margin-left: calc(50vw - 140px);
   margin-right: calc(50vw - 140px);
 }
 .mobile-page-body-container {
   width: 100vw;
   overflow-x: scroll;
-  height: 504px;
+  height: 514px;
 }
 .mobile-header-name {
   font-size: 28px;

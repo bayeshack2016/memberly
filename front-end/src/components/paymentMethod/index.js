@@ -14,7 +14,7 @@ export const PaymentMethod = (props) => {
   const [loading, setLoading] = useState(false);
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
-      xs: { span: 24, offset: 2 },
+      xs: { span: 24, offset: 0 },
       sm: { span: 16, offset: 8 },
     },
   };

@@ -21,9 +21,12 @@ const createOrder = async (ctx, next) => {
   await new Order({
     date: date.toLocaleDateString(),
     time: date.toLocaleTimeString(),
-    code: ctx.request.body.productType === 1 ? code : "非会员码商品",
+    code: ctx.request.body.productType === 1 ? code : "非兑换码商品",
     productType: ctx.request.body.productType,
-    activation: ctx.request.body.productType === 1 ? "未激活" : "非会员码商品",
+    activation:
+      ctx.request.body.productType === 1
+        ? []
+        : [{ timestamp: new Date().getTime() }],
     year: date.getFullYear(),
     month: date.getMonth() + 1,
     day: date.getDate(),

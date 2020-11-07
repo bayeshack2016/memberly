@@ -73,7 +73,7 @@
 
 .default-body {
   width: 1070px;
-  height: 504px;
+  height: 516px;
   margin-left: calc(50% - 535px);
   margin-top: 53px;
   display: flex;
@@ -86,9 +86,11 @@
   height: 500px;
   border-radius: 12px;
   position: relative;
-  margin: 0 20px;
+  margin: 6px 20px;
 }
-
+.default-level-container:hover {
+  box-shadow: 0 10px 20px rgba(75, 75, 75, 0.1);
+}
 .default-remain {
   position: relative;
 }

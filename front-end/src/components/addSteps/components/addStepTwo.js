@@ -1,6 +1,7 @@
 import React from "react";
 import { Descriptions, Row, Button } from "antd";
 import { parseFormData } from "../../../utils/productUtil";
+import { isMobile } from "react-device-detect";
 
 const AddStepTwo = (props) => {
   const { formData } = props;
@@ -47,7 +48,10 @@ const AddStepTwo = (props) => {
     });
   };
   return (
-    <div className="add-step-two" style={{ padding: "50px 150px" }}>
+    <div
+      className="add-step-two"
+      style={isMobile ? { padding: "5px" } : { padding: "50px 150px" }}
+    >
       <Descriptions
         bordered
         column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}

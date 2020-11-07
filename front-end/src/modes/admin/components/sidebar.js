@@ -12,6 +12,7 @@ import {
   MailOutlined,
   SkinOutlined,
 } from "@ant-design/icons";
+
 const { Sider } = Layout;
 const Sidebar = (props) => {
   const { isCollapsed } = props;

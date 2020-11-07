@@ -10,6 +10,8 @@ import { handleForm, handleVerifyDialog } from "../../redux/actions/form";
 import VerifyId from "../../components/verifyId";
 import PageHeader from "../../components/pageHeader";
 import Logo from "../../components/logo";
+import { isMobile } from "react-device-detect";
+
 const { confirm } = Modal;
 const { Paragraph } = Typography;
 const ProductPage = (props) => {
@@ -62,9 +64,11 @@ const ProductPage = (props) => {
   return (
     <div className="product-page-container">
       <PageHeader title="商品设置" desc="在这里添加和编辑您的商品" />
-
       <VerifyId />
-      <div className={"cardList"} style={{ padding: "20px" }}>
+      <div
+        className={"cardList"}
+        style={isMobile ? { margin: "5px" } : { margin: "20px" }}
+      >
         <List
           rowKey="id"
           grid={{

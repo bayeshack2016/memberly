@@ -3,7 +3,7 @@ import { Menu } from "antd";
 import { connect } from "react-redux";
 import PaymentMethod from "../../components/paymentMethod";
 import PageHeader from "../../components/pageHeader";
-
+import { isMobile } from "react-device-detect";
 import "./index.css";
 const { Item } = Menu;
 const menuMap = {
@@ -18,7 +18,7 @@ const PaymentPage = (props) => {
     window.addEventListener("resize", resize);
     resize();
     return window.removeEventListener("resize", resize);
-  });
+  }, []);
 
   const getMenu = () => {
     return Object.keys(menuMap).map((item) => (
@@ -85,8 +85,11 @@ const PaymentPage = (props) => {
   return (
     <div className="product-page-container" style={{ position: "relative" }}>
       <PageHeader title="支付设置" desc="在这里添加你的收款账户" />
-      <div className={"main"}>
-        <div className={"leftMenu"}>
+      <div
+        className={"main"}
+        style={isMobile ? { margin: "5px" } : { margin: "20px" }}
+      >
+        <div className={"leftMenu"} style={isMobile ? { width: "100%" } : {}}>
           <Menu
             mode={mode}
             selectedKeys={[selectedKey]}
@@ -99,7 +102,9 @@ const PaymentPage = (props) => {
             {getMenu()}
           </Menu>
         </div>
-        <div className={"right"}>{renderChildren()}</div>
+        <div className={"right"} style={isMobile ? { padding: 0 } : {}}>
+          {renderChildren()}
+        </div>
       </div>
     </div>
   );

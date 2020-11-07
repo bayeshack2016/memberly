@@ -5,8 +5,6 @@ import { handleUserInfo } from "@/redux/actions/login";
 import "./index.css";
 import $axios from "@/axios/$axios";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import MobilePage from "@/pages/mobilePage";
-import { isMobile } from "react-device-detect";
 const FormItem = Form.Item;
 const Login = (props) => {
   const [isForget, setIsforget] = useState(false);
@@ -43,11 +41,6 @@ const Login = (props) => {
   const handleForget = (bool) => {
     setIsforget(bool);
   };
-  if (isMobile) {
-    return (
-      <MobilePage productInfo={{ productName: "Coodo Pay" }} theme="default" />
-    );
-  }
   return (
     <div className="login-container">
       <img src="assets/login.svg" alt="" className="login-image" />

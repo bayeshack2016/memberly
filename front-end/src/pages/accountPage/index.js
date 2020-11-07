@@ -4,10 +4,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PageHeader from "../../components/pageHeader";
 import $axios from "@/axios/$axios";
+import { isMobile } from "react-device-detect";
+
 const { Item } = Menu;
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
-    xs: { span: 24, offset: 12 },
+    xs: { span: 24, offset: 0 },
     sm: { span: 16, offset: 8 },
   },
 };
@@ -83,7 +85,7 @@ const AccountPage = (props) => {
   };
   const renderAccountInfo = () => {
     return (
-      <Descriptions title="账户信息">
+      <Descriptions title="账户信息" style={{ padding: 20 }}>
         <Descriptions.Item label="邮箱">{props.user.email}</Descriptions.Item>
         <Descriptions.Item label="注册日期">
           {props.user.date}
@@ -231,12 +233,16 @@ const AccountPage = (props) => {
   };
   return (
     <div className="product-page-container" style={{ position: "relative" }}>
-      <PageHeader
-        title="账户信息"
-        desc="在这里修改账户的邮箱、密码，检查更新"
-      />
-      <div className="main" style={{ height: "100%", position: "relative" }}>
-        <div className={"leftMenu"}>
+      <PageHeader title="账户信息" desc="修改账户的邮箱、密码，检查更新" />
+      <div
+        className="main"
+        style={
+          isMobile
+            ? { margin: "5px", height: "100%", position: "relative" }
+            : { margin: "20px", height: "100%", position: "relative" }
+        }
+      >
+        <div className={"leftMenu"} style={isMobile ? { width: "100%" } : {}}>
           <Menu
             mode="inline"
             selectedKeys={[selectedKey]}
@@ -249,7 +255,10 @@ const AccountPage = (props) => {
             {getMenu()}
           </Menu>
         </div>
-        <div className="right" style={{ marginLeft: "50px" }}>
+        <div
+          className="right"
+          style={isMobile ? { padding: 0 } : { marginLeft: "50px" }}
+        >
           {renderChildren()}
         </div>
       </div>

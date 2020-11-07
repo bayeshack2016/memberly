@@ -8,7 +8,7 @@ class OrderCtl {
     }
     await Order.updateOne(
       { code: ctx.request.body.code },
-      { activation: "已激活" }
+      { activation: [...order.activation,{timestamp:new Date().getTime(),}] }
     );
     ctx.body = order;
   }
@@ -29,8 +29,12 @@ class OrderCtl {
         .limit(1);
     }
     console.log(order, "order");
-    if (!order || order.paymentStatus === "未知") {
+    if (!order) {
       ctx.throw(404, "未找到您的订单信息");
+      ctx.body = null;
+    }
+    if (order.paymentStatus === "未知") {
+      ctx.throw(404, "订单未支付");
       ctx.body = null;
     }
     ctx.body = order;
@@ -41,6 +45,10 @@ class OrderCtl {
       .limit(1);
     if (!order) {
       ctx.throw(404, "未找到您的订单信息");
+    }
+    if (order.paymentStatus === "未知") {
+      ctx.throw(404, "订单未支付");
+      ctx.body = null;
     }
     ctx.body = order;
   }

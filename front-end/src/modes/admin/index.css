@@ -91,8 +91,8 @@
 }
 .header-message-box {
   position: absolute;
-  top: 35px;
-  right: 80px;
+  top: 30px;
+  right: 70px;
   max-height: 400px;
   width: 285px;
   border: none;
@@ -131,10 +131,20 @@
   position: absolute;
 }
 .login-mask-title {
-  font-size: 80px;
+  font-size: 8vw;
   color: black;
-
-  line-height: 300px;
+  line-height: 30vw;
+}
+@media screen and (max-width: 980px) {
+  .login-mask-title {
+    font-size: 10vw;
+    line-height: 80vw;
+  }
+  .login-mask-image {
+    height: 100vh;
+    width: 200vh;
+    margin-left: -50vh;
+  }
 }
 .login-mask-text {
   font-size: 20px;

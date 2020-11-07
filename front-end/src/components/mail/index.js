@@ -61,7 +61,7 @@ const Mail = (props) => {
   }, [props.mailName]);
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
-      xs: { span: 24, offset: 2 },
+      xs: { span: 24, offset: 0 },
       sm: { span: 16, offset: 8 },
     },
   };

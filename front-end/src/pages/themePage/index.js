@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import $axios from "@/axios/$axios";
 import PageHeader from "../../components/pageHeader";
-
+import { isMobile } from "react-device-detect";
 import { CheckOutlined, LoadingOutlined } from "@ant-design/icons";
 const ThemePage = (props) => {
   const [loading, setLoading] = useState(false);
@@ -110,8 +110,14 @@ const ThemePage = (props) => {
   return (
     <div className="product-page-container" style={{ position: "relative" }}>
       <PageHeader title="主题设置" desc="在这里选择商品页的主题" />
-      <div className={"coverCardList"} style={{ margin: "20px" }}>
-        <div className={"cardList"} style={{ margin: "20px 0px" }}>
+      <div
+        className={"coverCardList"}
+        style={isMobile ? { margin: "5px" } : { margin: "20px" }}
+      >
+        <div
+          className={"cardList"}
+          style={isMobile ? { margin: "5px" } : { margin: "20px 0px" }}
+        >
           {cardList}
         </div>
       </div>

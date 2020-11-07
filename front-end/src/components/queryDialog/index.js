@@ -22,9 +22,9 @@ const Query = (props) => {
           setLoading(false);
           showQueryModal();
         })
-        .catch((err) => {
+        .catch((error) => {
           setLoading(false);
-          message.warning("未找到订单或订单未支付");
+          message.warning(error.response.data.message);
         });
     } else {
       $axios(
@@ -35,8 +35,8 @@ const Query = (props) => {
           showQueryModal();
           setLoading(false);
         })
-        .catch((err) => {
-          message.warning("未找到订单或订单未支付");
+        .catch((error) => {
+          message.warning(error.response.data.message);
           setLoading(false);
         });
     }
@@ -99,7 +99,7 @@ const Query = (props) => {
             {orderInfo.levelName}
           </p>
           <p>金额：{orderInfo.price}</p>
-          <p>会员码：{orderInfo.code}</p>
+          <p>兑换码：{orderInfo.code}</p>
         </Modal>
       ) : null}
       <p className="query-alert">仅能查询最近一次购买记录</p>

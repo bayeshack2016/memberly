@@ -14,6 +14,7 @@
   position: relative;
   bottom: 13px;
   margin-left: 20px;
+  font-weight: 500;
 }
 .login-subtitle {
   line-height: 30px;

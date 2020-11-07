@@ -8,6 +8,7 @@ import "./index.css";
 import { connect } from "react-redux";
 import { handleFetchAllProduct } from "@/redux/actions/product";
 import { parseFormData } from "../../utils/productUtil";
+import { isMobile } from "react-device-detect";
 
 const { Step } = Steps;
 const AddProduct = (props) => {
@@ -95,7 +96,7 @@ const AddProduct = (props) => {
           {mode === "add" ? " 添加商品" : "编辑商品"}
         </p>
         <p style={{ lineHeight: "50px", fontSize: "15px" }}>
-          将一个冗长或用户不熟悉的表单任务分成多个步骤，指导用户完成。
+          编辑或添加您的商品
         </p>
         <div className={"extraImg"}>
           <img
@@ -104,7 +105,10 @@ const AddProduct = (props) => {
           />
         </div>
       </div>
-      <Card bordered={false} style={{ margin: "20px" }}>
+      <Card
+        bordered={false}
+        style={isMobile ? { margin: "5px" } : { margin: "20px" }}
+      >
         <Row justify="center">
           <Steps current={current}>
             <Step key="1" title="填写商品信息"></Step>

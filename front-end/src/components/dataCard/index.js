@@ -4,6 +4,7 @@ import numeral from "numeral";
 import "./index.css";
 import BasicChart from "../basicChart";
 import { chartData } from "@/utils/fetchChartData";
+import { isMobile } from "react-device-detect";
 const DataCard = (props) => {
   const rankingListData =
     props.currentRange === "year"
@@ -50,7 +51,10 @@ const DataCard = (props) => {
           </div>
         </Col>
         <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-          <div className={"salesRank"}>
+          <div
+            className={"salesRank"}
+            style={isMobile ? { display: "none" } : {}}
+          >
             <h4 className={"rankingTitle"}>
               {props.catergory === "sales"
                 ? "销售额排行"

@@ -5,6 +5,7 @@ import "./index.css";
 import AreaChart from "../areaChart";
 import BarChart from "../barChart";
 import { connect } from "react-redux";
+import { isMobile } from "react-device-detect";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 const topColResponsiveProps = {
   xs: 24,
@@ -13,7 +14,7 @@ const topColResponsiveProps = {
   lg: 12,
   xl: 6,
   style: {
-    marginBottom: 24,
+    marginBottom: isMobile ? 5 : 24,
   },
 };
 const DashboardHeader = (props) => {

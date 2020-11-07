@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import $axios from "@/axios/$axios";
 import { handleFetchOrder } from "@/redux/actions/form";
 import PageHeader from "../../components/pageHeader";
-
+import { isMobile } from "react-device-detect";
 const dateFormat = "YYYY-MM-DD";
 const { Search } = Input;
 
@@ -136,7 +136,7 @@ const OrderPage = (props) => {
         ),
     },
     {
-      title: "会员码",
+      title: "兑换码",
       key: "code",
       dataIndex: "code",
       width: 220,
@@ -147,17 +147,26 @@ const OrderPage = (props) => {
       dataIndex: "activation",
       width: 140,
       render: (activation) =>
-        activation === "已激活" ? (
+        activation.length > 0 ? (
           <Badge status="success" text={activation} />
         ) : (
           <Badge status="warning" text={activation} />
         ),
     },
     {
+      title: "激活次数",
+      key: "activation",
+      dataIndex: "activation",
+      width: 100,
+      render: (activation) => (
+        <p style={{ textAlign: "center" }}>{activation.length}</p>
+      ),
+    },
+    {
       title: "创建日期",
       dataIndex: "date",
       key: "date",
-      width: 100,
+      width: 140,
     },
 
     {
@@ -185,17 +194,22 @@ const OrderPage = (props) => {
   const date = new Date();
   return (
     <div className="shadow-radius">
-      <PageHeader
-        title="订单管理"
-        desc="在这里查找，管理以往所有的订单和会员码"
-      />
+      <PageHeader title="订单管理" desc="管理以往所有的订单和兑换码" />
 
       <div
-        style={{
-          backgroundColor: "white",
-          height: "80px",
-          margin: "20px 20px 0 20px",
-        }}
+        style={
+          isMobile
+            ? {
+                backgroundColor: "white",
+                height: "80px",
+                margin: "5px",
+              }
+            : {
+                backgroundColor: "white",
+                height: "80px",
+                margin: "20px 20px 0 20px",
+              }
+        }
       >
         <div
           style={{
@@ -210,13 +224,23 @@ const OrderPage = (props) => {
         <Search
           placeholder="搜索订单号、Email"
           enterButton="搜索"
-          style={{
-            width: 300,
-            margin: "25px 10px 25px 10px",
-            float: "left",
-            height: "20px",
-            fontSize: "25px",
-          }}
+          style={
+            isMobile
+              ? {
+                  width: 240,
+                  margin: "25px 10px 5px 10px",
+                  float: "left",
+                  height: "20px",
+                  fontSize: "25px",
+                }
+              : {
+                  width: 300,
+                  margin: "25px 10px 5px 10px",
+                  float: "left",
+                  height: "20px",
+                  fontSize: "25px",
+                }
+          }
           onSearch={(value) => {
             handleSearch(value);
           }}
@@ -226,25 +250,37 @@ const OrderPage = (props) => {
           format={dateFormat}
           onChange={onDateChange}
           style={{
-            width: 200,
-            margin: "25px 20px",
+            width: 240,
+            margin: "25px 10px 5px",
             float: "left",
           }}
         />
         <Button
           onClick={handleReset}
-          style={{
-            margin: "25px 10px",
-            float: "left",
-            color: "#40A9FF !important",
-          }}
+          style={
+            isMobile
+              ? {
+                  margin: "5px 10px",
+                  float: "left",
+                  color: "#40A9FF !important",
+                }
+              : {
+                  margin: "25px 10px",
+                  float: "left",
+                  color: "#40A9FF !important",
+                }
+          }
         >
           重置
         </Button>
       </div>
       <div
         className="order-page-body"
-        style={{ backgroundColor: "white", margin: "0px 20px" }}
+        style={
+          isMobile
+            ? { backgroundColor: "white", margin: "5px" }
+            : { backgroundColor: "white", margin: "0px 20px" }
+        }
       >
         <Table
           columns={columns}
