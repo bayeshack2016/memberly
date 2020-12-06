@@ -57,7 +57,7 @@ class initUtil {
       await Setting({
         themeOption: "default",
         isFirst: "yes",
-        version: 1.8,
+        version: 1.9,
         defaultMail: "qq",
       }).save();
     }
