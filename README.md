@@ -66,7 +66,7 @@
 
 请前往简书，查看详细的图文教程（由于 Heroku 对 websocket 协议的限制，新版本不再支持基于 Heroku 的安装，请参考新教程使用宝塔面板重新安装）
 
-[点我前往](https://github.com/troyeguo/coodo-pay/wiki/Coodo-Pay-搭建教程（宝塔面板篇）)
+[点我前往](https://www.jianshu.com/p/d0b92fefcc96)
 
 ## 常见问题
 
