@@ -82,11 +82,6 @@ Coodo Pay 需要您提供支付宝或 PayPal 的账号和密匙，用户支付�
 
 Coodo Pay 是一个开源免费的支付系统，所有的代码都已上传到本仓库中，本人承诺绝不会保留后门和窃取您的个人信息。支付系统中众多关键服务都开启了安全验证功能，可有效防范常见的网络攻击。
 
-## 项目架构
-
-<img src="https://i.loli.net/2020/06/25/IAvzkwqybueSd1p.png">
-<img src="https://i.loli.net/2020/06/25/GpBbfny8JdVN1cr.png">
-
 ## 技术栈
 
 ### 前端
