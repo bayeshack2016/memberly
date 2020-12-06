@@ -18,17 +18,19 @@ const { initData } = require("./utils/initUtil");
 const compress = require("koa-compress");
 const config = require("./config");
 const port = process.env.PORT || config.port;
+const ENV = process.env.NODE_ENV;
 // const server = require("http").createServer(app.callback());
 // const io = require("socket.io")(server);
 
 mongoose.connect(
-  connection ||
-    "mongodb://" +
-      config.mongoDB.host +
-      ":" +
-      config.mongoDB.port +
-      "/" +
-      config.mongoDB.database,
+  ENV !== "production"
+    ? connection
+    : "mongodb://" +
+        config.mongoDB.host +
+        ":" +
+        config.mongoDB.port +
+        "/" +
+        config.mongoDB.database,
   { useNewUrlParser: true },
   () => {
     console.log("连接成功");
@@ -60,7 +62,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-const ENV = process.env.NODE_ENV;
 if (ENV !== "production") {
   // 开发环境 / 测试环境
   app.use(morgan("dev"));
