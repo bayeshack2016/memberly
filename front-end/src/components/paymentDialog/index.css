@@ -66,10 +66,7 @@
   position: relative;
   top: 5px;
 }
-.ant-radio-group-outline {
-  position: relative;
-  bottom: 5px;
-}
+
 .product-payment-prefix {
   position: relative;
   top: -15px;
@@ -103,7 +100,7 @@
   color: rgba(52, 52, 52, 1);
   opacity: 1;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0px;
   width: 100%;
   text-align: center;
 }
@@ -135,7 +132,7 @@
   border: none;
   position: relative;
   top: 10px;
-  margin-left: 100px;
+  margin-left: 115px;
 }
 .product-payment-results-detail {
   text-align: left;
@@ -159,13 +156,22 @@
   }
 }
 .payment-countdown {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 34px;
   color: #1890ff;
   opacity: 1;
   text-align: center;
   width: 100%;
-  text-align: center;
+}
+.disaccount-option {
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 1;
+  text-align: right;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
 }
 .product-payment-paypal {
   position: relative;
@@ -174,26 +180,32 @@
 }
 @media screen and (max-width: 780px) {
   .product-payment-container {
-    width: 80%;
-    min-height: 90%;
-    left: 10%;
-    top: 5%;
+    position: absolute;
+    top: 2.5%;
+    left: 2.5%;
+    width: 95%;
+    height: 95%;
     overflow-y: scroll;
   }
   .product-payment-message {
     margin-left: 5%;
     width: 95%;
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 16px;
+    line-height: 18px;
   }
   .ant-form-item {
     margin-bottom: 10px !important;
+  }
+  .ant-input {
+    font-size: 16px !important;
+    height: 40px;
   }
   .product-payment-next-button {
     margin: 10px 0px;
   }
   .product-payment-qrcode {
     margin-top: 60px;
+    transform: scale(1.2);
   }
   .product-payment-qrcode-container {
     margin-left: 0px;

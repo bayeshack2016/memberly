@@ -24,6 +24,7 @@ const MobilePage = (props) => {
   useEffect(() => {
     const cssUrl = `/assets/css/${props.theme}.css`;
     addStyle(cssUrl);
+    document.title = productInfo.productName + "   " + productInfo.productInfo;
   }, []);
   return (
     <div className="mobile-page-container">

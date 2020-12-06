@@ -2,6 +2,7 @@ import Dashboard from "../pages/dashboard";
 import ProductPage from "../pages/productPage";
 import AddProduct from "../pages/addProduct";
 import OrderPage from "../pages/orderPage";
+import DisaccountPage from "../pages/disaccountPage";
 import PaymentPage from "../pages/paymentPage";
 import MailPage from "../pages/mailPage";
 import ThemePage from "../pages/themePage";
@@ -14,10 +15,11 @@ export const routes = [
   { path: "/productList", component: ProductPage },
   { path: "/productAdd", component: AddProduct },
   { path: "/order", component: OrderPage },
+  { path: "/disaccount", component: DisaccountPage },
   { path: "/payment", component: PaymentPage },
   { path: "/mail", component: MailPage },
   { path: "/theme", component: ThemePage },
   { path: "/account", component: AccountPage },
   { path: "/error/404", component: Error404 },
-  { path: "/error/500", component: Error500 }
+  { path: "/error/500", component: Error500 },
 ];

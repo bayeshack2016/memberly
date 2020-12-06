@@ -5,11 +5,22 @@ import { handleUserInfo } from "@/redux/actions/login";
 import "./index.css";
 import $axios from "@/axios/$axios";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import Captcha from "../../components/captcha";
 const FormItem = Form.Item;
 const Login = (props) => {
   const [isForget, setIsforget] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState("");
+  const handleQuery = (vaptchaObj) => {
+    setToken(vaptchaObj.getToken());
+    vaptchaObj.reset();
+  };
   const onFinish = (values) => {
+    if (!token) {
+      message.warn("手势验证未通过");
+      return;
+    }
+    setToken("");
     setLoading(true);
     if (isForget) {
       $axios
@@ -80,6 +91,7 @@ const Login = (props) => {
                 <FormItem
                   name="email"
                   rules={[{ required: true, message: "请输入邮箱！" }]}
+                  style={{ marginBottom: "10px" }}
                 >
                   <Input
                     placeholder="邮箱"
@@ -92,13 +104,13 @@ const Login = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "请输入您就读小学的所在城市",
+                      message: "请输入您最好的朋友的姓名",
                     },
                   ]}
-                  style={{ marginBottom: "20px" }}
+                  style={{ marginBottom: "10px" }}
                 >
                   <Input
-                    placeholder="请输入您就读小学的所在城市"
+                    placeholder="请输入您最好的朋友的姓名"
                     className="login-input"
                   />
                 </FormItem>
@@ -107,12 +119,13 @@ const Login = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "请输入您最高学历就读学校的所在城市！",
+                      message: "请输入您最爱的电影的名字",
                     },
                   ]}
+                  style={{ marginBottom: "10px" }}
                 >
                   <Input
-                    placeholder="请输入您最高学历就读学校的所在城市！"
+                    placeholder="请输入您最爱的电影的名字"
                     className="login-input"
                   />
                 </FormItem>
@@ -126,6 +139,7 @@ const Login = (props) => {
                       message: "请输入新密码",
                     },
                   ]}
+                  style={{ marginBottom: "10px" }}
                 >
                   <Input.Password
                     placeholder="请输入新密码"
@@ -152,7 +166,7 @@ const Login = (props) => {
                     { min: 8, message: "密码长度不能小于8位" },
                     { required: true, message: "请输入密码！" },
                   ]}
-                  style={{ marginBottom: "20px" }}
+                  style={{ marginBottom: "10px" }}
                 >
                   <Input.Password
                     placeholder="密码"
@@ -160,8 +174,9 @@ const Login = (props) => {
                     className="login-input"
                   />
                 </FormItem>
+
                 <Row justify="space-between">
-                  <Col style={{ height: "50px" }}>
+                  <Col style={{ height: "35px" }}>
                     <Form.Item name="remember" valuePropName="checked">
                       <Checkbox>记住密码</Checkbox>
                     </Form.Item>
@@ -182,7 +197,7 @@ const Login = (props) => {
                 </Row>
               </div>
             )}
-
+            <Captcha handleQuery={handleQuery} />
             <FormItem>
               <Button
                 type="primary"
@@ -190,13 +205,14 @@ const Login = (props) => {
                 block
                 size="large"
                 loading={loading}
+                style={{ marginTop: "10px" }}
               >
                 {isForget ? "提交" : "登录"}
               </Button>
               {isForget ? (
                 <Button
                   size="large"
-                  style={{ marginTop: "20px" }}
+                  style={{ marginTop: "10px" }}
                   onClick={() => {
                     handleForget(false);
                   }}

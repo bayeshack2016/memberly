@@ -22,12 +22,10 @@ const verifyAccount = async (ctx, next) => {
         password: ctx.request.body.password,
       })
       .then(async (res) => {
-        console.log(res.data, "res.data");
         if (res.data.accountVerified) {
           await next();
         }
         if (res.data.accountVerified === false) {
-          console.log("reject");
           ctx.throw(404, "未找到账户信息");
         }
       });

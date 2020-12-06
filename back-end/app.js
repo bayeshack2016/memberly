@@ -21,9 +21,19 @@ const port = process.env.PORT || config.port;
 // const server = require("http").createServer(app.callback());
 // const io = require("socket.io")(server);
 
-mongoose.connect(connection, { useNewUrlParser: true }, () => {
-  console.log("连接成功");
-});
+mongoose.connect(
+  connection ||
+    "mongodb://" +
+      config.mongoDB.host +
+      ":" +
+      config.mongoDB.port +
+      "/" +
+      config.mongoDB.database,
+  { useNewUrlParser: true },
+  () => {
+    console.log("连接成功");
+  }
+);
 mongoose.connection.on("error", console.error);
 const server = http.createServer(app.callback());
 server.listen(port);

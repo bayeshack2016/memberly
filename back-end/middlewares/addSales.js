@@ -27,7 +27,6 @@ const addSales = async (ctx, next) => {
     let { historySales, historyOrders } = historyData;
     historySales += ctx.request.body.price;
     historyOrders++;
-    // console.log(historyOrders);
     await HistoryData.findByIdAndUpdate(historyData._id, {
       historySales,
       historyOrders,

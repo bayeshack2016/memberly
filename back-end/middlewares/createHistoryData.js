@@ -36,7 +36,6 @@ const createHistoryData = async (ctx, next) => {
         historyVisits: historyVisits || 0,
         historyOrders: historyOrders || 0,
       }).save();
-      // console.log(historyData);
     }
   });
 };

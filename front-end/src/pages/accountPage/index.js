@@ -135,11 +135,11 @@ const AccountPage = (props) => {
           rules={[
             {
               required: true,
-              message: "请输入您就读小学的所在城市",
+              message: "请输入您最好的朋友的姓名",
             },
           ]}
         >
-          <Input placeholder="请输入您就读小学的所在城市" />
+          <Input placeholder="请输入您最好的朋友的姓名" />
         </Form.Item>
         <Form.Item
           label="安全问题2"
@@ -147,11 +147,11 @@ const AccountPage = (props) => {
           rules={[
             {
               required: true,
-              message: "请输入您最高学历就读学校的所在城市",
+              message: "请输入您最爱的电影的名字",
             },
           ]}
         >
-          <Input placeholder="请输入您最高学历就读学校的所在城市" />
+          <Input placeholder="请输入您最爱的电影的名字" />
         </Form.Item>
         <Form.Item {...formItemLayoutWithOutLabel}>
           <Button type="primary" htmlType="submit" loading={loading}>
@@ -189,11 +189,11 @@ const AccountPage = (props) => {
           rules={[
             {
               required: true,
-              message: "请输入您就读小学的所在城市",
+              message: "请输入您最好的朋友的姓名",
             },
           ]}
         >
-          <Input placeholder="请输入您就读小学的所在城市" />
+          <Input placeholder="请输入您最好的朋友的姓名" />
         </Form.Item>
         <Form.Item
           label="安全问题2"
@@ -201,11 +201,11 @@ const AccountPage = (props) => {
           rules={[
             {
               required: true,
-              message: "请输入您最高学历就读学校的所在城市",
+              message: "请输入您最爱的电影的名字",
             },
           ]}
         >
-          <Input placeholder="请输入您最高学历就读学校的所在城市" />
+          <Input placeholder="请输入您最爱的电影的名字" />
         </Form.Item>
         <Form.Item {...formItemLayoutWithOutLabel}>
           <Button type="primary" htmlType="submit" loading={loading}>

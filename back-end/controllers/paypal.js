@@ -43,7 +43,6 @@ class PaypalCtl {
     const request = new checkoutNodeJssdk.payments.CapturesRefundRequest(
       captureId
     );
-    console.log(order, captureId, "captureId");
     let data = await axios.get(
       "https://api.exchangeratesapi.io/latest?base=USD"
     );
@@ -57,7 +56,6 @@ class PaypalCtl {
       },
     });
     let res = await client.execute(request);
-    console.log(res, "res");
     if (res.result.status !== "COMPLETED") {
       ctx.throw(404, "退款失败");
     } else {
@@ -119,7 +117,6 @@ class PaypalCtl {
         orderId,
         date,
       } = order;
-      console.log(order);
       sendMail(code, email, productName, levelName, price, orderId, date);
       handleLimit(orderId);
       ctx.body = "success";

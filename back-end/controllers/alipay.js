@@ -62,13 +62,10 @@ class AlipayCtl {
       gatewayUrl: "https://openapi.alipay.com/gateway.do",
     };
     var alipay_f2f = new alipayf2f(alipayConfig);
-    console.log(order.noInvoice, refund, "order.tradeNo");
-    // ctx.body = "success";
     await alipay_f2f
       .refund(order.noInvoice, refund)
       .then(async (result) => {
         if (result.code === "10000") {
-          console.log(result, "result");
           await Order.updateOne(
             { orderId: ctx.request.body.orderId },
             {
@@ -81,7 +78,6 @@ class AlipayCtl {
         }
       })
       .catch((err) => {
-        console.log(err, "err");
         ctx.throw(404, "退款失败");
       });
   }
@@ -137,11 +133,14 @@ class AlipayCtl {
         noInvoice: result.out_trade_no,
       }
     );
+    //测试邮件发送
+    //---code begin----
     // const order = await Order.findOne({
     //   noInvoice: result.out_trade_no,
     // });
     // const { code, email, productName, levelName, price, orderId, date } = order;
     // sendMail(code, email, productName, levelName, price, orderId, date);
+    //---code end----
     ctx.body = result.qr_code; // 支付宝返回的结果
     let count = 0;
     let timer = setInterval(async () => {
@@ -156,12 +155,12 @@ class AlipayCtl {
         clearInterval(timer);
       } else {
         count++;
-        if (count > 3 * 120) {
+        if (count > 5 * 60) {
           clearInterval(timer);
           io.emit("payment checked", "订单超时");
         }
       }
-    }, 500);
+    }, 1000);
   }
   async handleAlipayCallback(ctx) {
     const alipay = await Alipay.findOne();
@@ -224,7 +223,6 @@ class AlipayCtl {
         orderId,
         date,
       } = order;
-      console.log(order);
       sendMail(code, email, productName, levelName, price, orderId, date);
       handleLimit(ctx.request.body.out_trade_no);
       ctx.body = "success";

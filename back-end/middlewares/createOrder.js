@@ -1,8 +1,8 @@
 const Order = require("../models/order");
+const Disaccount = require("../models/disaccount");
 const { md5Pwd } = require("../utils/cryptoUtil");
 
 const createOrder = async (ctx, next) => {
-  console.log(ctx.request.body, "ctx.request.body");
   ctx.verifyParams({
     price: { type: "number", required: true },
     email: { type: "string", required: true },
@@ -16,8 +16,22 @@ const createOrder = async (ctx, next) => {
   });
   let date = new Date();
   let code =
-    Math.random().toString(36).substr(4).toUpperCase() +
-    Math.random().toString(36).substr(4).toUpperCase();
+    Math.random().toString(36).substr(4, 8).toUpperCase() +
+    Math.random().toString(36).substr(4, 6).toUpperCase();
+  if (ctx.request.body.disaccount !== "未使用") {
+    const disaccount = await Disaccount.findOne({
+      code: ctx.request.body.disaccount,
+    });
+    await Disaccount.updateOne(
+      { code: ctx.request.body.disaccount },
+      {
+        activation: [
+          ...disaccount.activation,
+          { timestamp: new Date().getTime() },
+        ],
+      }
+    );
+  }
   await new Order({
     date: date.toLocaleDateString(),
     time: date.toLocaleTimeString(),
@@ -39,8 +53,9 @@ const createOrder = async (ctx, next) => {
     orderId: ctx.request.body.orderId,
     productName: ctx.request.body.productName,
     levelName: ctx.request.body.levelName,
-    paymentStatus: "未知",
+    paymentStatus: "未支付",
     noInvoice: "noInvoice",
+    disaccount: ctx.request.body.disaccount,
   }).save();
   await next();
 };

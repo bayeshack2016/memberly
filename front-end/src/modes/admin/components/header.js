@@ -108,9 +108,8 @@ const HeaderBar = (props) => {
 
         <BellOutlined />
       </div>
-      {showMessage ? (
+      {showMessage && orders ? (
         <Card
-          style={isMobile ? { width: 180 } : { width: 300 }}
           actions={[<div onClick={handleClearMessage}>全部标记已读</div>]}
           className="header-message-box"
           onMouseLeave={() => {

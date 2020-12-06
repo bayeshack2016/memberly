@@ -147,10 +147,10 @@ const OrderPage = (props) => {
       dataIndex: "activation",
       width: 140,
       render: (activation) =>
-        activation.length > 0 ? (
-          <Badge status="success" text={activation} />
+        activation > 0 ? (
+          <Badge status="success" text={"已激活"} />
         ) : (
-          <Badge status="warning" text={activation} />
+          <Badge status="warning" text={"未激活"} />
         ),
     },
     {
@@ -188,7 +188,7 @@ const OrderPage = (props) => {
       title: "邮箱",
       dataIndex: "email",
       key: "email",
-      width: 300,
+      width: 250,
     },
   ];
   const date = new Date();
@@ -201,26 +201,14 @@ const OrderPage = (props) => {
           isMobile
             ? {
                 backgroundColor: "white",
-                height: "80px",
-                margin: "5px",
+                zIndex: 10,
               }
             : {
                 backgroundColor: "white",
-                height: "80px",
                 margin: "20px 20px 0 20px",
               }
         }
       >
-        <div
-          style={{
-            marginLeft: "20px",
-            float: "left",
-            lineHeight: "80px",
-            fontSize: "18px",
-          }}
-        >
-          搜索订单
-        </div>
         <Search
           placeholder="搜索订单号、Email"
           enterButton="搜索"
@@ -229,14 +217,12 @@ const OrderPage = (props) => {
               ? {
                   width: 240,
                   margin: "25px 10px 5px 10px",
-                  float: "left",
                   height: "20px",
                   fontSize: "25px",
                 }
               : {
                   width: 300,
                   margin: "25px 10px 5px 10px",
-                  float: "left",
                   height: "20px",
                   fontSize: "25px",
                 }
@@ -252,7 +238,6 @@ const OrderPage = (props) => {
           style={{
             width: 240,
             margin: "25px 10px 5px",
-            float: "left",
           }}
         />
         <Button
@@ -261,12 +246,10 @@ const OrderPage = (props) => {
             isMobile
               ? {
                   margin: "5px 10px",
-                  float: "left",
                   color: "#40A9FF !important",
                 }
               : {
                   margin: "25px 10px",
-                  float: "left",
                   color: "#40A9FF !important",
                 }
           }

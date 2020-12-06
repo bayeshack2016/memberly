@@ -22,7 +22,9 @@ import {
 } from "antd";
 import "./index.css";
 import socket from "../../utils/socketUtil";
-
+import DisaccountVerify from "../disaccountVerify";
+let _count = 300;
+let timer;
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_1701775_nrcqx2lm5ri.js",
 });
@@ -34,12 +36,13 @@ const PaymentDialog = (props) => {
   const [paypalId, setPaypalId] = useState(null);
   const [failed, setFailed] = useState(false);
   const [currencyRate, setCurrencyRate] = useState(false);
-  const { chooseLevel } = props;
-  const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-      xs: { span: 24, offset: 12 },
-    },
-  };
+  const [count, setCount] = useState(_count);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [useDisaccount, setDisaccount] = useState(null);
+  let chooseLevel = { ...props.chooseLevel };
+  let orderPrice = useDisaccount
+    ? useDisaccount.price
+    : chooseLevel.levelPrice.price;
   const formItemLayout = {
     labelCol: {
       sm: { span: 6 },
@@ -57,7 +60,9 @@ const PaymentDialog = (props) => {
     $axios.get("/paypal").then((res) => {
       setPaypalId(res.data.clientId);
     });
+    return clearInterval(timer);
   }, []);
+
   useEffect(() => {
     if (!paypalId) return;
     var scriptEle = document.createElement("script");
@@ -65,21 +70,25 @@ const PaymentDialog = (props) => {
     document.body.appendChild(scriptEle);
   }, [paypalId]);
   const onFinish = async (values) => {
-    let orderId = Date.now().toString() + Math.floor(Math.random() * 9999) + 1;
+    let orderId =
+      Date.now().toString() + Math.floor(Math.random() * 9000 + 1000);
     setFormData({ ...values, orderId });
     socket.on("payment checked", async (paymentStatus) => {
       let metadata = await $axios(`/order/fetch/${orderId}`);
       let orderInfo = metadata.data;
       if (paymentStatus === "已支付") {
         setOrderInfo(orderInfo);
+        message.success("支付成功");
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
       }
       if (paymentStatus === "订单异常") {
+        message.error("支付异常");
         setOrderInfo(orderInfo);
         setFailed(true);
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
       }
       if (paymentStatus === "订单超时") {
+        message.error("支付异常");
         setOrderInfo(orderInfo);
         setFailed(true);
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
@@ -90,20 +99,29 @@ const PaymentDialog = (props) => {
     $axios
       .post(`/order/${formData.payment === "alipay" ? "alipay" : "paypal"}`, {
         ...formData,
-        price: props.chooseLevel.levelPrice.price,
+        price: orderPrice,
         productId: props.productInfo.productId,
         productName: props.productInfo.productName,
         productType: props.productInfo.productType,
-        levelName: props.chooseLevel.levelName,
+        levelName: chooseLevel.levelName,
+        disaccount: useDisaccount ? useDisaccount.code : "未使用",
       })
       .then((res) => {
         setPaymentUrl(res.data);
+        timer = setInterval(() => {
+          _count--;
+          setCount(_count);
+          if (_count === 0) {
+            clearInterval(timer);
+          }
+        }, 1000);
       })
       .catch((error) => {
         message.error(error.response.data && error.response.data.message);
         setFormData(null);
       });
   };
+
   useEffect(() => {
     if (!formData) return;
     if (formData.payment === "alipay") {
@@ -119,11 +137,10 @@ const PaymentDialog = (props) => {
                 {
                   amount: {
                     value:
-                      props.chooseLevel.levelPrice.price < 0.1
+                      //金额低于0.01,paypal会报错
+                      orderPrice < 0.1
                         ? "0.01"
-                        : (
-                            props.chooseLevel.levelPrice.price / currencyRate
-                          ).toFixed(2),
+                        : (orderPrice / currencyRate).toFixed(2),
                   },
                 },
               ],
@@ -156,22 +173,43 @@ const PaymentDialog = (props) => {
     }
   }, [formData]);
   const closeDialog = () => {
+    _count = 300;
+    clearInterval(timer);
     props.handleDialog(false, null);
   };
   return (
     <div className="product-payment-container">
+      <DisaccountVerify
+        isModalVisible={isModalVisible}
+        setModalVisible={setModalVisible}
+        useDisaccount={useDisaccount}
+        setDisaccount={setDisaccount}
+        order={{
+          productName: props.productInfo.productName,
+          levelName: chooseLevel.levelName,
+          price: chooseLevel.levelPrice.price,
+        }}
+      />
       <CloseOutlined
         className="product-payment-close"
         onClick={() => {
           closeDialog();
         }}
       />
+      <p
+        className="disaccount-option"
+        onClick={() => {
+          setModalVisible(true);
+        }}
+      >
+        使用折扣码
+      </p>
       <Row justify="center" className="product-payment-title">
         创建订单
       </Row>
       <Row justify="center" className="product-payment-message">
         {props.productInfo.productType === 1
-          ? `支付完成后，您将获得一个${chooseLevel.levelName}会员的激活码，邮箱密码仅用于查询激活码，如果您有任何订单问题，请点击右上角的联系我们，与我们取得联系`
+          ? `支付完成后，您将获得一个${chooseLevel.levelName}会员的兑换码，邮箱密码仅用于查询兑换码，如果您有任何订单问题，请点击右上角的联系我们，与我们取得联系`
           : `请输入您的${props.productInfo.productName}邮箱和密码，支付完成后，您的账户就会自动获得${chooseLevel.levelName}会员，如果您有任何问题，请点击右上角的联系我们，与我们取得联系`}
       </Row>
       {orderInfo ? (
@@ -221,9 +259,7 @@ const PaymentDialog = (props) => {
                 <span className="product-payment-member">
                   购买{chooseLevel.levelName}会员
                 </span>
-                <span className="product-payment-price">
-                  {chooseLevel.levelPrice.price}元
-                </span>
+                <span className="product-payment-price">{orderPrice}元</span>
               </Row>
               <Row>
                 <Col>
@@ -343,6 +379,12 @@ const PaymentDialog = (props) => {
                   <div className="product-payment-qrcode-text">
                     {isMobile ? "点击二维码跳转支付" : "使用支付宝 扫一扫"}
                   </div>
+                  {paymentUrl && count > -1 && (
+                    <p className="payment-countdown">
+                      支付倒计时：{"0" + Math.floor(count / 60) + ":"}
+                      {count % 60 > 9 ? count % 60 : "0" + (count % 60)}
+                    </p>
+                  )}
                 </div>
               ) : (
                 <div className="product-payment-paypal">

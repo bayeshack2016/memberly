@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Select, Button, Radio, InputNumber } from "antd";
+import { Form, Input, Select, Button, Radio, InputNumber, Tooltip } from "antd";
 import { handleForm } from "@/redux/actions/form";
 import { connect } from "react-redux";
 import { restoreFormData } from "../../../utils/productUtil";
@@ -37,11 +37,9 @@ const AddStepOne = (props) => {
   const onSaleChange = (e) => {
     setOnSale(e.target.value);
   };
-  const onTypeChange = (e) => {
-    setProductType(e.target.value);
-  };
 
   const onFinish = (values) => {
+    console.log(values);
     props.handleFormData(values);
     props.handleForm(values);
     props.handleNext();
@@ -167,32 +165,37 @@ const AddStepOne = (props) => {
         initialValues={formData ? formData : null}
         ref={formRef}
       >
-        <Form.Item
-          label="商品类型"
-          name="productType"
-          rules={[
-            {
-              required: true,
-              message: "请选择商品类型",
-            },
-          ]}
-        >
-          <Radio.Group onChange={onTypeChange} value={productType}>
-            <Radio value={1}>兑换码</Radio>
-            <Radio value={2}>非兑换码</Radio>
+        <Form.Item label="商品类型" name="productType">
+          <Radio.Group>
+            <Radio.Button
+              value={1}
+              onClick={() => {
+                setProductType(1);
+              }}
+            >
+              兑换码商品
+            </Radio.Button>
+            <Radio.Button
+              value={2}
+              onClick={() => {
+                setProductType(2);
+              }}
+            >
+              非兑换码商品
+            </Radio.Button>
+            <Tooltip title="什么是兑换码商品和非兑换码商品？">
+              <a
+                href="https://github.com/troyeguo/coodo-pay#开发理念"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ margin: "0 8px", lineHeight: "20px" }}
+              >
+                需要帮助？
+              </a>
+            </Tooltip>
           </Radio.Group>
         </Form.Item>
-        <a
-          href="https://github.com/troyeguo/coodo-pay#开发理念"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div
-            style={{ textAlign: "center", marginBottom: 20, marginTop: -20 }}
-          >
-            什么是兑换码商品和非兑换码商品
-          </div>
-        </a>
+
         <Form.Item
           label="商品名称"
           name="productName"

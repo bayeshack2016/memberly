@@ -18,6 +18,10 @@
   line-height: 60px;
   color: black;
 }
+#control-ref_defaultMail {
+  position: relative;
+  top: 0px;
+}
 @media screen and (max-width: 1080px) {
   .mail-page-message {
     display: none;

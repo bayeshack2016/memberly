@@ -8,7 +8,6 @@ const createTodayData = async (ctx, next) => {
       month: date.getMonth() + 1,
       day: date.getDate(),
     });
-    // console.log(todayData);
     if (todayData) {
       return;
     } else {
@@ -23,7 +22,6 @@ const createTodayData = async (ctx, next) => {
         orders: 0,
         visits: 0,
       }).save();
-      console.log(todayData, "todayData");
     }
   });
 };

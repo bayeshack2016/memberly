@@ -33,7 +33,9 @@ const AddStepThree = (props) => {
   }#/product/${
     mode === "edit"
       ? getProductId(id)
-      : props.allProducts[props.allProducts.length - 1].productId + 1
+      : (props.allProducts[props.allProducts.length - 1]
+          ? props.allProducts[props.allProducts.length - 1].productId
+          : 0) + 1
   }`;
   const information = (
     <div className="information">

@@ -2,8 +2,8 @@
   font-size: 17px !important;
   color: rgba(72, 72, 72, 1) !important;
   margin: 0px !important;
-  height: 55px !important;
-  line-height: 55px !important;
+  height: 50px !important;
+  line-height: 50px !important;
   padding-left: 34px !important;
 }
 .ant-menu-item-selected {
@@ -19,6 +19,7 @@
 .anticon-dashboard,
 .anticon-account-book,
 .anticon-shop,
+.anticon-shopping,
 .anticon-qrcode,
 .anticon-pay-circle,
 .anticon-mail,
@@ -144,6 +145,13 @@
     height: 100vh;
     width: 200vh;
     margin-left: -50vh;
+  }
+  .header-message-box {
+    width: calc(100vw - 110px);
+    position: absolute;
+    left: 100px;
+    top: 50px;
+    z-index: 20 !important;
   }
 }
 .login-mask-text {

@@ -7,7 +7,7 @@ import Captcha from "../captcha";
 const { TabPane } = Tabs;
 const Query = (props) => {
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [allowQuery, setAllowQuery] = useState("forbid");
+  const [token, setToken] = useState("");
   const [orderInfo, setOrderInfo] = useState(null);
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,6 +15,7 @@ const Query = (props) => {
 
   const handleCheck = async () => {
     setLoading(true);
+    setToken("");
     if (formData.orderId !== undefined) {
       $axios(`/order/query?orderId=${formData.orderId}`)
         .then((result) => {
@@ -43,7 +44,6 @@ const Query = (props) => {
   };
   const showQueryModal = () => {
     setDialogVisible(true);
-    setAllowQuery("forbid");
   };
   const showLocalModal = () => {
     if (localStorage.getItem("orderInfo")) {
@@ -53,7 +53,6 @@ const Query = (props) => {
       return;
     }
     setDialogVisible(true);
-    setAllowQuery("forbid");
   };
 
   const handleOk = (e) => {
@@ -68,10 +67,15 @@ const Query = (props) => {
   const handleChange = (key) => {
     setActiveTab(parseInt(key));
   };
-  const handleQuery = () => {
-    setAllowQuery("allow");
+  const handleQuery = (vaptchaObj) => {
+    setToken(vaptchaObj.getToken());
+    vaptchaObj.reset();
   };
   const onFinish = (values) => {
+    if (!token) {
+      message.warn("手势验证未通过");
+      return;
+    }
     setFormData(values);
   };
   useEffect(() => {
@@ -146,7 +150,6 @@ const Query = (props) => {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={allowQuery === "forbid"}
                 size="medium"
                 style={{ marginTop: "10px" }}
                 loading={loading}
@@ -198,7 +201,6 @@ const Query = (props) => {
                 type="primary"
                 htmlType="submit"
                 size="medium"
-                disabled={allowQuery === "forbid"}
                 style={{ marginTop: "10px" }}
                 loading={loading}
               >

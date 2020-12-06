@@ -14,11 +14,16 @@ import {
   handleFetchAllProduct,
   handleFetchSetting,
 } from "@/redux/actions/product";
-import { handleFetchForm, handleFetchOrder } from "@/redux/actions/form";
+import {
+  handleFetchForm,
+  handleFetchOrder,
+  handleFetchDisaccount,
+} from "@/redux/actions/form";
 const App = (props) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     props.handleFetchAllProduct();
+    props.handleFetchDisaccount();
     props.handleFetchForm();
     props.handleFetchSetting();
     // props.handleFetchByPeriod();
@@ -104,6 +109,7 @@ const actionCreator = {
   handleFetchSetting,
   handleFetchOrder,
   handleFetchAllProduct,
+  handleFetchDisaccount,
 };
 
 export default connect(mapStateToProps, actionCreator)(App);

@@ -8,6 +8,7 @@ const initState = {
   isVerified: false,
   isShowDialog: false,
   order: null,
+  disaccount: null,
 };
 export const form = (state = initState, action) => {
   switch (action.type) {
@@ -27,6 +28,8 @@ export const form = (state = initState, action) => {
       return { ...state, isVerified: action.payload };
     case "HANDLE_ORDER":
       return { ...state, order: action.payload };
+    case "HANDLE_DISACCOUNT":
+      return { ...state, disaccount: action.payload };
     case "HANDLE_VERIFY_DIALOG":
       return { ...state, isShowDialog: action.payload };
     default:

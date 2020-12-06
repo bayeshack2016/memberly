@@ -11,6 +11,7 @@ import {
   AccountBookOutlined,
   MailOutlined,
   SkinOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -73,6 +74,12 @@ const Sidebar = (props) => {
           <Link to="/order">
             <ShopOutlined />
             <span className="nav-text">订单管理</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="/disaccount">
+          <Link to="/disaccount">
+            <ShoppingOutlined />
+            <span className="nav-text">折扣管理</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="/payment">

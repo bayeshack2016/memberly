@@ -22,7 +22,7 @@ const Captcha = (props) => {
         //获取token的方式二：
         vaptchaObj.listen("pass", () => {
           // 验证成功进行后续操作
-          props.handleQuery();
+          props.handleQuery(vaptchaObj);
         });
         //关闭验证弹窗时触发
         vaptchaObj.listen("close", function () {
@@ -33,7 +33,7 @@ const Captcha = (props) => {
   return (
     <div
       id="vaptchaContainer"
-      style={{ width: 200, height: 36, marginLeft: 150 }}
+      style={{ width: 200, height: 36, marginLeft: "calc(50% - 100px)" }}
     >
       <div className="vaptcha-init-main">
         <div className="vaptcha-init-loading">

@@ -89,7 +89,8 @@
   margin: 6px 20px;
 }
 .default-level-container:hover {
-  box-shadow: 0 10px 20px rgba(75, 75, 75, 0.1);
+  box-shadow: 0 5px 20px rgba(75, 75, 75, 0.2);
+  transform: scale(1.01);
 }
 .default-remain {
   position: relative;
@@ -177,8 +178,8 @@
 .default-footer {
   text-align: center;
   margin-top: 40px;
+  margin-bottom: 20px;
   opacity: 0.7;
-  margin-bottom: 40px;
   color: rgba(72, 72, 72, 1);
   /* position: absolute;
   bottom: 0px;

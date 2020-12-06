@@ -144,7 +144,7 @@ const CollectInfo = (props) => {
         >
           <Form.Item
             name="safeCheck"
-            label="安全问题对于保护您的账户非常重要，请认真填写"
+            label="安全问题对于保护您的账户非常重要"
             rules={[
               {
                 required: true,
@@ -159,28 +159,28 @@ const CollectInfo = (props) => {
             </Checkbox.Group>
           </Form.Item>
           <Form.Item
-            label="您就读小学的所在城市"
+            label="请输入您最好的朋友的姓名"
             name="answer1"
             rules={[
               {
                 required: true,
-                message: "请输入您就读小学的所在城市",
+                message: "请输入您最好的朋友的姓名",
               },
             ]}
           >
-            <Input placeholder="请输入您就读小学的所在城市" />
+            <Input placeholder="请输入您最好的朋友的姓名" />
           </Form.Item>
           <Form.Item
-            label="您最高学历就读学校的所在城市"
+            label="请输入您最爱的电影的名字"
             name="answer2"
             rules={[
               {
                 required: true,
-                message: "您最高学历就读学校的所在城市",
+                message: "请输入您最爱的电影的名字",
               },
             ]}
           >
-            <Input placeholder="您最高学历就读学校的所在城市" />
+            <Input placeholder="请输入您最爱的电影的名字" />
           </Form.Item>
 
           <Form.Item {...formItemLayoutWithOutLabel2}>

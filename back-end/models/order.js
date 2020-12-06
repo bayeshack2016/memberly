@@ -23,6 +23,8 @@ const orderSchema = new Schema({
   levelName: { type: "string", required: true },
   productType: { type: "number", enum: [1, 2], required: true },
   noInvoice: { type: "string", required: true },
+  disaccount: { type: "string" },
+  orderVerify: { type: "string" },
 });
 
 module.exports = model("Order", orderSchema);
