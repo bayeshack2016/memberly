@@ -25,6 +25,8 @@ const MobilePage = (props) => {
     const cssUrl = `/assets/css/${props.theme}.css`;
     addStyle(cssUrl);
     document.title = productInfo.productName + "   " + productInfo.productInfo;
+    var link = document.querySelector("link[rel~='icon']");
+    if (productInfo.logo) link.href = productInfo.logo;
   }, []);
   return (
     <div className="mobile-page-container">
@@ -41,7 +43,7 @@ const MobilePage = (props) => {
       <img src={`/assets/${props.theme}.svg`} alt="" className="mobile-bg" />
       <div
         className="contact-container-mask"
-        style={showContact || showQuery ? {} : { display: "none" }}
+        style={showContact || showQuery||props.showDialog ? {} : { display: "none" }}
       ></div>
       {showContact ? <Contact productInfo={productInfo} /> : null}
       {showQuery ? <Query /> : null}

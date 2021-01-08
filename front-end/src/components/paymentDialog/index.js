@@ -34,6 +34,7 @@ const PaymentDialog = (props) => {
   const [formData, setFormData] = useState(null);
   const [orderInfo, setOrderInfo] = useState(null);
   const [paypalId, setPaypalId] = useState(null);
+  const [alipayId, setAlipayId] = useState(null);
   const [failed, setFailed] = useState(false);
   const [currencyRate, setCurrencyRate] = useState(false);
   const [count, setCount] = useState(_count);
@@ -57,14 +58,16 @@ const PaymentDialog = (props) => {
       .then((data) => {
         setCurrencyRate(data.rates.CNY);
       });
-    $axios.get("/paypal").then((res) => {
-      setPaypalId(res.data.clientId);
+
+    $axios.get("/checkPayment").then((res) => {
+      setAlipayId(res.data.alipayId);
+      setPaypalId(res.data.paypalId);
     });
     return clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    if (!paypalId) return;
+    if (!paypalId || paypalId === " ") return;
     var scriptEle = document.createElement("script");
     scriptEle.src = `https://www.paypal.com/sdk/js?client-id=${paypalId}&currency=USD`;
     document.body.appendChild(scriptEle);
@@ -196,14 +199,7 @@ const PaymentDialog = (props) => {
           closeDialog();
         }}
       />
-      <p
-        className="disaccount-option"
-        onClick={() => {
-          setModalVisible(true);
-        }}
-      >
-        使用折扣码
-      </p>
+
       <Row justify="center" className="product-payment-title">
         创建订单
       </Row>
@@ -317,14 +313,17 @@ const PaymentDialog = (props) => {
                       ]}
                     >
                       <Radio.Group defaultValue="alipay">
-                        <Radio value="alipay">
+                        <Radio
+                          value="alipay"
+                          disabled={alipayId && alipayId !== " " ? false : true}
+                        >
                           <AlipayCircleOutlined className="product-ailpay-icon" />
                           <span className="alipay-text">支付宝</span>
                         </Radio>
 
                         <Radio
                           value="paypal"
-                          disabled={paypalId ? false : true}
+                          disabled={paypalId && paypalId !== " " ? false : true}
                         >
                           <IconFont
                             type="icon-paypal"
@@ -343,6 +342,14 @@ const PaymentDialog = (props) => {
                       >
                         下一步
                       </Button>
+                      <p
+                        className="disaccount-option"
+                        onClick={() => {
+                          setModalVisible(true);
+                        }}
+                      >
+                        使用折扣码
+                      </p>
                     </Form.Item>
                   </Form>
                 </Col>

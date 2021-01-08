@@ -1,6 +1,6 @@
 const WechatPay = require("../models/wechatPay");
 const Paypal = require("../models/paypal");
-
+const Alipay = require("../models/alipay");
 class PaymentCtl {
   async updateWechat(ctx) {
     ctx.verifyParams({
@@ -20,6 +20,15 @@ class PaymentCtl {
 
   async fetchWechatPay(ctx) {
     ctx.body = await WechatPay.findOne();
+  }
+  async handlePaymentCheck(ctx) {
+    let paypal = await Paypal.findOne();
+    let alipay = await Alipay.findOne();
+
+    ctx.body = {
+      alipayId: alipay.appId,
+      paypalId: paypal.clientId,
+    };
   }
 }
 module.exports = new PaymentCtl();

@@ -49,9 +49,9 @@ const ProductPage = (props) => {
   };
   const handleAddProduct = () => {
     if (
-      props.alipay.secretKey === " " &&
-      props.wechatPay.secretKey === " " &&
-      props.alipay.secretKey === " "
+      props.alipay.appId === " " &&
+      props.wechatPay.accountID === " " &&
+      props.paypal.clientId === " "
     ) {
       message.warning("暂未配置支付信息");
     } else if (props.email.mailPassword === " ") {

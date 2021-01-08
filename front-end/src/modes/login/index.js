@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, Checkbox, message } from "antd";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Row, Col, Checkbox, message, Modal } from "antd";
 import { connect } from "react-redux";
 import { handleUserInfo } from "@/redux/actions/login";
 import "./index.css";
 import $axios from "@/axios/$axios";
+import { handleFetchSetting } from "@/redux/actions/product";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import Captcha from "../../components/captcha";
 const FormItem = Form.Item;
 const Login = (props) => {
   const [isForget, setIsforget] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("");
-  const handleQuery = (vaptchaObj) => {
-    setToken(vaptchaObj.getToken());
-    vaptchaObj.reset();
-  };
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  useEffect(() => {
+    props.handleFetchSetting();
+    $axios.get("/setting").then((result) => {
+      if (result.data.isFirst === "yes") {
+        setIsModalVisible(true);
+      }
+    });
+  }, []);
+
   const onFinish = (values) => {
-    if (!token) {
-      message.warn("手势验证未通过");
-      return;
-    }
-    setToken("");
     setLoading(true);
     if (isForget) {
       $axios
@@ -43,7 +43,7 @@ const Login = (props) => {
           setLoading(false);
         })
         .catch((err) => {
-          message.error("登录失败");
+          message.error("用户名或密码错误");
           setLoading(false);
         });
     }
@@ -54,6 +54,21 @@ const Login = (props) => {
   };
   return (
     <div className="login-container">
+      <Modal
+        title="注册用户"
+        visible={isModalVisible}
+        onOk={() => {
+          setIsModalVisible(false);
+          props.history.push("/install");
+        }}
+        onCancel={() => {
+          setIsModalVisible(false);
+        }}
+        okText="确认"
+        cancelText="取消"
+      >
+        <p>这似乎是您第一次使用 Coodo Pay，是否开始注册您的管理员账户</p>
+      </Modal>
       <img src="assets/login.svg" alt="" className="login-image" />
       <Row className="login-title" justify="center">
         <div style={{ width: "400px" }}>
@@ -197,7 +212,6 @@ const Login = (props) => {
                 </Row>
               </div>
             )}
-            <Captcha handleQuery={handleQuery} />
             <FormItem>
               <Button
                 type="primary"
@@ -236,5 +250,6 @@ const mapStateToProps = (state) => {
 };
 const actionCreator = {
   handleUserInfo,
+  handleFetchSetting,
 };
 export default connect(mapStateToProps, actionCreator)(Login);

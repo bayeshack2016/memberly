@@ -143,20 +143,16 @@ const CollectInfo = (props) => {
           {...formItemLayout2}
         >
           <Form.Item
-            name="safeCheck"
-            label="安全问题对于保护您的账户非常重要"
+            label="密匙"
+            name="secret"
             rules={[
               {
                 required: true,
-                message: "请确认您已知晓安全问题的重要性",
+                message: "请输入密匙",
               },
             ]}
           >
-            <Checkbox.Group>
-              <Checkbox value="我知道了" style={{ lineHeight: "32px" }}>
-                我知道了
-              </Checkbox>
-            </Checkbox.Group>
+            <Input placeholder="用于加密您的重要数据" />
           </Form.Item>
           <Form.Item
             label="请输入您最好的朋友的姓名"
@@ -204,8 +200,8 @@ const CollectInfo = (props) => {
       content: (
         <Result
           status="success"
-          title="注册成功"
-          subTitle=""
+          title="重启服务器"
+          subTitle="系统正在重启服务器使设置生效，如果您是在本地启动的，请手动重启服务器"
           extra={
             <div>
               <Link to="/">

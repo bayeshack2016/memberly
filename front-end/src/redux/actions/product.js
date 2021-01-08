@@ -40,8 +40,21 @@ export const handleFetchAllProduct = () => {
         let allProducts = res.data || [];
         dispatch(handleAllProducts(allProducts));
       })
-      .catch(() => {
-        message.error("获取商品信息失败");
+      .catch((error) => {
+        if (error.response) {
+          const status = error.response.status;
+          if (!status) {
+            message.error("获取数据出错");
+            return;
+          }
+          if (status === 403) {
+            message.warning("请重新登录");
+          } else {
+            message.error("获取商品信息失败");
+          }
+        }else{
+          message.error("获取数据超时");
+        }
       });
   };
 };

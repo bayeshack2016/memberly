@@ -11,17 +11,29 @@ const {
 const { addVisits } = require("../middlewares/addVisits");
 const { createTodayData } = require("../middlewares/createTodayData");
 const { createHistoryData } = require("../middlewares/createHistoryData");
-const { secret } = require("../config");
-const auth = jwt({ secret });
+const User = require("../models/user");
+User.findOne({}, function (err, user) {
+  if (!err) {
+    const secret = user ? user.secret : "coodo-pay";
+    const auth = jwt({ secret });
+    router.get("/all", auth, fetchAllProduct);
 
-router.get("/all", auth, fetchAllProduct);
+    router.get(
+      "/:id",
+      createTodayData,
+      createHistoryData,
+      addVisits,
+      fetchProduct
+    );
 
-router.get("/:id", createTodayData, createHistoryData, addVisits, fetchProduct);
+    router.post("/", auth, createProduct);
 
-router.post("/", auth, createProduct);
+    router.post("/update/:id", auth, updateProduct);
 
-router.post("/update/:id", auth, updateProduct);
-
-router.post("/delete/:id", auth, deleteProduct);
+    router.post("/delete/:id", auth, deleteProduct);
+  } else {
+    throw err;
+  }
+});
 
 module.exports = router;

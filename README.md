@@ -66,7 +66,7 @@
 
 请前往简书，查看详细的图文教程（由于 Heroku 对 websocket 协议的限制，新版本不再支持基于 Heroku 的安装，请参考新教程使用宝塔面板重新安装）
 
-[点我前往](https://www.jianshu.com/p/d0b92fefcc96)
+[点我前往](https://www.yuque.com/docs/share/5d0fd4df-7de6-424c-a389-6e187e764966?#%20《Coodo%20Pay%20搭建教程（宝塔面板篇）》)
 
 ## 常见问题
 
@@ -108,7 +108,7 @@ Coodo Pay 是一个开源免费的支付系统，所有的代码都已上传到�
 
 1. 将项目源码下载到本地
 
-2. 进入 back-end 文件夹，将 config.js 里的 connection 替换成自己的云数据库地址，打开命令行工具，运行以下代码：
+2. 进入 back-end 文件夹，将 config.js 里的 connection 替换成自己的数据库地址，打开命令行工具，运行以下代码：
 
    ```
    yarn

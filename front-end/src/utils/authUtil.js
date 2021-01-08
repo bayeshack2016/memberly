@@ -7,7 +7,7 @@ const AuthRouter = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         isLogged ? <Component {...props} /> : <Redirect to={"/login"} />
       }
     />

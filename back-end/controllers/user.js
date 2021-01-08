@@ -1,7 +1,8 @@
 const User = require("../models/user");
+const Setting = require("../models/setting");
+const utils = require("utility");
+const pm2 = require("pm2");
 const jsonwebtoken = require("jsonwebtoken");
-const { secret } = require("../config");
-const { md5Pwd } = require("../utils/cryptoUtil");
 class UserCtl {
   async fetchUser(ctx) {
     ctx.body = await User.findOne();
@@ -24,7 +25,7 @@ class UserCtl {
       ctx.throw(403, "邮箱错误");
     }
     const newUser = await User.findByIdAndUpdate(user._id, {
-      password: md5Pwd(ctx.request.body.password),
+      password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
     });
     ctx.body = newUser;
   }
@@ -48,29 +49,38 @@ class UserCtl {
       password: { type: "string", required: true },
       answer1: { type: "string", required: true },
       answer2: { type: "string", required: true },
+      secret: { type: "string", required: true },
     });
     let date = new Date();
     const user = await new User({
       ...ctx.request.body,
-      password: md5Pwd(ctx.request.body.password),
+      password: utils.md5(
+        utils.md5(ctx.request.body.password + ctx.request.body.secret)
+      ),
       date: date.toLocaleDateString(),
     }).save();
+    const setting = await Setting.findOne();
+    await Setting.updateOne(setting, { isFirst: "no" });
     ctx.body = user;
+    setTimeout(() => {
+      process.exit(1);
+    }, 500);
   }
   async loginUser(ctx) {
     ctx.verifyParams({
       email: { type: "string", required: true },
       password: { type: "string", required: true },
     });
+    const { secret } = await User.findOne();
     const user = await User.findOne({
       email: ctx.request.body.email.trim(),
-      password: md5Pwd(ctx.request.body.password.trim()),
+      password: utils.md5(utils.md5(ctx.request.body.password.trim() + secret)),
     });
     if (!user) {
       ctx.throw(403, "用户名或密码错误");
     }
     const { _id, email } = user;
-    const jwt = jsonwebtoken.sign({ _id, email }, secret, {
+    const jwt = jsonwebtoken.sign({ _id, email }, user.secret, {
       expiresIn: "1d",
     });
     ctx.body = jwt;
@@ -89,13 +99,15 @@ class UserCtl {
     if (!user) {
       ctx.throw(403, "安全问题验证错误");
     }
-    if (ctx.request.body.password) {
+    if (ctx.request.body.email) {
       user = await User.findByIdAndUpdate(ctx.params.id, {
-        password: ctx.request.body.password,
+        email: ctx.request.body.email,
       });
     } else {
       user = await User.findByIdAndUpdate(ctx.params.id, {
-        email: md5Pwd(ctx.request.body.email),
+        password: utils.md5(
+          utils.md5(ctx.request.query.password + user.secret)
+        ),
       });
     }
     ctx.body = user;

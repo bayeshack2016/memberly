@@ -12,6 +12,8 @@ const ShoppingPage = (props) => {
     const cssUrl = `/assets/css/${props.theme}.css`;
     addStyle(cssUrl);
     document.title = productInfo.productName + "   " + productInfo.productInfo;
+    var link = document.querySelector("link[rel~='icon']");
+    if (productInfo.logo) link.href = productInfo.logo;
   }, []);
 
   const addStyle = (url) => {
@@ -56,7 +58,11 @@ const ShoppingPage = (props) => {
       >
         <div
           className="contact-container-mask"
-          style={showContact || showQuery ? {} : { display: "none" }}
+          style={
+            showContact || showQuery || props.showDialog
+              ? {}
+              : { display: "none" }
+          }
         ></div>
         <img src={`/assets/${props.theme}.svg`} alt="" className="default-bg" />
         <div className="default-header">

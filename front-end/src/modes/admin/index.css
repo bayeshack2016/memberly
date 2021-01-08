@@ -26,6 +26,7 @@
 .anticon-skin,
 .anticon-idcard,
 .anticon-menu-fold,
+.anticon-smile,
 .anticon-menu-unfold {
   width: 20px;
   height: 20px;
@@ -57,7 +58,8 @@
 
 .anticon-message,
 .anticon-bell,
-.anticon-logout {
+.anticon-logout,
+.anticon-user {
   width: 20px;
   height: 20px;
   font-size: 20px !important;
@@ -67,6 +69,10 @@
 .anticon-logout {
   float: right;
   margin-top: 22px;
+}
+.anticon-user {
+  float: right;
+  margin: 42px;
 }
 .header-number-icon {
   position: relative;
@@ -166,4 +172,11 @@
 .login-mask-subtitle {
   font-size: 20px;
   color: rgba(72, 72, 72, 0.9);
+}
+.avatar {
+  height: 30px;
+  margin-right: 0px;
+  float: right;
+  cursor: pointer;
+  color: rgba(24, 144, 255);
 }

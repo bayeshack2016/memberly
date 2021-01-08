@@ -3,6 +3,7 @@ import { Form, Input, Select, Button, Radio, InputNumber, Tooltip } from "antd";
 import { handleForm } from "@/redux/actions/form";
 import { connect } from "react-redux";
 import { restoreFormData } from "../../../utils/productUtil";
+import { isMobile } from "react-device-detect";
 const { Option } = Select;
 const AddStepOne = (props) => {
   const [levels, setLevels] = useState(
@@ -183,16 +184,18 @@ const AddStepOne = (props) => {
             >
               非兑换码商品
             </Radio.Button>
-            <Tooltip title="什么是兑换码商品和非兑换码商品？">
-              <a
-                href="https://github.com/troyeguo/coodo-pay#开发理念"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ margin: "0 8px", lineHeight: "20px" }}
-              >
-                需要帮助？
-              </a>
-            </Tooltip>
+            {!isMobile && (
+              <Tooltip title="什么是兑换码商品和非兑换码商品？">
+                <a
+                  href="https://github.com/troyeguo/coodo-pay#开发理念"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ margin: "0 8px", lineHeight: "20px" }}
+                >
+                  需要帮助？
+                </a>
+              </Tooltip>
+            )}
           </Radio.Group>
         </Form.Item>
 

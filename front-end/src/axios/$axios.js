@@ -38,7 +38,11 @@ $axios.interceptors.response.use(
   },
   function (error) {
     if (error.response) {
-      const { status } = error.response;
+      const status = error.response.status;
+      if (!status) {
+        message.error("获取数据出错");
+        return;
+      }
       //如果401或405则到登录页
       if (status === 401 || status === 405) {
         // history.push("/login");
@@ -51,6 +55,8 @@ $axios.interceptors.response.use(
         number++;
         window.location.reload();
       }
+    } else {
+      message.error("获取数据超时");
     }
     return Promise.reject(error);
   }

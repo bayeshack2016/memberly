@@ -1,5 +1,6 @@
 const Order = require("../models/order");
-const { md5Pwd } = require("../utils/cryptoUtil");
+const User = require("../models/user");
+const utils = require("utility");
 Date.prototype.format = function (fmt) {
   var o = {
     "M+": this.getMonth() + 1, //月份
@@ -32,12 +33,14 @@ class OrderCtl {
     if (!order) {
       ctx.throw(404, "未找到您的订单信息");
     }
-
+    const user = await User.findOne();
     await Order.updateOne(
       { code: ctx.request.body.code },
       {
         activation: [...order.activation, { timestamp: new Date().getTime() }],
-        orderVerify: md5Pwd(new Date().format("yyyy-MM-dd")),
+        orderVerify: utils.md5(
+          utils.md5(new Date().format("yyyy-MM-dd") + " " + user.secret)
+        ),
       }
     );
     ctx.body = order;
@@ -45,10 +48,14 @@ class OrderCtl {
   async queryOrder(ctx) {
     const queryParams = JSON.parse(JSON.stringify(ctx.request.query));
     let order;
+    const user = await User.findOne();
+
     if (queryParams.password) {
       order = await Order.findOne({
         email: ctx.request.query.email,
-        password: md5Pwd(ctx.request.query.password),
+        password: utils.md5(
+          utils.md5(ctx.request.query.password + user.secret)
+        ),
       })
         .sort({ field: "asc", _id: -1 })
         .limit(1);

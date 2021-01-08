@@ -5,13 +5,14 @@ import {
   LogoutOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { handleUserInfo } from "@/redux/actions/login";
 import { handleCollapse } from "@/redux/actions/sidebar";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { isMobile } from "react-device-detect";
+import { Link } from "react-router-dom";
 const { confirm } = Modal;
 const { Header } = Layout;
 const { Meta } = Card;
@@ -97,7 +98,6 @@ const HeaderBar = (props) => {
           }}
         />
       )}
-
       <LogoutOutlined onClick={showConfirm} />
       <div className="header-number" onClick={handleMessage}>
         {props.order ? (
@@ -108,6 +108,10 @@ const HeaderBar = (props) => {
 
         <BellOutlined />
       </div>
+      <Link to="/account">
+        <div className="avatar">{props.user.email}</div>
+      </Link>
+
       {showMessage && orders ? (
         <Card
           actions={[<div onClick={handleClearMessage}>全部标记已读</div>]}
@@ -141,6 +145,7 @@ const mapStateToProps = (state) => {
     isCollapsed: state.sidebar.isCollapsed,
     ordersByMonth: state.monthData.ordersByMonth,
     order: state.form.order,
+    user: state.form.user,
   };
 };
 const actionCreator = {

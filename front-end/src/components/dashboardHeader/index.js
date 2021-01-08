@@ -163,9 +163,9 @@ const DashboardHeader = (props) => {
               marginTop: "10px",
             }}
           >
-            {props.alipay.secretKey === " " &&
-            props.wechatPay.secretKey === " " &&
-            props.alipay.secretKey === " "
+            {props.alipay.appId === " " &&
+            props.wechatPay.accountID === " " &&
+            props.paypal.clientId === " "
               ? "暂未配置支付信息"
               : props.setting.defaultMail === " "
               ? "暂未配置邮箱信息"

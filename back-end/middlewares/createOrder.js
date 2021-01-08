@@ -1,6 +1,7 @@
 const Order = require("../models/order");
 const Disaccount = require("../models/disaccount");
-const { md5Pwd } = require("../utils/cryptoUtil");
+const User = require("../models/user");
+const utils = require("utility");
 
 const createOrder = async (ctx, next) => {
   ctx.verifyParams({
@@ -14,6 +15,7 @@ const createOrder = async (ctx, next) => {
     levelName: { type: "string", required: true },
     productType: { type: "number", enum: [1, 2], required: true },
   });
+  const user = await User.findOne();
   let date = new Date();
   let code =
     Math.random().toString(36).substr(4, 8).toUpperCase() +
@@ -47,7 +49,7 @@ const createOrder = async (ctx, next) => {
     week: date.getDay(),
     price: ctx.request.body.price,
     email: ctx.request.body.email,
-    password: md5Pwd(ctx.request.body.password),
+    password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
     payment: ctx.request.body.payment,
     productId: ctx.request.body.productId,
     orderId: ctx.request.body.orderId,

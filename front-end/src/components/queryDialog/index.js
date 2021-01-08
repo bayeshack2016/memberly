@@ -3,11 +3,9 @@ import { Tabs, Modal, Button, Form, Input, message } from "antd";
 import "./index.css";
 import { decrypt } from "../../utils/crypto";
 import $axios from "@/axios/$axios";
-import Captcha from "../captcha";
 const { TabPane } = Tabs;
 const Query = (props) => {
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [token, setToken] = useState("");
   const [orderInfo, setOrderInfo] = useState(null);
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,7 +13,6 @@ const Query = (props) => {
 
   const handleCheck = async () => {
     setLoading(true);
-    setToken("");
     if (formData.orderId !== undefined) {
       $axios(`/order/query?orderId=${formData.orderId}`)
         .then((result) => {
@@ -67,15 +64,8 @@ const Query = (props) => {
   const handleChange = (key) => {
     setActiveTab(parseInt(key));
   };
-  const handleQuery = (vaptchaObj) => {
-    setToken(vaptchaObj.getToken());
-    vaptchaObj.reset();
-  };
+
   const onFinish = (values) => {
-    if (!token) {
-      message.warn("手势验证未通过");
-      return;
-    }
     setFormData(values);
   };
   useEffect(() => {
@@ -144,7 +134,6 @@ const Query = (props) => {
                 style={{ borderRadius: "5px" }}
               />
             </Form.Item>
-            {activeTab === 2 ? <Captcha handleQuery={handleQuery} /> : null}
 
             <Form.Item>
               <Button
@@ -194,7 +183,6 @@ const Query = (props) => {
                 style={{ borderRadius: "5px" }}
               />
             </Form.Item>
-            {activeTab === 3 ? <Captcha handleQuery={handleQuery} /> : null}
             <Form.Item>
               <Button
                 className=""

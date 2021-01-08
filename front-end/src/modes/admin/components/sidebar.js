@@ -12,6 +12,7 @@ import {
   MailOutlined,
   SkinOutlined,
   ShoppingOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -82,6 +83,12 @@ const Sidebar = (props) => {
             <span className="nav-text">折扣管理</span>
           </Link>
         </Menu.Item>
+        <Menu.Item key="/customer">
+          <Link to="/customer">
+            <SmileOutlined />
+            <span className="nav-text">用户管理</span>
+          </Link>
+        </Menu.Item>
         <Menu.Item key="/payment">
           <Link to="/payment">
             <PayCircleOutlined />
@@ -104,12 +111,6 @@ const Sidebar = (props) => {
           <Link to="/dashboard">
             <DashboardOutlined />
             <span className="nav-text">统计数据</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="/account">
-          <Link to="/account">
-            <IdcardOutlined />
-            <span className="nav-text">账户中心</span>
           </Link>
         </Menu.Item>
       </Menu>

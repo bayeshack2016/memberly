@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PageHeader from "../../components/pageHeader";
 import $axios from "@/axios/$axios";
+import axios from "axios";
 import { isMobile } from "react-device-detect";
+import { version } from "../../../package.json";
 
 const { Item } = Menu;
 const formItemLayoutWithOutLabel = {
@@ -60,20 +62,20 @@ const AccountPage = (props) => {
   const checkUpdate = async () => {
     setLoading(true);
 
-    await $axios
-      .get("/setting")
-      .then((result) => {
-        if (result.data.version > props.setting.version) {
-          info();
-        } else {
-          message.success("暂无版本更新");
-          setLoading(false);
-        }
-      })
-      .catch(() => {
-        message.error("检查更新失败");
+    const res = await axios.get(
+      "https://api.github.com/repos/troyeguo/coodo-pay/releases/latest"
+    );
+    if (res.status === 200) {
+      if (parseInt(res.data.name) > parseInt(version)) {
+        info();
+      } else {
+        message.success("暂无版本更新");
         setLoading(false);
-      });
+      }
+    } else {
+      message.error("检查更新失败");
+      setLoading(false);
+    }
   };
   const getMenu = () => {
     return Object.keys(menuMap).map((item) => (

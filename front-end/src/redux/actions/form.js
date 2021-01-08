@@ -91,8 +91,21 @@ export const handleFetchForm = () => {
         dispatch(handleEmail(responseArr[3].data));
         dispatch(handleUser(responseArr[4].data));
       })
-      .catch(() => {
-        message.error("获取数据失败");
+      .catch((error) => {
+        if (error.response) {
+          const status = error.response.status;
+          if (!status) {
+            message.error("获取数据出错");
+            return;
+          }
+          if (status === 403) {
+            message.warning("身份凭证失效");
+          } else {
+            message.error("获取数据失败");
+          }
+        } else {
+          message.error("获取数据超时");
+        }
       });
   };
 };

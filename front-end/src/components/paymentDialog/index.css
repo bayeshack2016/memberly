@@ -164,13 +164,14 @@
   width: 100%;
 }
 .disaccount-option {
+  display: inline-block;
   font-size: 16px;
   line-height: 20px;
   opacity: 1;
   text-align: right;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  position: relative;
+  bottom: 10px;
+  left: 200px;
   cursor: pointer;
 }
 .product-payment-paypal {

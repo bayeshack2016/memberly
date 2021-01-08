@@ -47,12 +47,14 @@ const Product = (props) => {
         <MobilePage
           productInfo={productInfo}
           handleDialog={handleDialog}
+          showDialog={showDialog}
           theme={setting.themeOption}
         />
       ) : (
         <ShoppingPage
           productInfo={productInfo}
           handleDialog={handleDialog}
+          showDialog={showDialog}
           theme={setting.themeOption}
         />
       )}

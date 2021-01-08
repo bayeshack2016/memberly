@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema({
+const customerSchema = new Schema({
   __v: { type: "number", select: false },
   password: { type: "string", required: true, select: false },
   email: { type: "string", required: true },
   date: { type: "string", required: true },
-  answer1: { type: "string", required: true, select: false },
-  answer2: { type: "string", required: true, select: false },
-  secret: { type: "string", require: true },
+  nickname: { type: "string", require: true },
+  balance: { type: "number", require: true },
+  product: { type: "array", require: true },
 });
-module.exports = model("User", userSchema);
+module.exports = model("User", customerSchema);

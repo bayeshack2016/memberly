@@ -14,10 +14,6 @@ const settingSchema = new Schema({
     enum: ["yes", "no"],
     required: true,
   },
-  version: {
-    type: "number",
-    required: true,
-  },
   defaultMail: {
     type: "string",
     enum: ["qq", "163", " "],
