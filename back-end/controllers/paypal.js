@@ -2,6 +2,8 @@ const Paypal = require("../models/paypal");
 const Order = require("../models/order");
 const checkoutNodeJssdk = require("@paypal/checkout-server-sdk");
 const Product = require("../models/product");
+const Customer = require("../models/customer");
+
 const axios = require("axios");
 const app = require("../app");
 const io = app.getSocketIo();
@@ -14,10 +16,14 @@ class PaypalCtl {
       clientId: { type: "string", required: true },
       secret: { type: "string", required: true },
     });
-    const paypal = await Paypal.findByIdAndUpdate(ctx.params.id, {
-      clientId: ctx.request.body.clientId.trim(),
-      secret: ctx.request.body.secret.trim(),
-    });
+    const paypal = await Paypal.findByIdAndUpdate(
+      ctx.params.id,
+      {
+        clientId: ctx.request.body.clientId.trim(),
+        secret: ctx.request.body.secret.trim(),
+      },
+      { new: true }
+    );
     ctx.body = paypal;
   }
   async handlePaypalRefund(ctx) {
@@ -103,7 +109,7 @@ class PaypalCtl {
         { paymentStatus: "已支付", noInvoice: ctx.request.body.captureId }
       );
 
-      io.emit("payment checked", "已支付");
+      io.emit("payment checked", "支付成功");
 
       const order = await Order.findOne({
         orderId: ctx.request.body.orderId,
@@ -163,6 +169,38 @@ class PaypalCtl {
           io.emit("payment checked", "订单异常");
         }
       });
+    }
+    if (productType === 3) {
+      const product = await Product.findOne({
+        productId: ctx.request.body.productId,
+      });
+      await Order.updateOne(
+        { orderId: ctx.request.body.orderId },
+        { paymentStatus: "已支付" }
+      );
+      io.emit("payment checked", "支付成功");
+      const order = await Order.findOne({ orderId: ctx.request.body.orderId });
+
+      customer.orders.push(order);
+      await Customer.updateOne(
+        { email: ctx.request.body.email },
+        {
+          balance: customer.balance - ctx.request.body.price,
+          orders: customer.orders,
+        }
+      );
+      const {
+        code,
+        email,
+        productName,
+        levelName,
+        price,
+        orderId,
+        date,
+      } = order;
+      sendOrderMail(code, email, productName, levelName, price, orderId, date);
+      handleLimit(orderId);
+      ctx.body = "success";
     }
   }
 }

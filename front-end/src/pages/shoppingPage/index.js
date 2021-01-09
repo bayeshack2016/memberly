@@ -64,7 +64,18 @@ const ShoppingPage = (props) => {
               : { display: "none" }
           }
         ></div>
-        <img src={`/assets/${props.theme}.svg`} alt="" className="default-bg" />
+        {(props.theme === "default" ||
+          props.theme === "tech" ||
+          props.theme === "nostagic" ||
+          props.theme === "blur" ||
+          props.theme === "blue_white") && (
+          <img
+            src={`/assets/theme/${props.theme}.svg`}
+            alt=""
+            className="default-bg"
+          />
+        )}
+
         <div className="default-header">
           {productInfo.logo ? (
             <img

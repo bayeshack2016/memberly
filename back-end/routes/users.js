@@ -37,7 +37,6 @@ User.findOne({}, function (err, user) {
     router.post("/verify", auth, verifyAnswer);
 
     router.post("/", createUser);
-    console.log("tests");
     router.post("/login", ipBasedRatelimit, loginUser);
 
     router.post("/forget", ipBasedRatelimit, forgetUser);

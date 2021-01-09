@@ -8,12 +8,16 @@ class EmailCtl {
       mailPassword: { type: "string", required: true },
       sendName: { type: "string", required: true },
     });
-    const email = await Email.findByIdAndUpdate(ctx.params.id, {
-      mailName: ctx.request.body.mailName.trim(),
-      mailAddress: ctx.request.body.mailAddress.trim(),
-      mailPassword: ctx.request.body.mailPassword.trim(),
-      sendName: ctx.request.body.sendName.trim(),
-    });
+    const email = await Email.findByIdAndUpdate(
+      ctx.params.id,
+      {
+        mailName: ctx.request.body.mailName.trim(),
+        mailAddress: ctx.request.body.mailAddress.trim(),
+        mailPassword: ctx.request.body.mailPassword.trim(),
+        sendName: ctx.request.body.sendName.trim(),
+      },
+      { new: true }
+    );
     ctx.body = email;
   }
   async fetchEmail(ctx) {

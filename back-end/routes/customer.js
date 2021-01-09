@@ -8,6 +8,7 @@ const {
   updateCustomer,
   forgetCustomer,
   sendVerification,
+  depositMoney,
 } = require("../controllers/customer");
 const User = require("../models/user");
 User.findOne({}, function (err, user) {
@@ -39,7 +40,7 @@ User.findOne({}, function (err, user) {
     router.post("/login", ipBasedRatelimit, loginCustomer);
 
     router.post("/forget", ipBasedRatelimit, forgetCustomer);
-
+    router.post("/deposit/:id", ipBasedRatelimit, depositMoney);
     router.post("/update/:id", ipBasedRatelimit, updateCustomer);
   } else {
     throw err;

@@ -41,9 +41,13 @@ class DisaccountCtl {
     ctx.body = await Disaccount.find();
   }
   async updateDisaccount(ctx) {
-    const disaccount = await Disaccount.findByIdAndUpdate(ctx.params.id, {
-      ...ctx.request.body,
-    });
+    const disaccount = await Disaccount.findByIdAndUpdate(
+      ctx.params.id,
+      {
+        ...ctx.request.body,
+      },
+      { new: true }
+    );
     if (!disaccount) ctx.throw(404, "修改折扣失败");
     ctx.body = { ...disaccount, ...ctx.request.body };
   }

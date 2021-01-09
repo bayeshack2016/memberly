@@ -219,7 +219,7 @@ const CollectInfo = (props) => {
   ];
   return (
     <div>
-      <img src="/assets/tech.svg" alt="" className="welcome-bg" />
+      <img src="/assets/theme/tech.svg" alt="" className="welcome-bg" />
       <Row justify="center" className="collect-steps-container">
         <Steps current={current} className="collect-steps">
           {steps.map((item) => (

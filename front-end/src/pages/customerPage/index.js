@@ -4,6 +4,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import PageHeader from "../../components/pageHeader";
 import { isMobile } from "react-device-detect";
+import "./index.css";
 const dateFormat = "YYYY-MM-DD";
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -12,7 +13,6 @@ const CustomerPage = (props) => {
   const [loading, setLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   useEffect(() => {
-    console.log(props.customer, "cumstomer");
     if (props.customer) {
       setLoading(false);
       setData(props.customer);
@@ -89,40 +89,24 @@ const CustomerPage = (props) => {
       render: (price) => <span>{price || 0}元</span>,
     },
     {
-      title: "会员服务",
-      dataIndex: "product",
-      key: "product",
-      width: 200,
-      render: (product) =>
-        product && product.length > 0 ? (
-          <Collapse>
-            <Panel header="This is panel header 1" key="1">
-              {() =>
-                product.map((item) => (
-                  <p>
-                    <p>产品名称：{item.productName}</p>
-                    <p>会员等级：{item.productName}</p>
-                    <p>购买日期：{item.productName}</p>
-                    <p>订单号：{item.productName}</p>
-                  </p>
-                ))
-              }
-            </Panel>
-          </Collapse>
-        ) : (
-          "无"
-        ),
-    },
-    {
       title: "购买记录",
-      dataIndex: "order",
-      key: "order",
-      width: 200,
-      render: (order) =>
-        order && order.length > 0 ? (
-          <Collapse>
-            <Panel header="This is panel header 1" key="1">
-              {() => order.map((item) => <p>订单号：{item.orderId}</p>)}
+      dataIndex: "orders",
+      key: "orders",
+      width: 700,
+      render: (orders) =>
+        orders && orders.length > 0 ? (
+          <Collapse style={{ position: "relative", bottom: "13px" }}>
+            <Panel header="所有记录">
+              {orders.map((item) => {
+                return (
+                  <p>
+                    日期：{item.date}&nbsp; 商品名称：{item.productName}&nbsp;
+                    商品等级：{item.levelName}&nbsp; 价格：{item.price}元 &nbsp;
+                    订单编号：{item.orderId}
+                    &nbsp;
+                  </p>
+                );
+              })}
             </Panel>
           </Collapse>
         ) : (

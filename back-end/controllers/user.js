@@ -23,9 +23,13 @@ class UserCtl {
     if (user.email !== ctx.request.body.email) {
       ctx.throw(403, "邮箱错误");
     }
-    const newUser = await User.findByIdAndUpdate(user._id, {
-      password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
-    });
+    const newUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
+      },
+      { new: true }
+    );
     ctx.body = newUser;
   }
   async verifyAnswer(ctx) {
@@ -99,15 +103,23 @@ class UserCtl {
       ctx.throw(403, "安全问题验证错误");
     }
     if (ctx.request.body.email) {
-      user = await User.findByIdAndUpdate(ctx.params.id, {
-        email: ctx.request.body.email,
-      });
+      user = await User.findByIdAndUpdate(
+        ctx.params.id,
+        {
+          email: ctx.request.body.email,
+        },
+        { new: true }
+      );
     } else {
-      user = await User.findByIdAndUpdate(ctx.params.id, {
-        password: utils.md5(
-          utils.md5(ctx.request.query.password + user.secret)
-        ),
-      });
+      user = await User.findByIdAndUpdate(
+        ctx.params.id,
+        {
+          password: utils.md5(
+            utils.md5(ctx.request.query.password + user.secret)
+          ),
+        },
+        { new: true }
+      );
     }
     ctx.body = user;
   }

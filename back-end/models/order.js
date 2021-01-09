@@ -21,7 +21,7 @@ const orderSchema = new Schema({
   orderId: { type: "string", required: true },
   productName: { type: "string", required: true },
   levelName: { type: "string", required: true },
-  productType: { type: "number", enum: [1, 2], required: true },
+  productType: { type: "number", enum: [1, 2, 3], required: true },
   noInvoice: { type: "string", required: true },
   disaccount: { type: "string" },
   token: { type: "string" },

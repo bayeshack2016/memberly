@@ -20,7 +20,6 @@ class handleLimit {
     }
     levelLimit--;
     levelLimitArr[levelIndex] = levelLimit;
-    console.log(levelLimitArr);
     await Product.updateOne({ productName }, { levelLimit: levelLimitArr });
   }
 }

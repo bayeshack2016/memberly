@@ -58,13 +58,11 @@
   line-height: 30px;
   text-align: center;
 }
-.alipay-text,
+
 .paypal-text {
-  margin-left: 5px;
   font-size: 17px;
   font-weight: 500;
-  position: relative;
-  top: 5px;
+  margin-left: -5px;
 }
 
 .product-payment-prefix {
@@ -187,6 +185,17 @@
     width: 95%;
     height: 95%;
     overflow-y: scroll;
+  }
+  .disaccount-option {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 20px;
+    opacity: 1;
+    text-align: right;
+    position: absolute;
+    top: 35px;
+    left: 200px;
+    cursor: pointer;
   }
   .product-payment-message {
     margin-left: 5%;

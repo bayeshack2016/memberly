@@ -10,6 +10,7 @@ const AddStepOne = (props) => {
     props.formData ? props.formData.memberLevel : 0
   );
   const [onSale, setOnSale] = useState("yes");
+  const [allowBalance, setAllowBalance] = useState("yes");
   const [formData, setFormData] = useState(
     props.formData ? props.formData : null
   );
@@ -38,9 +39,11 @@ const AddStepOne = (props) => {
   const onSaleChange = (e) => {
     setOnSale(e.target.value);
   };
+  const onAllowBalanceChange = (e) => {
+    setAllowBalance(e.target.value);
+  };
 
   const onFinish = (values) => {
-    console.log(values);
     props.handleFormData(values);
     props.handleForm(values);
     props.handleNext();
@@ -174,7 +177,7 @@ const AddStepOne = (props) => {
                 setProductType(1);
               }}
             >
-              兑换码商品
+              1号类型
             </Radio.Button>
             <Radio.Button
               value={2}
@@ -182,10 +185,18 @@ const AddStepOne = (props) => {
                 setProductType(2);
               }}
             >
-              非兑换码商品
+              2号类型
+            </Radio.Button>
+            <Radio.Button
+              value={3}
+              onClick={() => {
+                setProductType(3);
+              }}
+            >
+              3号类型
             </Radio.Button>
             {!isMobile && (
-              <Tooltip title="什么是兑换码商品和非兑换码商品？">
+              <Tooltip title="我要如何选择商品类型？">
                 <a
                   href="https://github.com/troyeguo/coodo-pay#开发理念"
                   target="_blank"
@@ -245,7 +256,7 @@ const AddStepOne = (props) => {
           </Select>
         </Form.Item>
         {renderLevelDesc()}
-        {productType === 1 ? null : (
+        {productType === 2 ? (
           <Form.Item
             label="订单回调地址"
             name="callbackUrl"
@@ -259,8 +270,24 @@ const AddStepOne = (props) => {
           >
             <Input placeholder="请输入订单回调地址" />
           </Form.Item>
-        )}
-
+        ) : null}
+        {productType === 3 ? (
+          <Form.Item
+            label="使用余额支付"
+            name="allowBalance"
+            rules={[
+              {
+                required: true,
+                message: "请选择是否允许使用余额支付",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onAllowBalanceChange} value={allowBalance}>
+              <Radio value="yes">允许</Radio>
+              <Radio value="no">不允许</Radio>
+            </Radio.Group>
+          </Form.Item>
+        ) : null}
         <Form.Item
           label="是否在售"
           name="onSale"

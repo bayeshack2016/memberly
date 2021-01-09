@@ -63,12 +63,16 @@ const AddStepTwo = (props) => {
           {formData.productInfo}
         </Descriptions.Item>
         {renderLevelTable(formData.memberLevel, formData)}
-        {formData.productType === 1 ? null : (
+        {formData.productType === 2 ? (
           <Descriptions.Item label="支付回调地址" span={4}>
             {formData.callbackUrl}
           </Descriptions.Item>
-        )}
-
+        ) : null}
+        {formData.productType === 3 ? (
+          <Descriptions.Item label="支持余额支付" span={4}>
+            {formData.allowBalance === "yes" ? "允许" : "不允许"}
+          </Descriptions.Item>
+        ) : null}
         <Descriptions.Item label="是否在售">在售</Descriptions.Item>
         <Descriptions.Item label={`联系方式`}>
           {renderContact(formData.contact)}

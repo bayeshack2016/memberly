@@ -39,11 +39,25 @@ const MobilePage = (props) => {
           }}
         />
       ) : null}
+      {(props.theme === "default" ||
+        props.theme === "tech" ||
+        props.theme === "nostagic" ||
+        props.theme === "blur" ||
+        props.theme === "blue_white") && (
+        <img
+          src={`/assets/theme/${props.theme}.svg`}
+          alt=""
+          className="mobile-bg"
+        />
+      )}
 
-      <img src={`/assets/${props.theme}.svg`} alt="" className="mobile-bg" />
       <div
         className="contact-container-mask"
-        style={showContact || showQuery||props.showDialog ? {} : { display: "none" }}
+        style={
+          showContact || showQuery || props.showDialog
+            ? {}
+            : { display: "none" }
+        }
       ></div>
       {showContact ? <Contact productInfo={productInfo} /> : null}
       {showQuery ? <Query /> : null}

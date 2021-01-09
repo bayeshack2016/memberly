@@ -6,10 +6,13 @@ const verifyAccount = async (ctx, next) => {
     password: { type: "string", required: true },
     productId: { type: "number", required: true },
     orderId: { type: "string", required: true },
-    productType: { type: "number", enum: [1, 2], required: true },
+    productType: { type: "number", enum: [1, 2, 3], required: true },
   });
 
-  if (ctx.request.body.productType === 1) {
+  if (
+    ctx.request.body.productType === 1 ||
+    ctx.request.body.productType === 3
+  ) {
     await next();
   }
   if (ctx.request.body.productType === 2) {

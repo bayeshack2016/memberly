@@ -2,6 +2,7 @@ const Alipay = require("../models/alipay");
 const Order = require("../models/order");
 const Product = require("../models/product");
 const alipayf2f = require("alipay-ftof");
+const Customer = require("../models/customer");
 const axios = require("axios");
 const app = require("../app");
 const io = app.getSocketIo();
@@ -15,12 +16,16 @@ class AlipayCtl {
       secretKey: { type: "string", required: true },
       notifyUrl: { type: "string", required: true },
     });
-    const alipay = await Alipay.findByIdAndUpdate(ctx.params.id, {
-      appId: ctx.request.body.appId.trim(),
-      publicKey: ctx.request.body.publicKey.trim(),
-      secretKey: ctx.request.body.secretKey.trim(),
-      notifyUrl: ctx.request.body.notifyUrl.trim(),
-    });
+    const alipay = await Alipay.findByIdAndUpdate(
+      ctx.params.id,
+      {
+        appId: ctx.request.body.appId.trim(),
+        publicKey: ctx.request.body.publicKey.trim(),
+        secretKey: ctx.request.body.secretKey.trim(),
+        notifyUrl: ctx.request.body.notifyUrl.trim(),
+      },
+      { new: true }
+    );
     ctx.body = alipay;
   }
   async handleAliPayRefund(ctx) {
@@ -148,7 +153,7 @@ class AlipayCtl {
         orderId: ctx.request.body.orderId,
       });
       if (paymentStatus === "已支付") {
-        io.emit("payment checked", "已支付");
+        io.emit("payment checked", "衣服成功");
         clearInterval(timer);
       } else if (paymentStatus === "订单异常") {
         io.emit("payment checked", "订单异常");
@@ -267,6 +272,36 @@ class AlipayCtl {
           );
         }
       });
+    }
+    if (productType === 3) {
+      const product = await Product.findOne({
+        productId: ctx.request.body.productId,
+      });
+      await Order.updateOne(
+        { orderId: ctx.request.body.orderId },
+        { paymentStatus: "已支付" }
+      );
+      const order = await Order.findOne({ orderId: ctx.request.body.orderId });
+      customer.orders.push(order);
+      await Customer.updateOne(
+        { email: ctx.request.body.email },
+        {
+          balance: customer.balance - ctx.request.body.price,
+          orders: customer.orders,
+        }
+      );
+      const {
+        code,
+        email,
+        productName,
+        levelName,
+        price,
+        orderId,
+        date,
+      } = order;
+      sendOrderMail(code, email, productName, levelName, price, orderId, date);
+      handleLimit(orderId);
+      ctx.body = "success";
     }
   }
 }

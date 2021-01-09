@@ -43,14 +43,17 @@ class CustomerCtl {
     if (!customer) {
       ctx.throw(403, "未找到该用户");
     }
-    console.log(customer, customer.verification, ctx.request.body.verification);
     if (customer.verification !== ctx.request.body.verification) {
       ctx.throw(403, "验证码错误");
     }
     const user = await User.findOne();
-    const newCustomer = await Customer.findByIdAndUpdate(customer._id, {
-      password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
-    });
+    const newCustomer = await Customer.findByIdAndUpdate(
+      customer._id,
+      {
+        password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
+      },
+      { new: true }
+    );
     ctx.body = newCustomer;
   }
 
@@ -102,6 +105,32 @@ class CustomerCtl {
     }
     ctx.body = customer;
   }
+  async depositMoney(ctx) {
+    ctx.verifyParams({
+      email: { type: "string", required: false },
+      balance: { type: "number", required: false },
+      token: { type: "string", require: true },
+    });
+    let customer = await Customer.findOne({ _id: ctx.params.id });
+    if (!customer) {
+      ctx.throw(403, "用户不存在");
+    }
+    const user = await User.findOne();
+    if (
+      ctx.request.body.token !==
+      utils.md5(utils.md5(new Date().format("yyyy-MM-dd") + " " + user.secret))
+    ) {
+      ctx.throw(403, "token出错");
+    }
+    customer = await Customer.findByIdAndUpdate(
+      ctx.params.id,
+      {
+        balance: ctx.request.body.balance + customer.balance,
+      },
+      { new: true }
+    );
+    ctx.body = customer;
+  }
   async updateCustomer(ctx) {
     ctx.verifyParams({
       email: { type: "string", required: false },
@@ -120,15 +149,23 @@ class CustomerCtl {
       ctx.throw(403, "token出错");
     }
     if (ctx.request.body.email) {
-      customer = await Customer.findByIdAndUpdate(ctx.params.id, {
-        email: ctx.request.body.email,
-      });
+      customer = await Customer.findByIdAndUpdate(
+        ctx.params.id,
+        {
+          email: ctx.request.body.email,
+        },
+        { new: true }
+      );
     } else {
-      customer = await Customer.findByIdAndUpdate(ctx.params.id, {
-        password: utils.md5(
-          utils.md5(ctx.request.query.password + user.secret)
-        ),
-      });
+      customer = await Customer.findByIdAndUpdate(
+        ctx.params.id,
+        {
+          password: utils.md5(
+            utils.md5(ctx.request.query.password + user.secret)
+          ),
+        },
+        { new: true }
+      );
     }
     ctx.body = customer;
   }

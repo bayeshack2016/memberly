@@ -14,7 +14,7 @@ const WelcomePage = (props) => {
   };
   return (
     <div>
-      <img src="/assets/tech.svg" alt="" className="welcome-bg" />
+      <img src="/assets/theme/tech.svg" alt="" className="welcome-bg" />
       <Row justify="center" className="welcome-title">
         欢迎使用 Coodo Pay
       </Row>

@@ -12,6 +12,7 @@ const {
 } = require("../controllers/order");
 const { fetchAlipayQrcode } = require("../controllers/alipay");
 const { fetchPaypalLink } = require("../controllers/paypal");
+const { handleBalancePay } = require("../controllers/payment");
 const User = require("../models/user");
 User.findOne({}, function (err, user) {
   if (!err) {
@@ -56,7 +57,14 @@ User.findOne({}, function (err, user) {
       addSales,
       fetchPaypalLink
     );
-
+    router.post(
+      "/balance",
+      ipBasedRatelimit,
+      verifyAccount,
+      createOrder,
+      addSales,
+      handleBalancePay
+    );
     router.post("/verify", ipBasedRatelimit, verifyCode);
   } else {
     throw err;

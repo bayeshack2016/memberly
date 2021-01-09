@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  AlipayCircleOutlined,
-  createFromIconfontCN,
-  CloseOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { encrypt } from "../../utils/crypto";
 import { isMobile } from "react-device-detect";
 import QRCode from "qrcode.react";
@@ -23,11 +18,9 @@ import {
 import "./index.css";
 import socket from "../../utils/socketUtil";
 import DisaccountVerify from "../disaccountVerify";
+import axios from "axios";
 let _count = 300;
 let timer;
-const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1701775_nrcqx2lm5ri.js",
-});
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const PaymentDialog = (props) => {
   const [paymentUrl, setPaymentUrl] = useState(null);
@@ -72,6 +65,7 @@ const PaymentDialog = (props) => {
     scriptEle.src = `https://www.paypal.com/sdk/js?client-id=${paypalId}&currency=USD`;
     document.body.appendChild(scriptEle);
   }, [paypalId]);
+
   const onFinish = async (values) => {
     let orderId =
       Date.now().toString() + Math.floor(Math.random() * 9000 + 1000);
@@ -79,7 +73,7 @@ const PaymentDialog = (props) => {
     socket.on("payment checked", async (paymentStatus) => {
       let metadata = await $axios(`/order/fetch/${orderId}`);
       let orderInfo = metadata.data;
-      if (paymentStatus === "已支付") {
+      if (paymentStatus === "支付成功") {
         setOrderInfo(orderInfo);
         message.success("支付成功");
         localStorage.setItem("orderInfo", encrypt(JSON.stringify(orderInfo)));
@@ -100,7 +94,7 @@ const PaymentDialog = (props) => {
   };
   const handleCreateOrder = () => {
     $axios
-      .post(`/order/${formData.payment === "alipay" ? "alipay" : "paypal"}`, {
+      .post(`/order/${formData.payment}`, {
         ...formData,
         price: orderPrice,
         productId: props.productInfo.productId,
@@ -110,24 +104,28 @@ const PaymentDialog = (props) => {
         disaccount: useDisaccount ? useDisaccount.code : "未使用",
       })
       .then((res) => {
-        setPaymentUrl(res.data);
-        timer = setInterval(() => {
-          _count--;
-          setCount(_count);
-          if (_count === 0) {
-            clearInterval(timer);
-          }
-        }, 1000);
+        if (formData.payment !== "balance") {
+          setPaymentUrl(res.data);
+          timer = setInterval(() => {
+            _count--;
+            setCount(_count);
+            if (_count === 0) {
+              clearInterval(timer);
+            }
+          }, 1000);
+        }
       })
       .catch((error) => {
-        message.error(error.response.data && error.response.data.message);
+        if (error.response) {
+          message.error(error.response.data.message);
+        }
         setFormData(null);
       });
   };
 
   useEffect(() => {
     if (!formData) return;
-    if (formData.payment === "alipay") {
+    if (formData.payment === "alipay" || formData.payment === "balance") {
       handleCreateOrder();
     } else {
       window.paypal
@@ -317,19 +315,24 @@ const PaymentDialog = (props) => {
                           value="alipay"
                           disabled={alipayId && alipayId !== " " ? false : true}
                         >
-                          <AlipayCircleOutlined className="product-ailpay-icon" />
-                          <span className="alipay-text">支付宝</span>
+                          <span className="paypal-text">支付宝</span>
                         </Radio>
 
                         <Radio
                           value="paypal"
                           disabled={paypalId && paypalId !== " " ? false : true}
                         >
-                          <IconFont
-                            type="icon-paypal"
-                            className="product-paypal-icon"
-                          />
                           <span className="paypal-text">PayPal</span>
+                        </Radio>
+                        <Radio
+                          value="balance"
+                          disabled={
+                            props.productInfo.allowBalance === "yes"
+                              ? false
+                              : true
+                          }
+                        >
+                          <span className="paypal-text">余额</span>
                         </Radio>
                       </Radio.Group>
                     </Form.Item>
@@ -356,7 +359,7 @@ const PaymentDialog = (props) => {
               </Row>
             </Col>
           )}
-          {formData && (
+          {formData && props.productInfo.allowBalance === "no" && (
             <Col>
               {formData.payment === "alipay" ? (
                 <div className="product-payment-qrcode-container">

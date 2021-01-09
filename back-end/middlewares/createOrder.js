@@ -13,7 +13,7 @@ const createOrder = async (ctx, next) => {
     orderId: { type: "string", required: true },
     productName: { type: "string", required: true },
     levelName: { type: "string", required: true },
-    productType: { type: "number", enum: [1, 2], required: true },
+    productType: { type: "number", enum: [1, 2, 3], required: true },
   });
   const user = await User.findOne();
   let date = new Date();
@@ -35,10 +35,10 @@ const createOrder = async (ctx, next) => {
     );
   }
   await new Order({
+    ...ctx.request.body,
     date: date.format("yyyy-MM-dd"),
     time: date.format("yyyy-MM-dd"),
     code: ctx.request.body.productType === 1 ? code : "非兑换码商品",
-    productType: ctx.request.body.productType,
     activation:
       ctx.request.body.productType === 1
         ? []
@@ -47,17 +47,9 @@ const createOrder = async (ctx, next) => {
     month: date.getMonth() + 1,
     day: date.getDate(),
     week: date.getDay(),
-    price: ctx.request.body.price,
-    email: ctx.request.body.email,
     password: utils.md5(utils.md5(ctx.request.body.password + user.secret)),
-    payment: ctx.request.body.payment,
-    productId: ctx.request.body.productId,
-    orderId: ctx.request.body.orderId,
-    productName: ctx.request.body.productName,
-    levelName: ctx.request.body.levelName,
     paymentStatus: "未支付",
     noInvoice: "noInvoice",
-    disaccount: ctx.request.body.disaccount,
   }).save();
   await next();
 };

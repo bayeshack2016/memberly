@@ -41,7 +41,7 @@ const App = (props) => {
   const renderFetchMask = () => {
     return (
       <div className="fetching-data-mask">
-        <img src="/assets/default.svg" alt="" className="login-mask-image" />
+        <img src="/assets/theme/default.svg" alt="" className="login-mask-image" />
         <Row
           justify="center"
           className="login-mask-title"

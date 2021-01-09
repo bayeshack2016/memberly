@@ -20,7 +20,6 @@ class HomeCtl {
     ctx.body = periodData;
   }
   async upload(ctx) {
-    console.log("shangchuan");
     const file = ctx.request.files.file;
     let formData = new FormData();
     formData.append(
