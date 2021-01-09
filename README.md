@@ -48,6 +48,10 @@
 正式使用：
 使用宝塔面板 [点我前往](https://www.yuque.com/docs/share/5d0fd4df-7de6-424c-a389-6e187e764966?#%20《Coodo%20Pay%20搭建教程（宝塔面板篇）》)
 
+## API 文档
+
+[点我前往](https://www.yuque.com/docs/share/1f840e93-4ad1-437b-8639-bc480c4ae5aa?#%20《Coodo%20Pay%20开发指南》)
+
 ## 常见问题
 
 ### Coodo Pay 和发卡系统有什么区别？
