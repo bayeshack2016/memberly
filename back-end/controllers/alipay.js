@@ -5,7 +5,7 @@ const alipayf2f = require("alipay-ftof");
 const axios = require("axios");
 const app = require("../app");
 const io = app.getSocketIo();
-const { sendMail } = require("../utils/emailUtil");
+const { sendOrderMail } = require("../utils/emailUtil");
 const { handleLimit } = require("../service/handleLimit");
 class AlipayCtl {
   async updateAlipay(ctx) {
@@ -223,7 +223,7 @@ class AlipayCtl {
         orderId,
         date,
       } = order;
-      sendMail(code, email, productName, levelName, price, orderId, date);
+      sendOrderMail(code, email, productName, levelName, price, orderId, date);
       handleLimit(ctx.request.body.out_trade_no);
       ctx.body = "success";
     }
@@ -247,7 +247,15 @@ class AlipayCtl {
             orderId,
             date,
           } = order;
-          sendMail(code, email, productName, levelName, price, orderId, date);
+          sendOrderMail(
+            code,
+            email,
+            productName,
+            levelName,
+            price,
+            orderId,
+            date
+          );
           handleLimit(orderId);
           ctx.body = "success";
         }

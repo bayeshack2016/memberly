@@ -3,14 +3,12 @@ const nodemailer = require("nodemailer");
 const Email = require("../models/email");
 const Setting = require("../models/setting");
 class emailUtil {
-  async sendMail(code, email, productName, levelName, price, orderId, date) {
-    console.log("hello mail");
+  async sendVeriMail(email, verification) {
     const setting = await Setting.findOne();
     const emailArr = await Email.find();
     const emails = emailArr.filter(
       (item) => item.mailName === setting.defaultMail
     )[0];
-    console.log(setting, setting.defaultMail, "setting.defaultMail");
     const { mailAddress, mailPassword, sendName, mailName } = emails;
     console.log(mailAddress, mailPassword, sendName, mailName);
     let transporter = nodemailer.createTransport({
@@ -24,16 +22,50 @@ class emailUtil {
         pass: mailPassword,
       },
     });
-    console.log(
-      code,
-      email,
-      productName,
-      levelName,
-      price,
-      orderId,
-      date,
-      "email"
-    );
+    let mailOptions = {
+      from: `${sendName} <${mailAddress}>`, // sender address
+      to: `${email}`, // list of receivers
+      subject: "找回密码", // Subject line
+      // 发送text或者html格式
+      // text: 'Hello world?', // plain text body
+      html: `<!DOCTYPE html><html lang="en"><head><base target="_blank"/><style type="text/css"> ::-webkit-scrollbar { display: none; }</style><style id="cloudAttachStyle"type="text/css"> #divNeteaseBigAttach, #divNeteaseBigAttach_bak { display: none; }</style><style id="blockquoteStyle"type="text/css"> blockquote { display: none; }</style></head><body tabindex="0"role="listitem"><div id="content"class="netease_mail_readhtml"><div marginwidth="0"marginheight="0"style="background-color:#f1f1f1;min-width:600px;padding:0"><table width="100%"style="background-color:#f1f1f1;min-width:600px"bgcolor="#f1f1f1"><tbody><tr><td align="center"valign="top"width="100%"style="min-width:600px"><center><table width="100%"style="min-width:600px"border="0"cellpadding="0"cellspacing="0"bgcolor="#f1f1f1"><tbody><tr><td align="center"><table width="100%"style="min-width:600px"border="0"cellpadding="0"cellspacing="0"><tbody><tr height="50"><td width="100%"height="50"style="line-height:1px;font-size:1px">&nbsp;</td></tr><tr><td align="center"><table border="0"cellpadding="0"cellspacing="0"style="min-width:600px"><tbody><tr><td valign="middle"align="center"><div style="max-height:50px"><div></div></div></td></tr></tbody></table></td></tr></tbody></table><table width="100%"style="min-width:600px"border="0"cellpadding="0"cellspacing="0"><tbody><tr><td align="center"><table width="560"border="0"cellpadding="0"cellspacing="0"style="min-width:560px"><tbody><tr height="50"><td width="100%"height="50"style="line-height:1px;font-size:1px">&nbsp;</td></tr><tr><td width="560"align="center"style="font-family:arial,helvetica,sans-serif;font-weight:bold;font-size:50px;color:#313131;text-align:left;line-height:75px"><div style="text-align:center;line-height:75px">找回密码</div></td></tr><tr height="30"><td width="100%"height="30"style="line-height:1px;font-size:1px">&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table><table width="100%"style="min-width:600px"border="0"cellpadding="0"cellspacing="0"bgcolor="#f1f1f1"><tbody><tr><td align="center"><table width="600"style="min-width:600px;background-color:#ffffff"bgcolor="#ffffff"border="0"cellpadding="0"cellspacing="0"><tbody><tr><td align="center"><table width="560"border="0"cellpadding="0"cellspacing="0"style="min-width:560px"><tbody><tr height="30"><td width="100%"height="30"style="line-height:1px;font-size:1px">&nbsp;</td></tr><tr><td width="560"align="center"style="font-family:arial,helvetica,sans-serif;font-size:16px;color:#313131;text-align:left;line-height:24px"><div style="text-align:center;line-height:24px"><span style="font-size:18px"><strong>尊敬的用户,</strong></span><br>您正在找回密码。<br><br><span style="font-size:35px"><strong>验证码: ${verification}</strong></span><br><span style="font-size:14px;color:#b2b2b2;line-height:40px">( 验证码有效期5分钟。)</span></div></td></tr><tr height="15"><td width="100%"height="15"style="line-height:1px;font-size:1px">&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table><table width="100%"style="min-width:600px"border="0"cellpadding="0"cellspacing="0"><tbody><tr><td align="center"><table width="600"border="0"cellpadding="0"cellspacing="0"style="min-width:600px"><tbody><tr height="15"><td width="100%"height="15"style="line-height:1px;font-size:1px">&nbsp;</td></tr><tr><td align="center"><table width="560"border="0"cellpadding="0"cellspacing="0"style="min-width:560px"><tbody><tr><td align="center"><div style="font-family:ariel,helvetica,sans-serif;font-weight:bold;font-size:14px;color:#313131;text-align:center;line-height:26px">需要帮助?<a style="text-decoration:none;color:#6bae7c"href="https://github.com/troyeguo/coodo-pay"target="_blank">App by Troye</a><br></div></td></tr><tr height="20"><td width="100%"height="20"style="line-height:1px;font-size:1px">&nbsp;</td></tr><tr><td align="center"><div style="font-family:ariel,helvetica,sans-serif;font-size:12px;color:#858585;text-align:center;line-height:20px"><p>© 2020 App by Troye 版权所有</p><a href="https://github.com/troyeguo/coodo-pay"style="color:#6bae7c"target="_blank">服务条款</a>|<a href="https://github.com/troyeguo/coodo-pay"style="color:#6bae7c"target="_blank">隐私权政策</a></div></td></tr><tr><td align="center"style="color:#313131">&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></center></td></tr></tbody></table></div></div></div></div><script>var _c = document.getElementById('content'); _c.innerHTML = (_c.innerHTML || '').replace(/(href|formAction|onclick|javascript)/ig, '__$1').replace(/<\/?marquee>/ig, ''); var _s = _c.getElementsByTagName('style'); for (var i = 0; i< _s.length; i++) { var _st = _s[i].innerHTML.split('}'); for (var j = 0; j< _st.length - 1; j++) { _st[j] = '.netease_mail_readhtml ' + _st[j]; } _s[i].innerHTML = _st.join('}'); }</script><style type="text/css"> body { font-size: 14px; font-family: arial, verdana, sans-serif; line-height: 1.666; padding: 0; margin: 0; overflow: auto; white-space: normal; word-wrap: break-word; min-height: 100px } td, input, button, select, body { font-family: Helvetica, 'Microsoft Yahei', verdana } pre { white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; width: 95% } th, td { font-family: arial, verdana, sans-serif; line-height: 1.666 } img { border: 0 } header, footer, section, aside, article, nav, hgroup, figure, figcaption { display: block } blockquote { margin-right: 0px }</style><style id="ntes_link_color"type="text/css"> a, td a { color: #064977 }</style></body></html>`, // html body
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Message sent: %s", info.messageId);
+      }
+    });
+  }
+  async sendOrderMail(
+    code,
+    email,
+    productName,
+    levelName,
+    price,
+    orderId,
+    date
+  ) {
+    const setting = await Setting.findOne();
+    const emailArr = await Email.find();
+    const emails = emailArr.filter(
+      (item) => item.mailName === setting.defaultMail
+    )[0];
+    const { mailAddress, mailPassword, sendName, mailName } = emails;
+    console.log(mailAddress, mailPassword, sendName, mailName);
+    let transporter = nodemailer.createTransport({
+      // host: "smtp.ethereal.email",
+      service: setting.defaultMail, // 使用了内置传输发送邮件 查看支持列表：https://nodemailer.com/smtp/well-known/
+      // port: 465, // SMTP 端口
+      // secureConnection: true, // 使用了 SSL
+      auth: {
+        user: mailAddress,
+        // 这里密码不是qq密码，是你设置的smtp授权码
+        pass: mailPassword,
+      },
+    });
+
     let mailOptions = {
       from: `${sendName} <${mailAddress}>`, // sender address
       to: `${email}`, // list of receivers

@@ -13,7 +13,7 @@ const createTodayData = async (ctx, next) => {
     } else {
       //获取总销售额，总访问量，总订单量，昨日销售数据的编号
       todayData = await new TodayData({
-        date: date.toLocaleDateString(),
+        date: date.format("yyyy-MM-dd"),
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         day: date.getDate(),

@@ -24,7 +24,7 @@ const orderSchema = new Schema({
   productType: { type: "number", enum: [1, 2], required: true },
   noInvoice: { type: "string", required: true },
   disaccount: { type: "string" },
-  orderVerify: { type: "string" },
+  token: { type: "string" },
 });
 
 module.exports = model("Order", orderSchema);

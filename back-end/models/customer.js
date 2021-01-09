@@ -6,9 +6,13 @@ const customerSchema = new Schema({
   __v: { type: "number", select: false },
   password: { type: "string", required: true, select: false },
   email: { type: "string", required: true },
+  verification: { type: "string", required: false },
+  product: { type: "array", required: false },
   date: { type: "string", required: true },
-  nickname: { type: "string", require: true },
-  balance: { type: "number", require: true },
-  product: { type: "array", require: true },
+  year: { type: "number", required: true },
+  month: { type: "number", require: true },
+  day: { type: "number", required: true },
+  balance: { type: "number", require: false },
+  order: { type: "array", require: false },
 });
-module.exports = model("User", customerSchema);
+module.exports = model("Customer", customerSchema);

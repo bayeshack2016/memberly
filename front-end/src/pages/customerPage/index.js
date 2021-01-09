@@ -1,29 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Input, DatePicker, Badge, message } from "antd";
+import { Table, Button, Input, DatePicker, Collapse } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
-import $axios from "@/axios/$axios";
-import { handleFetchOrder } from "@/redux/actions/form";
 import PageHeader from "../../components/pageHeader";
 import { isMobile } from "react-device-detect";
 const dateFormat = "YYYY-MM-DD";
 const { Search } = Input;
-
-const OrderPage = (props) => {
-  const [data, setData] = useState(props.order);
+const { Panel } = Collapse;
+const CustomerPage = (props) => {
+  const [data, setData] = useState(props.customer);
   const [loading, setLoading] = useState(true);
-  const [refundLoading, setRefundLoading] = useState(false);
-  const [refundIndex, setRefundIndex] = useState(-1);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   useEffect(() => {
-    if (props.order) {
+    console.log(props.customer, "cumstomer");
+    if (props.customer) {
       setLoading(false);
-      setData(props.order);
+      setData(props.customer);
     }
-  }, [props.order]);
+  }, [props.customer]);
   const filterData = (date = {}) => {
     let filteredData = [];
-    props.order.forEach((item) => {
+    props.customer.forEach((item) => {
       if (
         item.year === date.year &&
         item.month === date.month &&
@@ -40,15 +37,15 @@ const OrderPage = (props) => {
   };
   const handleSearch = (value) => {
     let searchResults = [];
-    props.order.forEach((item) => {
-      if (item.email === value || item.orderId === value) {
+    props.customer.forEach((item) => {
+      if (item.email === value || item.nickname === value) {
         searchResults.push(item);
       }
     });
     setData(searchResults);
   };
   const handleReset = () => {
-    setData(props.order);
+    setData(props.customer);
     let inputBox = document.querySelector(".ant-input");
     inputBox.value = "";
   };
@@ -60,108 +57,23 @@ const OrderPage = (props) => {
         day: date._d.getDate(),
       });
   };
-  const handleRefund = async (orderId, index, order) => {
-    setRefundLoading(true);
-    setRefundIndex(index);
-    $axios
-      .post(`/refund/${order.payment}`, { orderId })
-      .then((res) => {
-        setRefundLoading(false);
-        message.success("退款成功");
-        props.handleFetchOrder();
-        setRefundIndex(-1);
-      })
-      .catch((err) => {
-        setRefundLoading(false);
-        setRefundIndex(-1);
-        console.log(err);
-        message.error("退款失败");
-      });
-  };
+
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectedRowKeysChange,
   };
   const columns = [
     {
-      title: "退款操作",
-      dataIndex: "orderId",
-      key: "orderId",
-      width: 100,
-      render: (text, record, index) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            handleRefund(record.orderId, index, record);
-          }}
-          size="small"
-          loading={refundIndex === index && refundLoading}
-          disabled={record.paymentStatus !== "已支付"}
-        >
-          退款
-        </Button>
-      ),
-    },
-    {
-      title: "订单号",
-      dataIndex: "orderId",
-      key: "orderId",
-      width: 180,
-    },
-
-    {
-      title: "商品名称",
-      key: "productName",
-      dataIndex: "productName",
+      title: "用户昵称",
+      key: "nickname",
+      dataIndex: "nickname",
       width: 150,
     },
     {
-      title: "商品等级",
-      key: "levelName",
-      dataIndex: "levelName",
-      width: 100,
-    },
-    {
-      title: "支付状态",
-      key: "paymentStatus",
-      dataIndex: "paymentStatus",
-      width: 120,
-      render: (paymentStatus) =>
-        paymentStatus === "已支付" ? (
-          <Badge status="success" text={paymentStatus} />
-        ) : paymentStatus === "已退款" ? (
-          <Badge status="error" text={paymentStatus} />
-        ) : (
-          <Badge status="warning" text={paymentStatus} />
-        ),
-    },
-    {
-      title: "兑换码",
-      key: "code",
-      dataIndex: "code",
-      width: 220,
-    },
-
-    {
-      title: "激活状态",
-      key: "activation",
-      dataIndex: "activation",
-      width: 140,
-      render: (activation) =>
-        activation > 0 ? (
-          <Badge status="success" text={"已激活"} />
-        ) : (
-          <Badge status="warning" text={"未激活"} />
-        ),
-    },
-    {
-      title: "激活次数",
-      key: "activation",
-      dataIndex: "activation",
-      width: 100,
-      render: (activation) => (
-        <p style={{ textAlign: "center" }}>{activation.length}</p>
-      ),
+      title: "邮箱",
+      key: "email",
+      dataIndex: "email",
+      width: 200,
     },
     {
       title: "创建日期",
@@ -169,42 +81,59 @@ const OrderPage = (props) => {
       key: "date",
       width: 140,
     },
-
     {
-      title: "价格",
-      dataIndex: "price",
-      key: "price",
+      title: "用户余额",
+      dataIndex: "balance",
+      key: "balance",
       width: 100,
-      render: (price) => <span>{price}元</span>,
+      render: (price) => <span>{price || 0}元</span>,
     },
     {
-      title: "支付方式",
-      dataIndex: "payment",
-      key: "payment",
-      width: 100,
-      render: (payment) =>
-        payment === "alipay" ? <span>支付宝</span> : <span>PayPal</span>,
-    },
-    {
-      title: "折扣码",
-      key: "disaccount",
-      dataIndex: "disaccount",
+      title: "会员服务",
+      dataIndex: "product",
+      key: "product",
       width: 200,
-      render: (disaccount) =>
-        disaccount ? <span>{disaccount}</span> : <span>未使用</span>,
+      render: (product) =>
+        product && product.length > 0 ? (
+          <Collapse>
+            <Panel header="This is panel header 1" key="1">
+              {() =>
+                product.map((item) => (
+                  <p>
+                    <p>产品名称：{item.productName}</p>
+                    <p>会员等级：{item.productName}</p>
+                    <p>购买日期：{item.productName}</p>
+                    <p>订单号：{item.productName}</p>
+                  </p>
+                ))
+              }
+            </Panel>
+          </Collapse>
+        ) : (
+          "无"
+        ),
     },
     {
-      title: "邮箱",
-      dataIndex: "email",
-      key: "email",
-      width: 250,
+      title: "购买记录",
+      dataIndex: "order",
+      key: "order",
+      width: 200,
+      render: (order) =>
+        order && order.length > 0 ? (
+          <Collapse>
+            <Panel header="This is panel header 1" key="1">
+              {() => order.map((item) => <p>订单号：{item.orderId}</p>)}
+            </Panel>
+          </Collapse>
+        ) : (
+          "无"
+        ),
     },
   ];
   const date = new Date();
   return (
     <div className="shadow-radius">
-      <PageHeader title="订单管理" desc="管理以往所有的订单和兑换码" />
-
+      <PageHeader title="用户管理" desc="管理所有的用户" />
       <div
         style={
           isMobile
@@ -219,7 +148,7 @@ const OrderPage = (props) => {
         }
       >
         <Search
-          placeholder="搜索订单号、Email"
+          placeholder="搜索昵称、邮箱"
           enterButton="搜索"
           style={
             isMobile
@@ -289,8 +218,8 @@ const OrderPage = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    order: state.form.order,
+    customer: state.form.customer,
   };
 };
-const actionCreator = { handleFetchOrder };
-export default connect(mapStateToProps, actionCreator)(OrderPage);
+const actionCreator = {};
+export default connect(mapStateToProps, actionCreator)(CustomerPage);

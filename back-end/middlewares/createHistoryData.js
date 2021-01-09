@@ -27,7 +27,7 @@ const createHistoryData = async (ctx, next) => {
         number = lastHistoryData.number + 1;
       }
       historyData = await new HistoryData({
-        date: date.toLocaleDateString(),
+        date: date.format("yyyy-MM-dd"),
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         day: date.getDate(),

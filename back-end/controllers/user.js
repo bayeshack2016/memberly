@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const Setting = require("../models/setting");
 const utils = require("utility");
-const pm2 = require("pm2");
 const jsonwebtoken = require("jsonwebtoken");
 class UserCtl {
   async fetchUser(ctx) {
@@ -57,7 +56,7 @@ class UserCtl {
       password: utils.md5(
         utils.md5(ctx.request.body.password + ctx.request.body.secret)
       ),
-      date: date.toLocaleDateString(),
+      date: date.format("yyyy-MM-dd"),
     }).save();
     const setting = await Setting.findOne();
     await Setting.updateOne(setting, { isFirst: "no" });

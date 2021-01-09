@@ -38,6 +38,12 @@ export const handleUser = (data) => {
     payload: data,
   };
 };
+export const handleCustomer = (data) => {
+  return {
+    type: "HANDLE_CUSTOMER",
+    payload: data,
+  };
+};
 export const handleOrder = (data) => {
   return {
     type: "HANDLE_ORDER",
@@ -64,7 +70,9 @@ export const handleVerifyDialog = (data) => {
 };
 export const handleFetchOrder = () => {
   return async (dispatch) => {
-    const metadata = await $axios.get("/order/all");
+    const metadata = await $axios.get(
+      `/order/all?year=${new Date().getFullYear()}`
+    );
     dispatch(handleOrder(metadata.data));
   };
 };
@@ -83,6 +91,7 @@ export const handleFetchForm = () => {
         $axios(`/paypal`),
         $axios(`/email`),
         $axios(`/user`),
+        $axios(`/customer`),
       ])
       .then((responseArr) => {
         dispatch(handleAlipay(responseArr[0].data));
@@ -90,6 +99,7 @@ export const handleFetchForm = () => {
         dispatch(handlePaypal(responseArr[2].data));
         dispatch(handleEmail(responseArr[3].data));
         dispatch(handleUser(responseArr[4].data));
+        dispatch(handleCustomer(responseArr[5].data));
       })
       .catch((error) => {
         if (error.response) {

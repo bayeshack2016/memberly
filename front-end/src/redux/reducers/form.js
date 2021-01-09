@@ -9,6 +9,7 @@ const initState = {
   isShowDialog: false,
   order: null,
   disaccount: null,
+  customer: null,
 };
 export const form = (state = initState, action) => {
   switch (action.type) {
@@ -24,6 +25,8 @@ export const form = (state = initState, action) => {
       return { ...state, email: action.payload };
     case "HANDLE_USER":
       return { ...state, user: action.payload };
+    case "HANDLE_CUSTOMER":
+      return { ...state, customer: action.payload };
     case "HANDLE_VERIFY":
       return { ...state, isVerified: action.payload };
     case "HANDLE_ORDER":

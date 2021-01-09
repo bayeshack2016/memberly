@@ -5,7 +5,7 @@ const Product = require("../models/product");
 const axios = require("axios");
 const app = require("../app");
 const io = app.getSocketIo();
-const { sendMail } = require("../utils/emailUtil");
+const { sendOrderMail } = require("../utils/emailUtil");
 const { handleLimit } = require("../service/handleLimit");
 
 class PaypalCtl {
@@ -117,7 +117,7 @@ class PaypalCtl {
         orderId,
         date,
       } = order;
-      sendMail(code, email, productName, levelName, price, orderId, date);
+      sendOrderMail(code, email, productName, levelName, price, orderId, date);
       handleLimit(orderId);
       ctx.body = "success";
     }
@@ -142,7 +142,15 @@ class PaypalCtl {
             orderId,
             date,
           } = order;
-          sendMail(code, email, productName, levelName, price, orderId, date);
+          sendOrderMail(
+            code,
+            email,
+            productName,
+            levelName,
+            price,
+            orderId,
+            date
+          );
           handleLimit(orderId);
           ctx.body = "success";
         }

@@ -38,7 +38,7 @@ class OrderCtl {
       { code: ctx.request.body.code },
       {
         activation: [...order.activation, { timestamp: new Date().getTime() }],
-        orderVerify: utils.md5(
+        token: utils.md5(
           utils.md5(new Date().format("yyyy-MM-dd") + " " + user.secret)
         ),
       }

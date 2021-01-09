@@ -35,8 +35,8 @@ const createOrder = async (ctx, next) => {
     );
   }
   await new Order({
-    date: date.toLocaleDateString(),
-    time: date.toLocaleTimeString(),
+    date: date.format("yyyy-MM-dd"),
+    time: date.format("yyyy-MM-dd"),
     code: ctx.request.body.productType === 1 ? code : "非兑换码商品",
     productType: ctx.request.body.productType,
     activation:
