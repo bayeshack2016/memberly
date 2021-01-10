@@ -22,10 +22,11 @@ class HomeCtl {
   async upload(ctx) {
     const file = ctx.request.files.file;
     let formData = new FormData();
+
     formData.append(
       "smfile",
       fs.createReadStream(
-        process.NODE_ENV === "dev"
+        process.env.NODE_ENV === "dev"
           ? path.join(
               __dirname,
               "../public/uploads",
