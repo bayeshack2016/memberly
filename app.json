@@ -2,20 +2,10 @@
   "name": "Coodo Pay",
   "description": "为独立开发者和站长打造的会员支付解决方案",
   "website": "https://github.com/troyeguo/coodo-pay",
-  "success_url": "/welcome",
-  "addons": ["heroku-postgresql:hobby-dev", "papertrail"],
+  "success_url": "/login",
   "env": {
-    "RAILS_ENV": "production",
-    "COOKIE_SECRET": {
-      "description": "This gets generated",
-      "generator": "secret"
-    },
-    "SETUP_BY": {
-      "description": "Who initiated this setup",
-      "value": ""
+    "MONGODB_URI": {
+      "description": "您的 Mongodb Altas 数据库链接"
     }
-  },
-  "scripts": {
-    "postdeploy": "bundle exec rake db:migrate"
   }
 }
