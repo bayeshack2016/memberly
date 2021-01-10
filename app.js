@@ -21,9 +21,8 @@ const port = process.env.PORT || config.port;
 const ENV = process.env.NODE_ENV;
 // const server = require("http").createServer(app.callback());
 // const io = require("socket.io")(server);
-
 mongoose.connect(
-  ENV !== "production"
+  ENV === "dev"
     ? connection
     : process.env.MONGODB_URI ||
         "mongodb://" +

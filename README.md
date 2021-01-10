@@ -34,7 +34,7 @@
 ## 搭建方式
 
 快速尝鲜：
-使用 Heroku 或 Glitch [点我前往](https://www.yuque.com/docs/share/5db4d689-2177-4b91-9692-c9723fe16aa9?#%20《Coodo%20Pay%20搭建教程%20（Heroku%20篇）》)
+使用 Heroku [点我前往](https://www.yuque.com/docs/share/5db4d689-2177-4b91-9692-c9723fe16aa9?#%20《Coodo%20Pay%20搭建教程%20（Heroku%20篇）》)
 
 正式使用：
 使用宝塔面板 [点我前往](https://www.yuque.com/docs/share/5d0fd4df-7de6-424c-a389-6e187e764966?#%20《Coodo%20Pay%20搭建教程（宝塔面板篇）》)
@@ -55,7 +55,7 @@ Coodo Pay 需要您提供支付宝或 PayPal 的账号和密匙，用户支付�
 
 ### Coodo Pay 安全吗？
 
-Coodo Pay 是一个开源免费的支付系统，所有的代码都已上传到本仓库中，本人承诺绝不会保留后门和窃取您的个人信息。支付系统中众多关键服务都开启了安全验证功能，可有效防范常见的网络攻击。
+Coodo Pay 是一个开源免费的支付系统，所有的代码都已上传到本仓库和[前端源码](https://github.com/troyeguo/coodo-pay-frontend)中，本人承诺绝不会保留后门和窃取您的个人信息。支付系统中众多关键服务都开启了安全验证功能，可有效防范常见的网络攻击。
 
 ## 技术栈
 

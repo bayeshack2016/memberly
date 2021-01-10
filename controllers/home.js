@@ -43,7 +43,7 @@ class HomeCtl {
       },
     });
     if (!data.data) {
-      ctx.throw(404, "??Logo??");
+      ctx.throw(404, "上传logo失败");
     }
     await Product.findByIdAndUpdate(ctx.request.body.id, {
       ...ctx.request.body,
