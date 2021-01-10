@@ -12,7 +12,7 @@
 </p>
 <div align="center">
 
-[演示网站](https://pay.960960.xyz/#/product/1) | [搭建教程](https://www.jianshu.com/p/d0b92fefcc96)
+[演示](https://pay.960960.xyz/#/product/1) | [教程](https://www.jianshu.com/p/d0b92fefcc96) | [文档](https://www.yuque.com/docs/share/1f840e93-4ad1-437b-8639-bc480c4ae5aa?#%20《Coodo%20Pay%20开发指南》) | [反馈](https://github.com/troyeguo/coodo-pay/issues)| [讨论](https://github.com/troyeguo/coodo-pay/discussions)
 
 </div>
 <div align="center">
