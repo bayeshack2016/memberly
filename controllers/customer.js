@@ -61,7 +61,7 @@ class CustomerCtl {
     ctx.verifyParams({
       password: { type: "string", required: true },
       email: { type: "string", required: true },
-      nickname: { type: "string", require: true },
+      nickname: { type: "string", require: false },
       token: { type: "string", require: true },
     });
     const user = await User.findOne();

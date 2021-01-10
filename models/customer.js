@@ -6,6 +6,7 @@ const customerSchema = new Schema({
   __v: { type: "number", select: false },
   password: { type: "string", required: true, select: false },
   email: { type: "string", required: true },
+  nickname: { type: "string", required: false },
   verification: { type: "string", required: false },
   date: { type: "string", required: true },
   year: { type: "number", required: true },
