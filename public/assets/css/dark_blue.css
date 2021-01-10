@@ -23,6 +23,7 @@
   border-radius: 0px;
   opacity: 1;
   border-radius: 15px;
+  transition: 0.4s;
 }
 
 .default-level-container:hover {

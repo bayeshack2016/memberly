@@ -23,7 +23,7 @@
 .default-level-container {
   background: rgba(247, 248, 253, 1);
   color: rgba(27, 28, 41, 1);
-
+  transition: 0.4s;
   border: 2px solid #000000;
   opacity: 1;
   border-radius: 15px;
