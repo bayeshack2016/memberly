@@ -15,15 +15,6 @@
 [演示](https://pay.960960.xyz/#/product/1) | [教程](https://www.jianshu.com/p/d0b92fefcc96) | [文档](https://www.yuque.com/docs/share/1f840e93-4ad1-437b-8639-bc480c4ae5aa?#%20《Coodo%20Pay%20开发指南》) | [反馈](https://github.com/troyeguo/coodo-pay/issues)| [讨论](https://github.com/troyeguo/coodo-pay/discussions)
 
 </div>
-<div align="center">
-  <a href="https://github.com/troyeguo/koodo-reader/releases/latest">
-    <img src="https://img.shields.io/github/release/troyeguo/coodo-pay.svg?style=flat-square" alt="">
-  </a>
-
-  <a href="https://github.com/troyeguo/koodo-reader/releases/latest">
-    <img alt="node-current badge" src="https://img.shields.io/badge/node-%3E%3D%2010.14-brightgreen">
-  </a>
-</div>
 
 ## 项目预览
 
@@ -92,14 +83,14 @@ Coodo Pay 是一个开源免费的支付系统，所有的代码都已上传到�
 
 1. 将项目源码下载到本地
 
-2. 进入 back-end 文件夹，将 config.js 里的 connection 替换成自己的数据库地址，打开命令行工具，运行以下代码：
+2. 将 config.js 里的 connection 替换成自己的数据库地址，打开命令行工具，运行以下代码：
 
    ```
    yarn
    yarn dev
    ```
 
-3. 进入 front-end 文件夹，打开命令行工具，运行以下代码：
+3. 前往 https://github.com/troyeguo/coodo-pay-frontend ，下载前端源码，打开命令行工具，运行以下代码：
 
    ```
    yarn
