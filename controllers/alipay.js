@@ -153,7 +153,7 @@ class AlipayCtl {
         orderId: ctx.request.body.orderId,
       });
       if (paymentStatus === "已支付") {
-        io.emit("payment checked", "衣服成功");
+        io.emit("payment checked", "支付成功");
         clearInterval(timer);
       } else if (paymentStatus === "订单异常") {
         io.emit("payment checked", "订单异常");
