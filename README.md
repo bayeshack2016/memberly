@@ -24,12 +24,12 @@
 ## Introduction
 
 - Unique purchase link for your products.
-- built-in payment system for Alipay and Paypal.
-- email notification and order-query system for customers
-- built-in account system to manage your customers
-- integration with your existing account system
-- Marketing tool like discount code.
-- 10 sets of page themes, adapted to all modern browsers and mobile devices
+- Support for Alipay and Paypal.
+- Email notification and Order-query system for your customers
+- Built-in customer management system
+- Integration with Wechat and Telegram
+- Marketing tool to boost your bussiness
+- 10 website themes adapted to all modern browsers and mobile devices
 
 ## Live Preview
 
