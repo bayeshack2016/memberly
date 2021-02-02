@@ -16,7 +16,10 @@
 
 </div>
 
- <hr>
+<hr>
+<img src="https://i.loli.net/2020/07/10/szqvUMpV9IALkXQ.png">
+<img src="https://i.loli.net/2020/07/10/zHZmOoi4rBMaU1D.png">
+<hr>
 
 ## Introduction
 
@@ -33,8 +36,6 @@
 [Shopping page](https://pay.960960.xyz/#/product/1)
 
 [Administration system](https://pay.960960.xyz)
-
- <hr>
 
 ## Frontend technologies stack
 
