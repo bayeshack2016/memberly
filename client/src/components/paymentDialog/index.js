@@ -359,7 +359,7 @@ const PaymentDialog = (props) => {
               </Row>
             </Col>
           )}
-          {formData && props.productInfo.allowBalance === "no" && (
+          {formData && props.productInfo.allowBalance !== "yes" && (
             <Col>
               {formData.payment === "alipay" ? (
                 <div className="product-payment-qrcode-container">

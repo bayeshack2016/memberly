@@ -2,7 +2,7 @@ import axios from "axios";
 import { message } from "antd";
 import { devHost, prodHost } from "../config";
 let number = 0;
-console.log(process.env.NODE_ENV, "process.env.NODE_ENV");
+console.log(process.env.NODE_ENV, prodHost, "process.env.NODE_ENV");
 const $axios = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"

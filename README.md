@@ -35,7 +35,7 @@
 
 [Shopping page](https://pay.960960.xyz/#/product/1)
 
-[Administration system](https://pay.960960.xyz)
+[Administration system](https://coodo.960960.xyz)
 
 ## Frontend technologies stack
 
