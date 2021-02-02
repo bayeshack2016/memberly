@@ -62,14 +62,14 @@
   https://github.com/troyeguo/coodo-pay.git
 
   # 2. Enter the backend directory
-  cd coodo-pay/backend
+  cd coodo-pay/server
 
   # 3.Initialize and run the server
   yarn
   yarn dev
 
   # 4. Enter the backend directory
-  cd coodo-pay/frontend
+  cd coodo-pay/client
 
   # 5.Initialize and run the website
   yarn
