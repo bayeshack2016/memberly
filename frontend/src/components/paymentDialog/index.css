@@ -1,0 +1,239 @@
+.product-payment-container {
+  width: 640px;
+  height: 420px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.16);
+  opacity: 1;
+  z-index: 15;
+  position: absolute;
+  top: calc(50% - 210px);
+  left: calc(50% - 320px);
+  animation: popup 0.1s ease-in-out 0s 1;
+}
+.product-payment-title {
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 60px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+}
+.product-payment-message {
+  font-size: 16px;
+  font-weight: 500;
+
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.58);
+  border-left: 5px solid black;
+  padding: 0px 10px;
+  width: 560px;
+  margin-left: 45px;
+}
+.product-payment-member {
+  font-size: 20px;
+  font-weight: 500;
+
+  line-height: 34px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+}
+.product-payment-price {
+  font-size: 30px;
+  font-weight: 500;
+
+  line-height: 51px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+  display: inline-block;
+  margin-left: 10px;
+  position: relative;
+  bottom: 12px;
+}
+.product-ailpay-icon,
+.product-credit-icon,
+.product-paypal-icon {
+  font-size: 30px;
+  color: rgba(52, 52, 52, 1);
+  position: relative;
+  top: 10px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.paypal-text {
+  font-size: 17px;
+  font-weight: 500;
+  margin-left: -5px;
+}
+
+.product-payment-prefix {
+  position: relative;
+  top: -15px;
+  line-height: 60px;
+  font-size: 18px;
+  color: black;
+  margin-right: 20px;
+  text-align: center;
+}
+.product-payment-results {
+  position: relative;
+  bottom: 20px;
+  height: 150px;
+}
+
+.product-payment-qrcode-container {
+  animation: popup 0.1s ease-in-out 0s 1;
+  width: 200px;
+  margin-left: 20px;
+}
+.product-payment-qrcode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.product-payment-qrcode-text {
+  font-size: 18px;
+  line-height: 34px;
+  color: rgba(52, 52, 52, 1);
+  opacity: 1;
+  text-align: center;
+  margin-top: 0px;
+  width: 100%;
+  text-align: center;
+}
+.product-payment-qrcode-spin {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-payment-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 20px;
+  color: black;
+}
+.product-payment-paypal-button {
+  animation: popup 0.1s ease-in-out 0s 1;
+  background-color: rgba(52, 52, 52, 1) !important;
+  border: none;
+  position: relative;
+  top: 10px;
+  margin-top: 100px;
+  margin-left: 50px;
+}
+.product-payment-next-button {
+  background-color: rgba(52, 52, 52, 1) !important;
+  border: none;
+  position: relative;
+  top: 10px;
+  margin-left: 115px;
+}
+.product-payment-results-detail {
+  text-align: left;
+  margin-left: 180px;
+  line-height: 18px;
+  user-select: text;
+  position: relative;
+  bottom: 20px;
+}
+.ant-result-subtitle {
+  user-select: text;
+}
+@keyframes popup {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.payment-countdown {
+  font-size: 18px;
+  line-height: 34px;
+  color: #1890ff;
+  opacity: 1;
+  text-align: center;
+  width: 100%;
+}
+.disaccount-option {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 1;
+  text-align: right;
+  position: relative;
+  bottom: 10px;
+  left: 200px;
+  cursor: pointer;
+}
+.product-payment-paypal {
+  position: relative;
+  top: 70px;
+  margin-left: 50px;
+}
+@media screen and (max-width: 780px) {
+  .product-payment-container {
+    position: absolute;
+    top: 2.5%;
+    left: 2.5%;
+    width: 95%;
+    height: 95%;
+    overflow-y: scroll;
+  }
+  .disaccount-option {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 20px;
+    opacity: 1;
+    text-align: right;
+    position: absolute;
+    top: 35px;
+    left: 200px;
+    cursor: pointer;
+  }
+  .product-payment-message {
+    margin-left: 5%;
+    width: 95%;
+    font-size: 16px;
+    line-height: 18px;
+  }
+  .ant-form-item {
+    margin-bottom: 10px !important;
+  }
+  .ant-input {
+    font-size: 16px !important;
+    height: 40px;
+  }
+  .product-payment-next-button {
+    margin: 10px 0px;
+  }
+  .product-payment-qrcode {
+    margin-top: 60px;
+  }
+  .product-payment-qrcode-container {
+    margin-left: 0px;
+  }
+  .ant-form-item-control-input-content {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .ant-form-item-label {
+    padding: 0px !important;
+  }
+  .product-payment-results-detail {
+    margin-left: 0%;
+    line-height: 25px;
+  }
+  .ant-form-horizontal {
+    padding: 0 20px 20px !important;
+  }
+  .product-payment-paypal {
+    margin-left: calc(50% - 75px);
+  }
+}
