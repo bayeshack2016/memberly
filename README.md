@@ -7,15 +7,16 @@
   <h3 align="center">
     A premium payment system written in React.js and Node.js
   </h3>
+  <h4 align="center">
+    Full Stack Web Application similar to shopify that can help you sell premium service
+  </h4>
 <div align="center">
 
 [Demo](https://pay.960960.xyz/#/product/1) | [Tuturial](https://www.yuque.com/docs/share/5d0fd4df-7de6-424c-a389-6e187e764966?#%20《Coodo%20Pay%20搭建教程（宝塔面板篇）》) | [Documentation](https://www.yuque.com/docs/share/1f840e93-4ad1-437b-8639-bc480c4ae5aa?#%20《Coodo%20Pay%20开发指南》)
 
-<h4>
-A full-stack premium payment system similar to shopify that can help you sell premium service
-</h4>
-
 </div>
+
+ <hr>
 
 ## Introduction
 
@@ -32,6 +33,8 @@ A full-stack premium payment system similar to shopify that can help you sell pr
 [Shopping page](https://pay.960960.xyz/#/product/1)
 
 [Administration system](https://pay.960960.xyz)
+
+ <hr>
 
 ## Frontend technologies stack
 
