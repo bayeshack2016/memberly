@@ -91,7 +91,7 @@ const Login = (props) => {
           <Form
             className="login-form"
             initialValues={
-              document.URL.indexOf("960960.xyz") > -1
+              document.URL.indexOf("coodo.960960.xyz") > -1
                 ? {
                     email: "admin@960960.xyz",
                     password: "12345678",
