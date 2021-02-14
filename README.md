@@ -67,20 +67,6 @@
   # 3. Initialize and clone attached submodules for client and server
   git submodule init && git submodule update
 
-  # 4. Enter the backend directory
-  cd coodo-pay-server
-
-  # 5.Initialize and run the server
-  yarn
-  yarn dev
-
-  # 6. Enter the backend directory
-  cd coodo-pay-client
-
-  # 7.Initialize and run the website
-  yarn
-  yarn start
-
 ```
 
 ## License
