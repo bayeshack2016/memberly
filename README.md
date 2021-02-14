@@ -12,7 +12,7 @@
   </h4>
 <div align="center">
 
-[Demo](https://pay.960960.xyz/#/product/1) | [Tuturial](https://www.yuque.com/docs/share/5d0fd4df-7de6-424c-a389-6e187e764966?#%20《Coodo%20Pay%20搭建教程（宝塔面板篇）》) | [Documentation](https://www.yuque.com/docs/share/1f840e93-4ad1-437b-8639-bc480c4ae5aa?#%20《Coodo%20Pay%20开发指南》)
+[Demo](https://vip.960960.xyz/#/product/1) | [Tuturial](https://www.yuque.com/docs/share/5d0fd4df-7de6-424c-a389-6e187e764966?#%20《Coodo%20Pay%20搭建教程（宝塔面板篇）》) | [Documentation](https://www.yuque.com/docs/share/1f840e93-4ad1-437b-8639-bc480c4ae5aa?#%20《Coodo%20Pay%20开发指南》)
 
 </div>
 
@@ -61,17 +61,23 @@
   # 1. Clone the coodo-pay repository
   https://github.com/troyeguo/coodo-pay.git
 
-  # 2. Enter the backend directory
-  cd coodo-pay/server
+  # 2. Enter directory
+  cd coodo-pay
 
-  # 3.Initialize and run the server
+  # 3. Initialize and clone attached submodules for client and server
+  git submodule init && git submodule update
+
+  # 4. Enter the backend directory
+  cd coodo-pay-server
+
+  # 5.Initialize and run the server
   yarn
   yarn dev
 
-  # 4. Enter the backend directory
-  cd coodo-pay/client
+  # 6. Enter the backend directory
+  cd coodo-pay-client
 
-  # 5.Initialize and run the website
+  # 7.Initialize and run the website
   yarn
   yarn start
 
@@ -79,4 +85,4 @@
 
 ## License
 
-This project is licensed under the MIT license. Copyright (c) 2019-2021 App by Troye.
+This project is licensed under the MIT license. Copyright (c) 2020-2021 App by Troye.
