@@ -79,4 +79,4 @@
 
 ## License
 
-This project is licensed under the MIT license. Copyright (c) 2019-2020 App by Troye.
+This project is licensed under the MIT license. Copyright (c) 2019-2021 App by Troye.
