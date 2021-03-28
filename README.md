@@ -10,11 +10,6 @@
   <h4 align="center">
     Full Stack Web Application similar to shopify that can help you sell premium service
   </h4>
-<div align="center">
-
-This project is no longer open-source, you can try out Coodo Pay for free by register your own account through this [link](https://vip.960960.xyz/#/login)
-
-</div>
 
 <hr>
 <img src="https://i.loli.net/2020/07/10/szqvUMpV9IALkXQ.png">
