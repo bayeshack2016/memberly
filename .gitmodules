@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [submodule "memberly-react"]
 	path = memberly-react
 	url = https://github.com/troyeguo/memberly-react-client.git
@@ -12,3 +13,11 @@
 	path = memberly-node-server
 >>>>>>> f4ba0bb (fix bug)
 	url = https://github.com/troyeguo/memberly-node-server.git
+=======
+[submodule "coodo-pay-client"]
+	path = coodo-pay-client
+	url = https://github.com/troyeguo/coodo-pay-client.git
+[submodule "coodo-pay-server"]
+	path = coodo-pay-server
+	url = https://github.com/troyeguo/coodo-pay-server.git
+>>>>>>> parent of f4ba0bb (fix bug)
