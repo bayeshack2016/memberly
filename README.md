@@ -8,7 +8,7 @@
     A subscription manager system written in React.js and Node.js
   </h3>
   <h4 align="center">
-    Memberly is now open to registration, it's completely free 😘 
+    Memberly is now open to registration, it's completely free😘 
   </h4>
 <div align="center">
 
