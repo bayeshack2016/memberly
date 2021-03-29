@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 [submodule "memberly-react"]
 	path = memberly-react
 	url = https://github.com/troyeguo/memberly-react-client.git
 [submodule "memberly-node"]
 	path = memberly-node
+=======
+[submodule "memberly-react-client"]
+	path = memberly-react-client
+	url = https://github.com/troyeguo/memberly-react-client.git
+[submodule "memberly-node-server"]
+	path = memberly-node-server
+>>>>>>> f4ba0bb (fix bug)
 	url = https://github.com/troyeguo/memberly-node-server.git
