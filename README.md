@@ -2,7 +2,7 @@
 <img src="https://i.loli.net/2020/03/27/xdEUXeo6QDMWa2O.png" width="80px" height="80px"/>
 </div>
   <h1 align="center">
-    Coodo Pay
+    Memberly
   </h1>
   <h3 align="center">
     A subscription manage system written in React.js and Node.js
