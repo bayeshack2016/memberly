@@ -1,0 +1,18 @@
+<svg id="组_56" data-name="组 56" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="824" viewBox="0 0 1280 824">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.795" y1="0.5" x2="0.156" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#91b0f5"/>
+      <stop offset="1" stop-color="#88c8f3"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c1e5e5"/>
+      <stop offset="1" stop-color="#93d3d3"/>
+    </linearGradient>
+  </defs>
+  <rect id="矩形_95" data-name="矩形 95" width="1280" height="824" fill="#FBFBFB"/>
+  <ellipse id="椭圆_42" data-name="椭圆 42" cx="96.5" cy="97" rx="96.5" ry="97" transform="translate(390 383)" fill="url(#linear-gradient)"/>
+  <circle id="椭圆_1" data-name="椭圆 1" cx="130" cy="130" r="130" transform="translate(63 544)" fill="url(#linear-gradient)"/>
+  <circle id="椭圆_134" data-name="椭圆 134" cx="181" cy="181" r="181" transform="translate(796 113)" fill="url(#linear-gradient)"/>
+  <circle id="椭圆_41" data-name="椭圆 41" cx="131.5" cy="131.5" r="131.5" transform="matrix(-0.259, -0.966, 0.966, -0.259, 160.426, 467.302)" fill="url(#linear-gradient-4)"/>
+  <circle id="椭圆_133" data-name="椭圆 133" cx="123.5" cy="123.5" r="123.5" transform="translate(723 577)" fill="url(#linear-gradient-4)"/>
+</svg>

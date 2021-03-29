@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="824" viewBox="0 0 1280 824">
+  <defs>
+    <filter id="矩形_58" x="886" y="199" width="300" height="562" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feFlood flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path">
+      <rect width="13.533" height="79.343" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect width="826" height="562" fill="none"/>
+    </clipPath>
+    <filter id="矩形_58-2" x="90" y="199" width="300" height="562" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="10" result="blur-2"/>
+      <feFlood flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="矩形_58-3" x="355" y="199" width="300" height="562" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="10" result="blur-3"/>
+      <feFlood flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="矩形_58-4" x="620" y="199" width="300" height="562" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="10" result="blur-4"/>
+      <feFlood flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-Web_1280_20">
+      <rect width="1280" height="824"/>
+    </clipPath>
+  </defs>
+  <g id="Web_1280_20" data-name="Web 1280 – 20" clip-path="url(#clip-Web_1280_20)">
+    <rect width="1280" height="824" fill="#fff"/>
+    <g id="组_60" data-name="组 60">
+      <path id="路径_258" data-name="路径 258" d="M6193,3618s-70.306,26.82-88.854,119.563-45.3,152.066-105.585,198.438-181.778,85.053-248.322,95.719-100.536-8.443-100.536-8.443V3618Z" transform="translate(6929.703 4441.958) rotate(180)" fill="#2947fd"/>
+      <path id="路径_257" data-name="路径 257" d="M6193,3618s-70.306,26.82-88.854,119.563-45.3,152.066-105.585,198.438-181.778,85.053-248.322,95.719-100.536-8.443-100.536-8.443V3618Z" transform="translate(-5653 -3618)" fill="#2947fd"/>
+    </g>
+    <text id="选择您需要的会员方案" transform="translate(480 152)" fill="#2947fd" font-size="32" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">选择您需要的会员方案</tspan></text>
+    <text id="Supported_by_Coodo_Pay" data-name="Supported by Coodo Pay" transform="translate(540 787)" fill="#2947fd" font-size="17" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">Supported by Coodo Pay</tspan></text>
+    <text id="Soundify" transform="translate(37 50)" fill="#fff" font-size="30" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="0" y="0">Soundify</tspan></text>
+    <text id="一个支持多端同步的本地音乐播放器" transform="translate(179 49)" fill="#fff" font-size="18" font-family="SourceHanSansCN-Regular, Source Han Sans CN" opacity="0.78"><tspan x="0" y="0">一个支持多端同步的本地音乐播放器</tspan></text>
+    <text id="查询订单" transform="translate(1035 48)" fill="#2947fd" font-size="18" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">查询订单</tspan></text>
+    <text id="关于我们" transform="translate(1134 48)" fill="#2947fd" font-size="18" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">关于我们</tspan></text>
+    <g id="组_62" data-name="组 62" transform="translate(792)">
+      <g transform="matrix(1, 0, 0, 1, -792, 0)" filter="url(#矩形_58)">
+        <rect id="矩形_58-5" data-name="矩形 58" width="240" height="502" rx="15" transform="translate(916 229)" fill="#2947fd"/>
+      </g>
+      <text id="免费版" transform="translate(207 291)" fill="#fff" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">免费版</tspan></text>
+      <g id="组_2" data-name="组 2">
+        <text id="支持_MP3_格式_" data-name="支持 MP3 格式 " transform="translate(146 424)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 MP3 格式 </tspan></text>
+        <text id="支持_WAV_格式_" data-name="支持 WAV 格式 " transform="translate(146 454)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 WAV 格式 </tspan></text>
+        <text id="支持_FLAC_格式_" data-name="支持 FLAC 格式 " transform="translate(146 546)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 FLAC 格式 </tspan></text>
+        <text id="获取歌词和封面" transform="translate(146 637)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">获取歌词和封面</tspan></text>
+        <text id="多网盘同步" transform="translate(146 577)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">多网盘同步</tspan></text>
+        <text id="WebDAV_同步" data-name="WebDAV 同步" transform="translate(146 607)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">WebDAV 同步</tspan></text>
+        <text id="支持_AAC_格式" data-name="支持 AAC 格式" transform="translate(146 484)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 AAC 格式</tspan></text>
+        <text id="支持_APE_格式" data-name="支持 APE 格式" transform="translate(146 515)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 APE 格式</tspan></text>
+      </g>
+      <g id="重复网格_6" data-name="重复网格 6" transform="translate(324.976 414.194)" clip-path="url(#clip-path)">
+        <g transform="translate(-324.976 -414.194)">
+          <path id="路径_248" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g transform="translate(-324.976 -384.194)">
+          <path id="路径_248-2" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g transform="translate(-324.976 -354.194)">
+          <path id="路径_248-3" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+      </g>
+      <text id="_" data-name="￥" transform="translate(204 367)" fill="#fff" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.68"><tspan x="0" y="0">￥</tspan></text>
+      <text id="_0_" data-name="0 " transform="translate(228 369)" fill="#fff" font-size="50" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">0 </tspan></text>
+      <text id="_年" data-name="/年" transform="translate(258 367)" fill="#fff" font-size="20" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">/年</tspan></text>
+      <rect id="矩形_62" data-name="矩形 62" width="107" height="34" rx="17" transform="translate(191 673)" fill="#fff"/>
+      <text id="选择方案" transform="translate(215 696)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">选择方案</tspan></text>
+      <g id="组_52" data-name="组 52">
+        <path id="路径_252" data-name="路径 252" d="M1670.667,229h29.4v78.8l-14.7-10.247-14.7,10.247Z" transform="translate(-1357.069 -0.309)" fill="#fff"/>
+        <text id="剩余_名额" data-name="剩余
+名额" transform="translate(329 250)" fill="#2947fd" font-size="10" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-10" y="0">剩余</tspan><tspan x="-10" y="12">名额</tspan></text>
+        <text id="_600" data-name="600" transform="translate(329 283)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-13.253" y="0">600</tspan></text>
+      </g>
+    </g>
+    <g id="重复网格_8" data-name="重复网格 8" transform="translate(90 199)" clip-path="url(#clip-path-2)">
+      <g id="组_61" data-name="组 61" transform="translate(-370 -199)">
+        <g transform="matrix(1, 0, 0, 1, 280, 0)" filter="url(#矩形_58-2)">
+          <rect id="矩形_58-6" data-name="矩形 58" width="240" height="502" rx="15" transform="translate(120 229)" fill="#fff"/>
+        </g>
+        <text id="免费版-2" data-name="免费版" transform="translate(483 291)" fill="#2947fd" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">免费版</tspan></text>
+        <g id="组_2-2" data-name="组 2" transform="translate(276)">
+          <text id="支持_MP3_格式_2" data-name="支持 MP3 格式 " transform="translate(146 424)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 MP3 格式 </tspan></text>
+          <text id="支持_WAV_格式_2" data-name="支持 WAV 格式 " transform="translate(146 454)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 WAV 格式 </tspan></text>
+          <text id="支持_FLAC_格式_2" data-name="支持 FLAC 格式 " transform="translate(146 546)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 FLAC 格式 </tspan></text>
+          <text id="获取歌词和封面-2" data-name="获取歌词和封面" transform="translate(146 637)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">获取歌词和封面</tspan></text>
+          <text id="多网盘同步-2" data-name="多网盘同步" transform="translate(146 577)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">多网盘同步</tspan></text>
+          <text id="WebDAV_同步-2" data-name="WebDAV 同步" transform="translate(146 607)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">WebDAV 同步</tspan></text>
+          <text id="支持_AAC_格式-2" data-name="支持 AAC 格式" transform="translate(146 484)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 AAC 格式</tspan></text>
+          <text id="支持_APE_格式-2" data-name="支持 APE 格式" transform="translate(146 515)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 APE 格式</tspan></text>
+        </g>
+        <g id="重复网格_6-2" data-name="重复网格 6" transform="translate(600.976 414.194)" clip-path="url(#clip-path)">
+          <g transform="translate(-324.976 -414.194)">
+            <path id="路径_248-4" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g transform="translate(-324.976 -384.194)">
+            <path id="路径_248-5" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g transform="translate(-324.976 -354.194)">
+            <path id="路径_248-6" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+        </g>
+        <text id="_2" data-name="￥" transform="translate(480 367)" fill="#2947fd" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.68"><tspan x="0" y="0">￥</tspan></text>
+        <text id="_0_2" data-name="0 " transform="translate(504 369)" fill="#2947fd" font-size="50" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">0 </tspan></text>
+        <text id="_年-2" data-name="/年" transform="translate(534 367)" fill="#2947fd" font-size="20" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">/年</tspan></text>
+        <rect id="矩形_62-2" data-name="矩形 62" width="107" height="34" rx="17" transform="translate(467 673)" fill="#2947fd"/>
+        <text id="选择方案-2" data-name="选择方案" transform="translate(491 696)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">选择方案</tspan></text>
+        <g id="组_52-2" data-name="组 52" transform="translate(276)">
+          <path id="路径_252-2" data-name="路径 252" d="M1670.667,229h29.4v78.8l-14.7-10.247-14.7,10.247Z" transform="translate(-1357.069 -0.309)" fill="#2947fd"/>
+          <text id="剩余_名额-2" data-name="剩余
+名额" transform="translate(329 250)" fill="#fff" font-size="10" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-10" y="0">剩余</tspan><tspan x="-10" y="12">名额</tspan></text>
+          <text id="_600-2" data-name="600" transform="translate(329 283)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-13.253" y="0">600</tspan></text>
+        </g>
+      </g>
+      <g id="组_61-2" data-name="组 61" transform="translate(-105 -199)">
+        <g transform="matrix(1, 0, 0, 1, 15, 0)" filter="url(#矩形_58-3)">
+          <rect id="矩形_58-7" data-name="矩形 58" width="240" height="502" rx="15" transform="translate(385 229)" fill="#fff"/>
+        </g>
+        <text id="免费版-3" data-name="免费版" transform="translate(483 291)" fill="#2947fd" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">免费版</tspan></text>
+        <g id="组_2-3" data-name="组 2" transform="translate(276)">
+          <text id="支持_MP3_格式_3" data-name="支持 MP3 格式 " transform="translate(146 424)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 MP3 格式 </tspan></text>
+          <text id="支持_WAV_格式_3" data-name="支持 WAV 格式 " transform="translate(146 454)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 WAV 格式 </tspan></text>
+          <text id="支持_FLAC_格式_3" data-name="支持 FLAC 格式 " transform="translate(146 546)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 FLAC 格式 </tspan></text>
+          <text id="获取歌词和封面-3" data-name="获取歌词和封面" transform="translate(146 637)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">获取歌词和封面</tspan></text>
+          <text id="多网盘同步-3" data-name="多网盘同步" transform="translate(146 577)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">多网盘同步</tspan></text>
+          <text id="WebDAV_同步-3" data-name="WebDAV 同步" transform="translate(146 607)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">WebDAV 同步</tspan></text>
+          <text id="支持_AAC_格式-3" data-name="支持 AAC 格式" transform="translate(146 484)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 AAC 格式</tspan></text>
+          <text id="支持_APE_格式-3" data-name="支持 APE 格式" transform="translate(146 515)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 APE 格式</tspan></text>
+        </g>
+        <g id="重复网格_6-3" data-name="重复网格 6" transform="translate(600.976 414.194)" clip-path="url(#clip-path)">
+          <g transform="translate(-324.976 -414.194)">
+            <path id="路径_248-7" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g transform="translate(-324.976 -384.194)">
+            <path id="路径_248-8" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g transform="translate(-324.976 -354.194)">
+            <path id="路径_248-9" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+        </g>
+        <text id="_3" data-name="￥" transform="translate(480 367)" fill="#2947fd" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.68"><tspan x="0" y="0">￥</tspan></text>
+        <text id="_0_3" data-name="0 " transform="translate(504 369)" fill="#2947fd" font-size="50" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">0 </tspan></text>
+        <text id="_年-3" data-name="/年" transform="translate(534 367)" fill="#2947fd" font-size="20" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">/年</tspan></text>
+        <rect id="矩形_62-3" data-name="矩形 62" width="107" height="34" rx="17" transform="translate(467 673)" fill="#2947fd"/>
+        <text id="选择方案-3" data-name="选择方案" transform="translate(491 696)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">选择方案</tspan></text>
+        <g id="组_52-3" data-name="组 52" transform="translate(276)">
+          <path id="路径_252-3" data-name="路径 252" d="M1670.667,229h29.4v78.8l-14.7-10.247-14.7,10.247Z" transform="translate(-1357.069 -0.309)" fill="#2947fd"/>
+          <text id="剩余_名额-3" data-name="剩余
+名额" transform="translate(329 250)" fill="#fff" font-size="10" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-10" y="0">剩余</tspan><tspan x="-10" y="12">名额</tspan></text>
+          <text id="_600-3" data-name="600" transform="translate(329 283)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-13.253" y="0">600</tspan></text>
+        </g>
+      </g>
+      <g id="组_61-3" data-name="组 61" transform="translate(160 -199)">
+        <g transform="matrix(1, 0, 0, 1, -250, 0)" filter="url(#矩形_58-4)">
+          <rect id="矩形_58-8" data-name="矩形 58" width="240" height="502" rx="15" transform="translate(650 229)" fill="#fff"/>
+        </g>
+        <text id="免费版-4" data-name="免费版" transform="translate(483 291)" fill="#2947fd" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">免费版</tspan></text>
+        <g id="组_2-4" data-name="组 2" transform="translate(276)">
+          <text id="支持_MP3_格式_4" data-name="支持 MP3 格式 " transform="translate(146 424)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 MP3 格式 </tspan></text>
+          <text id="支持_WAV_格式_4" data-name="支持 WAV 格式 " transform="translate(146 454)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 WAV 格式 </tspan></text>
+          <text id="支持_FLAC_格式_4" data-name="支持 FLAC 格式 " transform="translate(146 546)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 FLAC 格式 </tspan></text>
+          <text id="获取歌词和封面-4" data-name="获取歌词和封面" transform="translate(146 637)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">获取歌词和封面</tspan></text>
+          <text id="多网盘同步-4" data-name="多网盘同步" transform="translate(146 577)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">多网盘同步</tspan></text>
+          <text id="WebDAV_同步-4" data-name="WebDAV 同步" transform="translate(146 607)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">WebDAV 同步</tspan></text>
+          <text id="支持_AAC_格式-4" data-name="支持 AAC 格式" transform="translate(146 484)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 AAC 格式</tspan></text>
+          <text id="支持_APE_格式-4" data-name="支持 APE 格式" transform="translate(146 515)" fill="#2947fd" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.8"><tspan x="0" y="0">支持 APE 格式</tspan></text>
+        </g>
+        <g id="重复网格_6-4" data-name="重复网格 6" transform="translate(600.976 414.194)" clip-path="url(#clip-path)">
+          <g transform="translate(-324.976 -414.194)">
+            <path id="路径_248-10" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g transform="translate(-324.976 -384.194)">
+            <path id="路径_248-11" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g transform="translate(-324.976 -354.194)">
+            <path id="路径_248-12" data-name="路径 248" d="M1644.616,403.393l3.776,3.776,6.929-6.929" transform="translate(-1318.226 15.369)" fill="none" stroke="#2947fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+        </g>
+        <text id="_4" data-name="￥" transform="translate(480 367)" fill="#2947fd" font-size="25" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500" opacity="0.68"><tspan x="0" y="0">￥</tspan></text>
+        <text id="_0_4" data-name="0 " transform="translate(504 369)" fill="#2947fd" font-size="50" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">0 </tspan></text>
+        <text id="_年-4" data-name="/年" transform="translate(534 367)" fill="#2947fd" font-size="20" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">/年</tspan></text>
+        <rect id="矩形_62-4" data-name="矩形 62" width="107" height="34" rx="17" transform="translate(467 673)" fill="#2947fd"/>
+        <text id="选择方案-4" data-name="选择方案" transform="translate(491 696)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Medium, Source Han Sans CN" font-weight="500"><tspan x="0" y="0">选择方案</tspan></text>
+        <g id="组_52-4" data-name="组 52" transform="translate(276)">
+          <path id="路径_252-4" data-name="路径 252" d="M1670.667,229h29.4v78.8l-14.7-10.247-14.7,10.247Z" transform="translate(-1357.069 -0.309)" fill="#2947fd"/>
+          <text id="剩余_名额-4" data-name="剩余
+名额" transform="translate(329 250)" fill="#fff" font-size="10" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-10" y="0">剩余</tspan><tspan x="-10" y="12">名额</tspan></text>
+          <text id="_600-4" data-name="600" transform="translate(329 283)" fill="#fff" font-size="15" font-family="SourceHanSansCN-Bold, Source Han Sans CN" font-weight="700"><tspan x="-13.253" y="0">600</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

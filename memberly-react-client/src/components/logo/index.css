@@ -1,0 +1,31 @@
+.logo-container {
+  width: 58px;
+  height: 58px;
+  border: 1px dashed rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: black;
+  line-height: 16px;
+  text-align: center;
+  position: relative;
+}
+.logo-upload {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 0px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+.logo-img {
+  width: 105%;
+  height: 105%;
+  border-radius: 50%;
+}
