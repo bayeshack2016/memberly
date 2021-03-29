@@ -18,19 +18,19 @@
 
 ## Introduction
 
-- unique purchase link for your products.
-- support for Alipay and Paypal.
-- email notification and order-query system
-- built-in customer management system
-- integration with Telegram
-- marketing tool to boost your bussiness
+- Unique purchase link for your products.
+- Support for Alipay and Paypal.
+- Email notification and order-query system
+- Built-in customer management system
+- Integration with Telegram
+- Marketing tool to boost your bussiness
 - 10 website themes adapted to all modern browsers and mobile devices
 
 ## Live Preview
 
 [Product page](https://vip.960960.xyz/#/product/60608503d5dc6641efdeb0f7)
 
-[Administration system](https://vip.960960.xyz)
+[Manage system](https://vip.960960.xyz)
 
 ## Frontend technologies stack
 
@@ -66,4 +66,4 @@
 
 ## License
 
-This project is licensed under the MIT license. Copyright (c) 2020-2021 App by Troye.
+This project is licensed under the Apache 2.0 license. Copyright (c) 2020-2021 App by Troye.
