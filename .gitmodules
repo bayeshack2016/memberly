@@ -1,6 +1,6 @@
-[submodule "memberly-react-client"]
-	path = memberly-react-client
+[submodule "memberly-react"]
+	path = memberly-react
 	url = https://github.com/troyeguo/memberly-react-client.git
-[submodule "memberly-node-server"]
-	path = memberly-node-server
+[submodule "memberly-node"]
+	path = memberly-node
 	url = https://github.com/troyeguo/memberly-node-server.git
