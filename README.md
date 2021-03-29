@@ -5,7 +5,7 @@
     Coodo Pay
   </h1>
   <h3 align="center">
-    A subscription manager system written in React.js and Node.js
+    A subscription manage system written in React.js and Node.js
   </h3>
   <h4 align="center">
     Memberly is now open for registration, it's completely free😘 
