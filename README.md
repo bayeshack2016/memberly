@@ -2,10 +2,10 @@
 <img src="https://i.loli.net/2020/03/27/xdEUXeo6QDMWa2O.png" width="80px" height="80px"/>
 </div>
   <h1 align="center">
-    Coodo Pay
+    Memberly
   </h1>
   <h3 align="center">
-    A premium payment system written in React.js and Node.js
+    A subscription system written in React.js and Node.js
   </h3>
   <h4 align="center">
     Full Stack Web Application similar to shopify that can help you sell premium service
