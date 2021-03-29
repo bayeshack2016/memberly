@@ -49,3 +49,21 @@
 - NodeMailer
 - WebSocket
 - ...
+
+## Installation
+
+```
+  # 1. Clone the coodo-pay repository
+  https://github.com/troyeguo/coodo-pay.git
+
+  # 2. Enter directory
+  cd coodo-pay
+
+  # 3. Initialize and clone attached submodules for client and server
+  git submodule init && git submodule update
+
+```
+
+## License
+
+This project is licensed under the MIT license. Copyright (c) 2020-2021 App by Troye.
