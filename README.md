@@ -12,7 +12,7 @@
   </h4>
 <div align="center">
 
-[Demo](https://vip.960960.xyz/#/product/60608503d5dc6641efdeb0f7) | [Register](https://vip.960960.xyz/#/install) | [Documentation](https://www.notion.so/troyeguo/8872c44d7fda431e9aed67a6d6affaa3?v=4aa8d73d2d834ac8868f7b29e80fb0eb)
+[Demo](https://memberly.960960.xyz/#/product/60608503d5dc6641efdeb0f7) | [Register](https://memberly.960960.xyz/#/install) | [Documentation](https://www.notion.so/troyeguo/8872c44d7fda431e9aed67a6d6affaa3?v=4aa8d73d2d834ac8868f7b29e80fb0eb)
 
 </div>
 
@@ -33,9 +33,9 @@
 
 ## Live Preview
 
-[Product page](https://vip.960960.xyz/#/product/60608503d5dc6641efdeb0f7)
+[Product page](https://memberly.960960.xyz/#/product/60608503d5dc6641efdeb0f7)
 
-[Manage system](https://vip.960960.xyz)
+[Manage system](https://memberly.960960.xyz)
 
 ## Frontend technologies stack
 
@@ -58,11 +58,11 @@
 ## Installation
 
 ```
-  # 1. Clone the coodo-pay repository
-  https://github.com/troyeguo/coodo-pay.git
+  # 1. Clone the Memberly repository
+  https://github.com/troyeguo/memberly.git
 
   # 2. Enter directory
-  cd coodo-pay
+  cd memberly
 
   # 3. Initialize and clone attached submodules for client and server
   git submodule init && git submodule update
